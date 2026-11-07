@@ -182,15 +182,7 @@
       "frequency": "4週間ごと"
     }
   ],
-  "specialEvents": [
-    {
-      "name": "表示テスト用イベント",
-      "category": "期間限定・コラボ",
-      "anchor": "2026-11-08",
-      "duration": 3,
-      "notes": "GitHubからの共有テストです"
-    }
-  ],
+  "specialEvents": [],
   "defaultOrder": [
     "群島レイド",
     "孤島レイド",
