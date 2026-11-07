@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>DLS イベントスケジュール | 試作版</title>
+<style>
+:root{font-family:"Segoe UI", "Yu Gothic",Meiryo,sans-serif;color:#e7e8eb;background:#191b1f;font-size:14px}*{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#191b1f,#1e2024 65%,#191b1f);min-height:100vh}button,input,select,textarea{font:inherit}button{cursor:pointer}.app{max-width:1400px;margin:0 auto;padding:32px 24px 70px}.top{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:24px;flex-wrap:wrap}.eyebrow{font-size:11px;letter-spacing:.14em;font-weight:800;color:#9cb8d8}h1{font-size:clamp(24px,3vw,32px);margin:6px 0 6px;letter-spacing:.03em}h2{font-size:16px;margin:0}.muted{color:#a1a5af}.sub{font-size:13px}.card{border:1px solid #383b43;background:#25272c;border-radius:16px;padding:20px;box-shadow:0 12px 35px #00000050}.shell{display:grid;grid-template-columns:minmax(0,1fr) 265px;gap:16px}.headrow{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center}.nav{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.btn{border:1px solid #484b53;background:#303238;color:#eff0f2;padding:9px 13px;border-radius:9px;font-weight:700}.btn:hover{background:#3c3f46}.btn.primary{background:#237d87;border-color:#237d87}.btn.primary:hover{background:#30919b}.btn.selected{background:#40515e;border-color:#8b9bac}.control{display:flex;border:1px solid #474a52;border-radius:10px;overflow:hidden}.control button{border:0;border-radius:0;background:#292b31;color:#afb3bc;padding:10px 14px}.control button.active{background:#415569;color:white;font-weight:700}.period{font-size:16px;font-weight:800;margin:18px 0}.legend{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 20px}.legend button{display:flex;align-items:center;gap:7px;padding:7px 10px;border:1px solid #474a52;border-radius:8px;background:#2c2e34;color:#edf0f3}.legend button.active{background:#35444a;border-color:#63bdd2;color:#fff;box-shadow:inset 0 0 0 1px #63bdd255}.legend button[data-cat="all"].active{background:#40515e;border-color:#a2b4c3}.legend button:focus-visible{outline:2px solid #b4f0ff;outline-offset:2px}.sorting{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin-top:16px}.sorting label{font-weight:700;color:#d0d2d7}.sorting select{background:#303238;border:1px solid #484b53;border-radius:9px;color:white;padding:9px}.orderitem{cursor:grab;user-select:none;touch-action:pan-y;display:flex;align-items:center;gap:5px;padding:6px 0;border-bottom:1px solid #3b3e46}.orderitem.dragging{opacity:.35;background:#3d4148}.orderitem.drop-before{box-shadow:inset 0 3px #6abfd0}.orderitem.drop-after{box-shadow:inset 0 -3px #6abfd0}.orderhandle{font-size:19px;color:#b6c3ce;padding:4px 8px;cursor:grab}.orderitem:active{cursor:grabbing}.ordername{flex:1;font-size:12px}.orderitem .btn{padding:5px 9px}.orderitem .btn:disabled{opacity:.25;cursor:default}.dot{height:10px;width:10px;border-radius:3px;display:inline-block;flex-shrink:0}.week{border:1px solid #474a52;border-radius:12px;overflow:hidden}.weekheader,.evrow{display:grid;grid-template-columns:185px repeat(7,minmax(0,1fr));}.weekheader{background:#303238}.weekheader .labelcell{padding:13px 12px;color:#b4b6bd;font-size:12px}.dayhead{text-align:center;border-left:1px solid #464950;padding:9px 0 10px}.dayhead span{display:block;font-size:11px;color:#c3c4c9;margin-bottom:3px}.dayhead strong{font-size:18px}.dayhead.today{background:#373f46}.evrow{border-top:1px solid #393c43;min-height:56px;align-items:stretch}.evname{display:flex;flex-direction:column;justify-content:center;padding:10px 11px;font-weight:700;font-size:12px;gap:4px}.evname small{font-weight:400;color:#aeb1b9;font-size:11px}.daycell{border-left:1px solid #393c43;display:flex;align-items:center;padding:7px 1px;min-width:0}.bar{width:100%;min-height:25px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-shadow:inset 0 -1px 1px #0003;cursor:pointer;border:0}.bar.start{border-radius:7px 0 0 7px}.bar.end{border-radius:0 7px 7px 0}.bar.start.end{border-radius:7px}.bar.mid{border-radius:0}.bar i{font-style:normal;font-size:10px}.bar:hover{filter:brightness(1.14)}.empty{padding:35px 14px;color:#b2b4bb;text-align:center}.right .section{margin-bottom:22px}.right .section:last-child{margin:0}.stat{font-size:32px;font-weight:800;line-height:1.3}.right ul{margin:11px 0 0;padding-left:18px;font-size:12px;color:#c5c8d0;line-height:1.9}.right p{line-height:1.75;font-size:12px}.chip{border:1px solid #4d515b;padding:3px 7px;border-radius:6px;font-size:11px;color:#cbd0d6}.fine{font-size:11px;color:#a7aab3;line-height:1.7}.month{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px}.mhead{font-size:12px;text-align:center;padding:11px;color:#b7bbc5;background:#303238}.mday{min-height:108px;border:1px solid #43464d;background:#2b2d32;padding:8px 6px;min-width:0}.mday.other{opacity:.36}.mday.today{outline:2px solid #88b8d0;outline-offset:-2px}.mnum{font-weight:700;font-size:12px;margin-bottom:6px}.mevent{display:block;text-align:left;width:100%;border:0;border-left:3px solid transparent;border-radius:3px;padding:4px 5px;margin:3px 0;color:white;font-size:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer}.more{font-size:10px;color:#c3c6cd;padding-top:3px}.pill{display:inline-block;border:1px solid #51555e;padding:4px 8px;border-radius:7px;font-size:11px;color:#c9cbd1}.note{background:#30343a;border-left:3px solid #68a8b5;border-radius:6px;padding:10px 12px;font-size:12px;line-height:1.6;margin-top:16px}.dialog{position:fixed;inset:0;background:#000000b8;display:none;align-items:center;justify-content:center;padding:20px;z-index:10}.dialog.show{display:flex}.modal{background:#2b2d32;max-width:510px;width:100%;border:1px solid #565a64;border-radius:17px;padding:24px;box-shadow:0 30px 90px #0009;max-height:90vh;overflow-y:auto}.modal h2{font-size:21px;margin:0 0 14px}.modal label{display:block;margin:12px 0 5px;color:#c4c8d0;font-weight:700;font-size:12px}.modal input,.modal select,.modal textarea{width:100%;background:#202227;border:1px solid #535762;border-radius:8px;padding:10px;color:white}.modal textarea{min-height:70px}.modalfooter{display:flex;justify-content:flex-end;gap:9px;margin-top:18px;flex-wrap:wrap}.detailrow{margin:13px 0;line-height:1.7}.detailrow span{display:block;color:#b2b5bf;font-size:11px}.detailrow strong{font-size:14px}.status{color:#96d6bc;font-size:12px;font-weight:800}.foot{padding:18px 0;text-align:center;font-size:11px;color:#a2a5ae}@media(max-width:1020px){.shell{grid-template-columns:1fr}.right{display:grid;grid-template-columns:1fr 1fr;gap:15px}.right .section{margin:0}}@media(max-width:720px){.app{padding:18px 9px}.card{padding:12px}.week{overflow-x:auto}.weekheader,.evrow{min-width:740px;grid-template-columns:160px repeat(7,minmax(0,1fr))}.month{min-width:0}.mday{min-height:90px;padding:4px 2px}.mevent{font-size:9px;padding:3px 2px}.right{display:block}.right .section{margin-bottom:16px}.dayhead strong{font-size:15px}}
+
+/* Version 0.6: only dark gray / light. Category swatches and bar colors are unchanged. */
+:root {color-scheme:dark}
+body[data-theme="dark"] {color-scheme:dark}
+body[data-theme="light"] {color-scheme:light;background:#f2f3f5;color:#24262b}
+body[data-theme="light"] .card {background:#fff;border-color:#d5d8dd;box-shadow:0 8px 30px #18202d12}
+body[data-theme="light"] h1,body[data-theme="light"] h2 {color:#25272b}
+body[data-theme="light"] .muted,body[data-theme="light"] .fine,body[data-theme="light"] .foot {color:#646b77}
+body[data-theme="light"] .eyebrow {color:#3d718d}
+body[data-theme="light"] .btn {background:#f4f5f7;color:#292c33;border-color:#cdd1d8}
+body[data-theme="light"] .btn:hover {background:#e9edf2}
+body[data-theme="light"] .btn.primary {background:#237d87;color:#fff;border-color:#237d87}
+body[data-theme="light"] .btn.selected {background:#dae6eb;border-color:#7997a4}
+body[data-theme="light"] .control {border-color:#ccd2db}
+body[data-theme="light"] .control button {background:#f1f3f6;color:#616874}
+body[data-theme="light"] .control button.active {background:#d6e6ed;color:#203b4c}
+body[data-theme="light"] .period,body[data-theme="light"] .sorting label {color:#282b31}
+body[data-theme="light"] .sorting select {background:#fff;color:#272a31;border-color:#cdd1d8}
+body[data-theme="light"] .legend button {background:#f6f7f8;color:#444a55;border-color:#d1d5dc}
+body[data-theme="light"] .legend button.active {background:#dceef1;color:#1a414e;border-color:#55a0af;box-shadow:inset 0 0 0 1px #55a0af44}
+body[data-theme="light"] .legend button[data-cat="all"].active {background:#dce6ef;border-color:#87a6bd}
+body[data-theme="light"] .week {border-color:#d5d9e0}
+body[data-theme="light"] .weekheader,body[data-theme="light"] .mhead {background:#ebedf1}
+body[data-theme="light"] .weekheader .labelcell,body[data-theme="light"] .dayhead span,body[data-theme="light"] .mhead {color:#505a6b}
+body[data-theme="light"] .dayhead {border-left-color:#d4d9df;color:#232b36}
+body[data-theme="light"] .evrow {border-top-color:#e0e3e8}
+body[data-theme="light"] .evname {color:#29313b}
+body[data-theme="light"] .evname small {color:#6d7785}
+body[data-theme="light"] .daycell {border-left-color:#e0e4e9}
+body[data-theme="light"] .empty {color:#697487}
+body[data-theme="light"] .mday {background:#fff;border-color:#e2e5ea}
+body[data-theme="light"] .mnum {color:#353943}
+body[data-theme="light"] .more {color:#586878}
+body[data-theme="light"] .right ul,body[data-theme="light"] .right p {color:#626b78}
+body[data-theme="light"] .pill,body[data-theme="light"] .chip {color:#495463;border-color:#cdd3dc}
+body[data-theme="light"] .note {background:#eff6f7;color:#425360;border-left-color:#469daa}
+body[data-theme="light"] .modal {background:#fff;color:#282b31;border-color:#d6dbe2}
+body[data-theme="light"] .modal label,body[data-theme="light"] .detailrow span {color:#616d7a}
+body[data-theme="light"] .modal input,body[data-theme="light"] .modal select,body[data-theme="light"] .modal textarea {background:#fff;color:#222831;border-color:#cbd2dc}
+body[data-theme="light"] .orderitem {border-bottom-color:#dfe3e8}
+body[data-theme="light"] .ordername {color:#292d33}
+body[data-theme="light"] .orderhandle {color:#547889}
+body[data-theme="light"] .orderitem.dragging {background:#e3eff3}
+/* Today is indicated by a subtle column tint and an unobtrusive vertical guide. */
+.dayhead.today,.daycell.today {background:rgba(112,183,193,.09)}
+.dayhead.today {box-shadow:inset 0 3px #75b9c6}
+.daycell.today {position:relative}
+.dayhead.today,.daycell.today{border-left:1px solid #75b9c6!important;border-right:1px solid #75b9c6!important}.dayhead.today{border-top:1px solid #75b9c6!important}.evrow:last-child .daycell.today{border-bottom:1px solid #75b9c6!important}
+.dayhead.today:after {content:" UTC今日";display:block;color:#7ebfca;font-size:9px;font-weight:700;margin-top:3px}
+body[data-theme="light"] .dayhead.today,body[data-theme="light"] .daycell.today {background:rgba(73,145,162,.095)}
+body[data-theme="light"] .dayhead.today {box-shadow:inset 0 3px #4796a9}
+body[data-theme="light"] .dayhead.today,body[data-theme="light"] .daycell.today{border-left-color:#4796a9!important;border-right-color:#4796a9!important}body[data-theme="light"] .dayhead.today{border-top-color:#4796a9!important}body[data-theme="light"] .evrow:last-child .daycell.today{border-bottom-color:#4796a9!important}
+body[data-theme="light"] .dayhead.today:after {color:#387b8f}
+.mday.today {outline:none;background:rgba(112,183,193,.14);box-shadow:inset 0 0 0 1px #75b9c6}
+body[data-theme="light"] .mday.today {background:#e6f3f5;box-shadow:inset 0 0 0 1px #78acb7}
+.theme-control {display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.theme-control label {font-size:12px;color:inherit;font-weight:700}
+.utc-now {font-size:12px;color:#a8bcc6;font-variant-numeric:tabular-nums;white-space:nowrap}
+body[data-theme="light"] .utc-now {color:#536778}
+</style></head><body><div class="app"><header class="top"><div><div class="eyebrow">DOOMSDAY: LAST SURVIVORS · COMMUNITY TOOL</div><h1>DLS イベントスケジュール</h1><div class="muted sub">登録された開催周期から予定を自動生成する試作版</div></div><div class="theme-control"><label for="themeSelect">配色</label><select class="btn" id="themeSelect" aria-label="画面の配色"><option value="dark">ダークグレー</option><option value="light">ライト</option></select></div></header><div class="shell"><main class="card"><div class="headrow"><div class="nav"><button class="btn" id="prev">❮</button><button class="btn" id="today">今週 / 今月</button><button class="btn" id="next">❯</button></div><div class="nav"><div class="control"><button id="weekly" class="active">週間</button><button id="monthly">月間</button></div></div></div><div class="headrow"><div class="period" id="period"></div><div class="utc-now" id="utcNow" aria-live="off"></div></div><div class="sorting"><label for="sortMode">表示順</label><select id="sortMode"><option value="date" selected>開始日が早い順</option><option value="custom">指定したイベント順</option></select><button class="btn" id="editOrder">並び順を編集</button></div><div class="legend" id="legend"></div><div class="fine" style="margin:-12px 0 18px">カテゴリーをクリックして絞り込み。さらに選ぶと複数カテゴリーを同時表示できます。</div><div id="calendar"></div><div class="fine" id="dataStatus" role="status" style="margin-top:12px">共通データを読み込み中…</div><div class="note">掲載予定は提供されたExcelの周期から計算した<strong>予想日程</strong>です。公式確定日とは限りません。臨時イベントは管理者がGitHubの events.json に登録し、全閲覧者へ共有します。</div></main><aside class="card right"><div class="section"><div class="muted sub">表示中のイベント</div><div class="stat" id="counter">—</div><span class="pill" id="periodMode">週間表示</span></div><div class="section"><h2>イベントを選択</h2><p class="muted">色付きのバーや月間カレンダーのイベント名をクリックすると、開始・終了日時、開催周期、備考を確認できるよ。</p></div><div class="section"><h2>仕様・データ</h2><ul><li>20種類のイベントを登録済み</li><li>カテゴリーは確定済みの6分類</li><li>時刻はすべてUTC（00:00開始）</li><li>開催最終日の翌日00:00終了</li><li>オールスターナイトは兵種による周期表示なし</li><li>臨時イベントはGitHubで一元管理</li></ul></div><div class="section"><h2>表示方法</h2><p class="fine">「すべて」からカテゴリーを選ぶとそのカテゴリーだけ表示、追加で選ぶと複数表示。並び順はイベント単位で編集できます。すべての時刻はUTCです。全イベントの表示は基準日から周期計算された予想。共通イベントデータをGitHubから取得します。並び順と配色の好みだけ各ブラウザに保存します。</p></div></aside></div><footer class="foot">DLS イベントスケジュール Ver.0.8 · GitHub共通データ版 · 非公式ファンツール</footer></div>
+<div class="dialog" id="orderDlg"><div class="modal"><div class="headrow"><h2>イベントの並び順を編集</h2><button class="btn" id="closeOrder">✕</button></div><p class="muted sub">左の「⠿」をつかんで、好きな位置へドラッグ＆ドロップできます。▲▼や「先頭へ」も利用可能。指定したイベント順を選ぶと週間・月間の両方で使えます。週間の標準は開始日順、月間の標準は指定順です。個人の並び替え設定は、このブラウザに保存されます。</p><div id="orderList"></div><div class="modalfooter"><button class="btn" id="resetOrder">初期順に戻す</button><button class="btn primary" id="doneOrder">完了</button></div></div></div><div class="dialog" id="detailDlg"><div class="modal"><div class="headrow"><h2 id="detailName"></h2><button class="btn" id="closeDetail">✕</button></div><div id="detailBody"></div><div class="modalfooter"><button class="btn primary" id="doneDetail">閉じる</button></div></div></div>
+
+<script>
+let theme='dark';
+try {theme=localStorage.getItem('dls-theme-v1')==='light'?'light':'dark'} catch(e) {}
+function setTheme(value){
+  theme=value==='light'?'light':'dark';
+  document.body.dataset.theme=theme;
+  document.getElementById('themeSelect').value=theme;
+  try {localStorage.setItem('dls-theme-v1',theme)} catch(e) {}
+}
+setTheme(theme);
+document.getElementById('themeSelect').addEventListener('change',e=>setTheme(e.target.value));
+function updateUtcClock(){
+ const d=new Date();const z=v=>String(v).padStart(2,'0');
+ document.getElementById('utcNow').textContent=`現在 UTC ${d.getUTCFullYear()}/${z(d.getUTCMonth()+1)}/${z(d.getUTCDate())} ${z(d.getUTCHours())}:${z(d.getUTCMinutes())}`;
+ const today=Math.floor(d.getTime()/86400000)*86400000;
+ if(window.lastMarkedToday!==undefined && today!==window.lastMarkedToday)render();
+ window.lastMarkedToday=today;
+}
+updateUtcClock();setInterval(updateUtcClock,60000);
+
+let PRESET=[{"name":"オールスターナイト（トップ司令官）","category":"個人対抗イベント","anchor":"2026-11-02","everyDays":14,"duration":7,"notes":"","frequency":"隔週"},{"name":"立入禁止戦域","category":"協力イベント","anchor":"2026-11-10","everyDays":14,"duration":2,"notes":"1日目は登録日、2日目以降イベント開始","frequency":"隔週"},{"name":"群島レイド","category":"同盟対抗戦闘イベント","anchor":"2026-11-09","everyDays":28,"duration":7,"notes":"1日目は登録日、2日目マッチング、3日目以降イベント開始","frequency":"4週間ごと"},{"name":"孤島レイド","category":"同盟対抗戦闘イベント","anchor":"2026-11-25","everyDays":28,"duration":5,"notes":"1日目は登録日、2日目マッチング、3日目以降イベント開始","frequency":"4週間ごと"},{"name":"ポンペイ","category":"協力イベント","anchor":"2026-11-02","everyDays":7,"duration":2,"notes":"1日目は登録日、2日目以降イベント開始","frequency":"毎週"},{"name":"ウォーター戦争","category":"個人対抗＆協力イベント","anchor":"2026-11-02","everyDays":7,"duration":3,"notes":"","frequency":"毎週"},{"name":"同盟リーグ","category":"個人対抗＆協力イベント","anchor":"2026-11-23","everyDays":28,"duration":7,"notes":"","frequency":"4週間ごと"},{"name":"極限対決","category":"同盟対抗戦闘イベント","anchor":"2026-11-18","everyDays":28,"duration":2,"notes":"1日目は登録日、2日目以降イベント開始","frequency":"4週間ごと"},{"name":"名誉エンブレム","category":"個人対抗イベント","anchor":"2026-11-08","everyDays":14,"duration":1,"notes":"","frequency":"隔週"},{"name":"釣りイベント","category":"個人対抗イベント","anchor":"2026-11-13","everyDays":14,"duration":3,"notes":"","frequency":"隔週"},{"name":"黙示録の金庫","category":"個人イベント（対抗無し）","anchor":"2026-11-01","everyDays":28,"duration":7,"notes":"","frequency":"4週間ごと"},{"name":"運命の勝者","category":"個人対抗イベント","anchor":"2026-11-07","everyDays":28,"duration":2,"notes":"","frequency":"4週間ごと"},{"name":"荒野の探索","category":"個人対抗＆協力イベント","anchor":"2026-11-09","everyDays":14,"duration":4,"notes":"1日目は登録日、2日目以降イベント開始","frequency":"隔週"},{"name":"拠点防衛","category":"協力イベント","anchor":"2026-11-04","everyDays":7,"duration":1,"notes":"","frequency":"毎週"},{"name":"同盟の旅","category":"個人対抗＆協力イベント","anchor":"2026-11-11","everyDays":28,"duration":5,"notes":"","frequency":"4週間ごと"},{"name":"生化獣探索","category":"個人イベント（対抗無し）","anchor":"2026-11-09","everyDays":14,"duration":3,"notes":"","frequency":"隔週"},{"name":"禁区探索","category":"個人対抗イベント","anchor":"2026-11-09","everyDays":14,"duration":7,"notes":"","frequency":"隔週"},{"name":"砲火の祭典","category":"個人対抗イベント","anchor":"2026-11-15","everyDays":14,"duration":1,"notes":"","frequency":"隔週"},{"name":"地区対決（スゴロク）","category":"協力イベント","anchor":"2026-11-04","everyDays":28,"duration":5,"notes":"1日目は登録日、2日目マッチング、3日目以降イベント開始","frequency":"4週間ごと"},{"name":"精製チャレンジ","category":"個人対抗イベント","anchor":"2026-11-20","everyDays":28,"duration":3,"notes":"","frequency":"4週間ごと"}];
+const CATS=[{name:'同盟対抗戦闘イベント',color:'#C86D56'},{name:'協力イベント',color:'#328F83'},{name:'個人対抗＆協力イベント',color:'#8C71BE'},{name:'個人対抗イベント',color:'#4F8DC3'},{name:'個人イベント（対抗無し）',color:'#C39A3B'},{name:'期間限定・コラボ',color:'#888D95'}];
+const colorByCat=Object.fromEntries(CATS.map(c=>[c.name,c.color]));
+const dayMS=86400000;const dateUTC=s=>new Date(s+'T00:00:00Z').getTime();const iso=t=>new Date(t).toISOString().slice(0,10);const fmt=t=>new Intl.DateTimeFormat('ja-JP',{year:'numeric',month:'numeric',day:'numeric',timeZone:'UTC'}).format(new Date(t));const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));const fmtMd=t=>{let d=new Date(t);return `${d.getUTCMonth()+1}/${d.getUTCDate()}`};
+let view='week',anchor=null,categoryFilter=new Set(),sortMode='date';
+let weekSortMode='date',monthSortMode='custom';
+let manual=[]; // GitHub events.json の specialEvents から取得
+function offset(){return 0}function localDay(t){return Math.floor((t+offset())/dayMS)*dayMS-offset()}
+function startWeek(t){let d=new Date(t+offset());let n=(d.getUTCDay()+6)%7;return localDay(t)-n*dayMS}function startMonth(t){let d=new Date(t+offset());return Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),1)-offset()}
+function localToday(){return localDay(Date.now())}
+function reset(){anchor=view==='week'?startWeek(Date.now()):startMonth(Date.now())}
+function move(n){if(view==='week')anchor+=n*7*dayMS;else{let d=new Date(anchor+offset());anchor=Date.UTC(d.getUTCFullYear(),d.getUTCMonth()+n,1)-offset()}render()}
+// 初期順は利用者が示した1〜20番の順序。カテゴリーとは独立して固定する。
+let DEFAULT_ORDER=[
+ '群島レイド','孤島レイド','極限対決','地区対決（スゴロク）',
+ '黙示録の金庫','生化獣探索','オールスターナイト（トップ司令官）',
+ '運命の勝者','精製チャレンジ','名誉エンブレム','砲火の祭典',
+ '禁区探索','釣りイベント','ポンペイ','拠点防衛',
+ '立入禁止戦域','同盟リーグ','同盟の旅','荒野の探索','ウォーター戦争'
+];
+let customOrder=[...DEFAULT_ORDER];
+try{const saved=JSON.parse(localStorage.getItem('dls-order-v5')||'null');if(Array.isArray(saved))customOrder=[...saved.filter(n=>customOrder.includes(n)),...customOrder.filter(n=>!saved.includes(n))]}catch(e){}
+function orderRank(name){const i=customOrder.indexOf(name);return i<0?999:i}
+function compareEvents(a,b){if(sortMode==='custom'){let ar=customOrder.indexOf(a.name),br=customOrder.indexOf(b.name);if(ar!==br)return (ar<0?999:ar)-(br<0?999:br)}return a.start-b.start||orderRank(a.name)-orderRank(b.name)||a.name.localeCompare(b.name,'ja')}
+function saveOrder(){try{localStorage.setItem('dls-order-v5',JSON.stringify(customOrder))}catch(e){}}
+function changeOrder(from,to){
+ if(!Number.isInteger(from)||!Number.isInteger(to)||from<0||from>=customOrder.length||to<0||to>=customOrder.length||from===to)return;
+ const [moved]=customOrder.splice(from,1);customOrder.splice(to,0,moved);
+ saveOrder();renderOrderList();render();
+}
+let dragFrom=null;
+function clearOrderHints(){document.querySelectorAll('#orderList .orderitem').forEach(r=>r.classList.remove('dragging','drop-before','drop-after'))}
+function renderOrderList(){
+ const list=document.getElementById('orderList');
+ list.innerHTML=customOrder.map((n,i)=>`<div class="orderitem" data-idx="${i}" draggable="true" aria-label="${esc(n)}、${i+1}番目、ドラッグして並び替え"><span class="orderhandle" title="ドラッグして移動">⠿</span><span class="ordername">${i+1}. ${esc(n)} <small style="color:#98a9bd">（${esc(PRESET.find(p=>p.name===n)?.category||'その他')}）</small></span><button class="btn" data-top="${i}" ${i===0?'disabled':''} aria-label="${esc(n)}を先頭へ">先頭へ</button><button class="btn" data-order="${i}" data-direction="-1" ${i===0?'disabled':''} aria-label="${esc(n)}を上へ">▲</button><button class="btn" data-order="${i}" data-direction="1" ${i===customOrder.length-1?'disabled':''} aria-label="${esc(n)}を下へ">▼</button></div>`).join('');
+ list.querySelectorAll('[data-order]').forEach(b=>b.onclick=()=>{let i=Number(b.dataset.order);changeOrder(i,i+Number(b.dataset.direction))});
+ list.querySelectorAll('[data-top]').forEach(b=>b.onclick=()=>changeOrder(Number(b.dataset.top),0));
+ list.querySelectorAll('.orderitem').forEach(row=>{
+   row.addEventListener('dragstart',e=>{if(e.target.closest('button')){e.preventDefault();return}dragFrom=Number(row.dataset.idx);e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',String(dragFrom));requestAnimationFrame(()=>row.classList.add('dragging'))});
+   row.addEventListener('dragover',e=>{if(dragFrom===null)return;e.preventDefault();e.dataTransfer.dropEffect='move';clearOrderHints();list.querySelector(`[data-idx="${dragFrom}"]`)?.classList.add('dragging');const after=e.clientY>row.getBoundingClientRect().top+row.offsetHeight/2;row.classList.add(after?'drop-after':'drop-before')});
+   row.addEventListener('drop',e=>{e.preventDefault();if(dragFrom===null)return;const target=Number(row.dataset.idx),after=e.clientY>row.getBoundingClientRect().top+row.offsetHeight/2;let dest=target+(after?1:0);if(dragFrom<dest)dest--;const from=dragFrom;dragFrom=null;clearOrderHints();changeOrder(from,dest)});
+   row.addEventListener('dragend',()=>{dragFrom=null;clearOrderHints()});
+ });
+}
+
+
+// events.json は GitHub Pages と同じフォルダに設置する。公開ページは常に共有ファイルを読む。
+// file:// でのHTML単体プレビューでは埋め込みの初期20件を表示する（共有更新は取得できない）。
+async function loadSharedEvents(){
+ if(location.protocol==='file:'){
+   document.getElementById('dataStatus').textContent='HTML単体プレビュー：GitHubの共通データは未取得';
+   return;
+ }
+ try{
+   const r=await fetch('./events.json',{cache:'no-store'});
+   if(!r.ok)throw new Error('HTTP '+r.status);
+   const data=await r.json();
+   if(!Array.isArray(data.events)||!Array.isArray(data.specialEvents))throw new Error('JSONのevents/specialEventsが配列ではありません');
+   const validCategory=new Set(CATS.map(c=>c.name));
+   const validDate=x=>/^\d{4}-\d{2}-\d{2}$/.test(x)&&Number.isFinite(Date.parse(x+'T00:00:00Z'));
+   const base=data.events.filter(x=>x&&typeof x.name==='string'&&validCategory.has(x.category)&&validDate(x.anchor)&&Number.isInteger(x.everyDays)&&x.everyDays>0&&Number.isInteger(x.duration)&&x.duration>0);
+   const specials=data.specialEvents.filter(x=>x&&typeof x.name==='string'&&validCategory.has(x.category)&&validDate(x.anchor)&&Number.isInteger(x.duration)&&x.duration>0);
+   if(base.length!==data.events.length||specials.length!==data.specialEvents.length)throw new Error('データに不正なイベントがあります');
+   PRESET=base;
+   manual=specials.map((x,i)=>({...x,id:'shared_'+i+'_'+x.anchor,notes:x.notes||''}));
+   if(Array.isArray(data.defaultOrder)){
+      DEFAULT_ORDER=[...new Set([...data.defaultOrder.filter(x=>base.some(p=>p.name===x)),...base.map(x=>x.name)])];
+      let saved=null;try{saved=JSON.parse(localStorage.getItem('dls-order-v5')||'null')}catch(e){}
+      customOrder=Array.isArray(saved)?[...saved.filter(n=>DEFAULT_ORDER.includes(n)),...DEFAULT_ORDER.filter(n=>!saved.includes(n))]:[...DEFAULT_ORDER];
+   }
+   document.getElementById('dataStatus').textContent=`共通データ取得済み：定期${base.length}件・臨時${specials.length}件`;
+   render();
+ }catch(e){
+   document.getElementById('dataStatus').textContent='共通データを取得できませんでした（画面は内蔵の初期データ）';
+   console.error('events.json の取得に失敗:',e);
+ }
+}
+
+function enumerate(a,b){let output=[];for(let p of PRESET){let base=dateUTC(p.anchor),stride=p.everyDays*dayMS;let startN=Math.floor((a-base-p.duration*dayMS)/stride)-1;let endN=Math.ceil((b-base)/stride)+1;for(let n=startN;n<=endN;n++){let start=base+n*stride,end=start+p.duration*dayMS;if(end<=a||start>=b)continue;let title=p.name;let notes=p.notes||'';;output.push({...p,title,start,end,manual:false,id:p.name+'_'+iso(start),notes})}}for(let x of manual){let start=dateUTC(x.anchor),end=start+x.duration*dayMS;if(start<b&&end>a)output.push({...x,title:x.name,start,end,manual:true,id:x.id})}return output.filter(x=>categoryFilter.size===0||categoryFilter.has(x.category)).sort(compareEvents)}
+function dayLabel(t){let d=new Date(t+offset()),days=['日','月','火','水','木','金','土'];return `<span>${days[d.getUTCDay()]}曜日</span><strong>${d.getUTCDate()}</strong>`}
+function render(){const a=view==='week'?startWeek(anchor):startMonth(anchor);if(view==='week')anchor=a;else anchor=a;
+let end,displayStart,events;if(view==='week'){end=a+7*dayMS;events=enumerate(a,end);displayStart=fmtMd(a+offset())+' 〜 '+fmtMd(end-dayMS+offset());document.getElementById('period').textContent=`${new Date(a+offset()).getUTCFullYear()}年 ${displayStart}　UTC`;renderWeek(a,events)}else{let d=new Date(a+offset());end=Date.UTC(d.getUTCFullYear(),d.getUTCMonth()+1,1)-offset();events=enumerate(a,end);document.getElementById('period').textContent=`${d.getUTCFullYear()}年 ${d.getUTCMonth()+1}月　UTC`;renderMonth(a,end)}
+document.getElementById('sortMode').value=sortMode;document.getElementById('counter').textContent=events.length+' 件';document.getElementById('periodMode').textContent=view==='week'?'週間表示':'月間表示';['weekly','monthly'].forEach((id,i)=>document.getElementById(id).classList.toggle('active',(i===0)===(view==='week')));renderLegend()}
+function renderLegend(){
+ const all=categoryFilter.size===0;
+ document.getElementById('legend').innerHTML=`<button type="button" data-cat="all" class="${all?'active':''}" aria-pressed="${all}">すべて</button>`+CATS.map(c=>`<button type="button" data-cat="${esc(c.name)}" class="${categoryFilter.has(c.name)?'active':''}" aria-pressed="${categoryFilter.has(c.name)}"><i class="dot" style="background:${c.color}"></i>${esc(c.name)}</button>`).join('');
+ document.querySelectorAll('[data-cat]').forEach(b=>b.onclick=()=>{
+   const target=b.dataset.cat;
+   if(target==='all'){categoryFilter.clear()}
+   else if(categoryFilter.size===0){categoryFilter.add(target)}
+   else if(categoryFilter.has(target)){categoryFilter.delete(target)}
+   else{categoryFilter.add(target)}
+   // 6カテゴリ全選択なら「すべて」に戻す
+   if(categoryFilter.size===CATS.length)categoryFilter.clear();
+   render();
+ });
+}
+function renderWeek(a,events){let h=`<div class="week"><div class="weekheader"><div class="labelcell">イベント名</div>`;for(let i=0;i<7;i++){let t=a+i*dayMS;h+=`<div class="dayhead ${localDay(Date.now())===t?'today':''}">${dayLabel(t)}</div>`}h+='</div>';if(!events.length)h+='<div class="empty">この週に該当するイベントはありません。</div>';for(let ev of events){h+=`<div class="evrow"><div class="evname">${esc(ev.title)}<small>${ev.manual?'臨時イベント（共通）':'周期から自動計算'}</small></div>`;for(let i=0;i<7;i++){let s=a+i*dayMS,e=s+dayMS,active=ev.start<e&&ev.end>s;if(active){let begin=ev.start>=s,finish=ev.end<=e;let cls=(begin?'start ':'')+(finish?'end ':'');if(!begin&&!finish)cls+='mid';let nth=Math.floor((s-ev.start)/dayMS);let barLabel=ev.notes.includes('1日目は登録日')&&nth===0?'登録日':ev.notes.includes('2日目マッチング')&&nth===1?'マッチング':'';h+=`<div class="daycell ${localToday()===s?'today':''}"><button class="bar ${cls}" data-id="${esc(ev.id)}" title="${esc(ev.title)}" style="background:${colorByCat[ev.category]}"><i>${barLabel}</i></button></div>`}else h+=`<div class="daycell ${localToday()===s?'today':''}"></div>`}h+='</div>'}h+='</div>';document.getElementById('calendar').innerHTML=h;linkDetails(events)}
+function renderMonth(a,end){let firstWeek=startWeek(a),last=end;let weeks=Math.ceil((end-firstWeek)/dayMS/7),dayEnd=firstWeek+weeks*7*dayMS,events=enumerate(firstWeek,dayEnd);let h='<div class="month">';for(let x of ['月','火','水','木','金','土','日'])h+=`<div class="mhead">${x}</div>`;for(let t=firstWeek;t<dayEnd;t+=dayMS){let dayEvents=events.filter(e=>e.start<t+dayMS&&e.end>t),isOther=t<a||t>=end;h+=`<div class="mday ${isOther?'other':''} ${localToday()===t?'today':''}"><div class="mnum">${new Date(t+offset()).getUTCDate()}</div>`;for(let ev of dayEvents.slice(0,3)){h+=`<button class="mevent" data-id="${esc(ev.id)}" title="${esc(ev.title)}" style="background:${colorByCat[ev.category]}55;border-left-color:${colorByCat[ev.category]}">${esc(ev.title)}</button>`}if(dayEvents.length>3)h+=`<div class="more">ほか ${dayEvents.length-3} 件</div>`;h+='</div>'}h+='</div>';document.getElementById('calendar').innerHTML=h;linkDetails(events)}
+function linkDetails(events){document.querySelectorAll('[data-id]').forEach(el=>el.onclick=()=>showDetail(events.find(e=>e.id===el.dataset.id)))}
+function formatDateTime(t){return fmt(t+offset())+' '+String(new Date(t+offset()).getUTCHours()).padStart(2,'0')+':00'}
+function showDetail(ev){if(!ev)return;document.getElementById('detailName').textContent=ev.title;document.getElementById('detailBody').innerHTML=`<span class="status">${ev.manual?'GitHub登録の臨時イベント':'周期から計算した予想日程'}</span><div class="detailrow"><span>カテゴリー</span><strong><i class="dot" style="background:${colorByCat[ev.category]}"></i> ${esc(ev.category)}</strong></div><div class="detailrow"><span>開始（UTC）</span><strong>${formatDateTime(ev.start)}</strong></div><div class="detailrow"><span>終了（UTC）</span><strong>${formatDateTime(ev.end)}</strong></div><div class="detailrow"><span>開催日数</span><strong>${ev.duration} 日</strong></div><div class="detailrow"><span>開催周期</span><strong>${ev.manual?'単発':esc(ev.frequency)}</strong></div>${ev.notes?`<div class="detailrow"><span>備考・段階</span><strong>${esc(ev.notes)}</strong></div>`:''}<div class="fine">※終了は最終日の翌日00:00（UTC）です。</div>`;document.getElementById('detailDlg').classList.add('show')}
+function close(id){document.getElementById(id).classList.remove('show')}
+document.getElementById('sortMode').onchange=e=>{sortMode=e.target.value;if(view==='week')weekSortMode=sortMode;else monthSortMode=sortMode;render()};document.getElementById('editOrder').onclick=()=>{renderOrderList();document.getElementById('orderDlg').classList.add('show')};document.getElementById('closeOrder').onclick=()=>close('orderDlg');document.getElementById('doneOrder').onclick=()=>close('orderDlg');document.getElementById('resetOrder').onclick=()=>{customOrder=[...DEFAULT_ORDER];saveOrder();renderOrderList();render()};document.getElementById('prev').onclick=()=>move(-1);document.getElementById('next').onclick=()=>move(1);document.getElementById('today').onclick=()=>{reset();render()};document.getElementById('weekly').onclick=()=>{view='week';sortMode=weekSortMode;reset();render()};document.getElementById('monthly').onclick=()=>{view='month';sortMode=monthSortMode;reset();render()};document.getElementById('closeDetail').onclick=()=>close('detailDlg');document.getElementById('doneDetail').onclick=()=>close('detailDlg');['detailDlg','orderDlg'].forEach(id=>document.getElementById(id).addEventListener('click',e=>{if(e.target.id===id)close(id)}));reset();render();loadSharedEvents();
+</script></body></html>

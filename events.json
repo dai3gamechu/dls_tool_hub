@@ -1,0 +1,208 @@
+{
+  "version": 1,
+  "events": [
+    {
+      "name": "オールスターナイト（トップ司令官）",
+      "category": "個人対抗イベント",
+      "anchor": "2026-11-02",
+      "everyDays": 14,
+      "duration": 7,
+      "notes": "",
+      "frequency": "隔週"
+    },
+    {
+      "name": "立入禁止戦域",
+      "category": "協力イベント",
+      "anchor": "2026-11-10",
+      "everyDays": 14,
+      "duration": 2,
+      "notes": "1日目は登録日、2日目以降イベント開始",
+      "frequency": "隔週"
+    },
+    {
+      "name": "群島レイド",
+      "category": "同盟対抗戦闘イベント",
+      "anchor": "2026-11-09",
+      "everyDays": 28,
+      "duration": 7,
+      "notes": "1日目は登録日、2日目マッチング、3日目以降イベント開始",
+      "frequency": "4週間ごと"
+    },
+    {
+      "name": "孤島レイド",
+      "category": "同盟対抗戦闘イベント",
+      "anchor": "2026-11-25",
+      "everyDays": 28,
+      "duration": 5,
+      "notes": "1日目は登録日、2日目マッチング、3日目以降イベント開始",
+      "frequency": "4週間ごと"
+    },
+    {
+      "name": "ポンペイ",
+      "category": "協力イベント",
+      "anchor": "2026-11-02",
+      "everyDays": 7,
+      "duration": 2,
+      "notes": "1日目は登録日、2日目以降イベント開始",
+      "frequency": "毎週"
+    },
+    {
+      "name": "ウォーター戦争",
+      "category": "個人対抗＆協力イベント",
+      "anchor": "2026-11-02",
+      "everyDays": 7,
+      "duration": 3,
+      "notes": "",
+      "frequency": "毎週"
+    },
+    {
+      "name": "同盟リーグ",
+      "category": "個人対抗＆協力イベント",
+      "anchor": "2026-11-23",
+      "everyDays": 28,
+      "duration": 7,
+      "notes": "",
+      "frequency": "4週間ごと"
+    },
+    {
+      "name": "極限対決",
+      "category": "同盟対抗戦闘イベント",
+      "anchor": "2026-11-18",
+      "everyDays": 28,
+      "duration": 2,
+      "notes": "1日目は登録日、2日目以降イベント開始",
+      "frequency": "4週間ごと"
+    },
+    {
+      "name": "名誉エンブレム",
+      "category": "個人対抗イベント",
+      "anchor": "2026-11-08",
+      "everyDays": 14,
+      "duration": 1,
+      "notes": "",
+      "frequency": "隔週"
+    },
+    {
+      "name": "釣りイベント",
+      "category": "個人対抗イベント",
+      "anchor": "2026-11-13",
+      "everyDays": 14,
+      "duration": 3,
+      "notes": "",
+      "frequency": "隔週"
+    },
+    {
+      "name": "黙示録の金庫",
+      "category": "個人イベント（対抗無し）",
+      "anchor": "2026-11-01",
+      "everyDays": 28,
+      "duration": 7,
+      "notes": "",
+      "frequency": "4週間ごと"
+    },
+    {
+      "name": "運命の勝者",
+      "category": "個人対抗イベント",
+      "anchor": "2026-11-07",
+      "everyDays": 28,
+      "duration": 2,
+      "notes": "",
+      "frequency": "4週間ごと"
+    },
+    {
+      "name": "荒野の探索",
+      "category": "個人対抗＆協力イベント",
+      "anchor": "2026-11-09",
+      "everyDays": 14,
+      "duration": 4,
+      "notes": "1日目は登録日、2日目以降イベント開始",
+      "frequency": "隔週"
+    },
+    {
+      "name": "拠点防衛",
+      "category": "協力イベント",
+      "anchor": "2026-11-04",
+      "everyDays": 7,
+      "duration": 1,
+      "notes": "",
+      "frequency": "毎週"
+    },
+    {
+      "name": "同盟の旅",
+      "category": "個人対抗＆協力イベント",
+      "anchor": "2026-11-11",
+      "everyDays": 28,
+      "duration": 5,
+      "notes": "",
+      "frequency": "4週間ごと"
+    },
+    {
+      "name": "生化獣探索",
+      "category": "個人イベント（対抗無し）",
+      "anchor": "2026-11-09",
+      "everyDays": 14,
+      "duration": 3,
+      "notes": "",
+      "frequency": "隔週"
+    },
+    {
+      "name": "禁区探索",
+      "category": "個人対抗イベント",
+      "anchor": "2026-11-09",
+      "everyDays": 14,
+      "duration": 7,
+      "notes": "",
+      "frequency": "隔週"
+    },
+    {
+      "name": "砲火の祭典",
+      "category": "個人対抗イベント",
+      "anchor": "2026-11-15",
+      "everyDays": 14,
+      "duration": 1,
+      "notes": "",
+      "frequency": "隔週"
+    },
+    {
+      "name": "地区対決（スゴロク）",
+      "category": "協力イベント",
+      "anchor": "2026-11-04",
+      "everyDays": 28,
+      "duration": 5,
+      "notes": "1日目は登録日、2日目マッチング、3日目以降イベント開始",
+      "frequency": "4週間ごと"
+    },
+    {
+      "name": "精製チャレンジ",
+      "category": "個人対抗イベント",
+      "anchor": "2026-11-20",
+      "everyDays": 28,
+      "duration": 3,
+      "notes": "",
+      "frequency": "4週間ごと"
+    }
+  ],
+  "specialEvents": [],
+  "defaultOrder": [
+    "群島レイド",
+    "孤島レイド",
+    "極限対決",
+    "地区対決（スゴロク）",
+    "黙示録の金庫",
+    "生化獣探索",
+    "オールスターナイト（トップ司令官）",
+    "運命の勝者",
+    "精製チャレンジ",
+    "名誉エンブレム",
+    "砲火の祭典",
+    "禁区探索",
+    "釣りイベント",
+    "ポンペイ",
+    "拠点防衛",
+    "立入禁止戦域",
+    "同盟リーグ",
+    "同盟の旅",
+    "荒野の探索",
+    "ウォーター戦争"
+  ]
+}
