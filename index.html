@@ -61,7 +61,36 @@ body[data-theme="light"] .mday.today {background:#e6f3f5;box-shadow:inset 0 0 0 
 .theme-control label {font-size:12px;color:inherit;font-weight:700}
 .utc-now {font-size:12px;color:#a8bcc6;font-variant-numeric:tabular-nums;white-space:nowrap}
 body[data-theme="light"] .utc-now {color:#536778}
-</style><link rel="stylesheet" href="./shared/header.css?v=1.0"></head><body><div id="dls-global-header" data-tool="event"><a href="https://dai3gamechu.github.io/dls_tool_hub/">DLS TOOL HUB | だい3ゲームch</a></div><div class="app"><header class="top"><div><div class="eyebrow">EVENT CALENDAR</div><h1>イベントスケジュール</h1><div class="muted sub">登録された開催周期から予定を自動生成する試作版</div></div></header><div class="shell"><main class="card"><div class="headrow"><div class="nav"><button class="btn" id="prev">❮</button><button class="btn" id="today">今週 / 今月</button><button class="btn" id="next">❯</button></div><div class="nav"><div class="control"><button id="weekly" class="active">週間</button><button id="monthly">月間</button></div></div></div><div class="headrow"><div class="period" id="period"></div><div class="utc-now" id="utcNow" aria-live="off"></div></div><div class="sorting"><label for="sortMode">表示順</label><select id="sortMode"><option value="date" selected>開始日が早い順</option><option value="custom">指定したイベント順</option></select><button class="btn" id="editOrder">並び順を編集</button></div><div class="legend" id="legend"></div><div class="fine" style="margin:-12px 0 18px">カテゴリーをクリックして絞り込み。さらに選ぶと複数カテゴリーを同時表示できます。</div><div id="calendar"></div><div class="fine" id="dataStatus" role="status" style="margin-top:12px">共通データを読み込み中…</div><div class="note">掲載予定は提供されたExcelの周期から計算した<strong>予想日程</strong>です。公式確定日とは限りません。臨時イベントは管理者がGitHubの events.json に登録し、全閲覧者へ共有します。</div></main><aside class="card right"><div class="section"><div class="muted sub">表示中のイベント</div><div class="stat" id="counter">—</div><span class="pill" id="periodMode">週間表示</span></div><div class="section"><h2>イベントを選択</h2><p class="muted">色付きのバーや月間カレンダーのイベント名をクリックすると、開始・終了日時、開催周期、備考を確認できるよ。</p></div><div class="section"><h2>仕様・データ</h2><ul><li>20種類のイベントを登録済み</li><li>カテゴリーは確定済みの6分類</li><li>時刻はすべてUTC（00:00開始）</li><li>開催最終日の翌日00:00終了</li><li>オールスターナイトは兵種による周期表示なし</li><li>臨時イベントはGitHubで一元管理</li></ul></div><div class="section"><h2>表示方法</h2><p class="fine">「すべて」からカテゴリーを選ぶとそのカテゴリーだけ表示、追加で選ぶと複数表示。並び順はイベント単位で編集できます。すべての時刻はUTCです。全イベントの表示は基準日から周期計算された予想。共通イベントデータをGitHubから取得します。並び順と配色の好みだけ各ブラウザに保存します。</p></div></aside></div><footer class="foot">イベントスケジュール Ver.0.8 · GitHub共通データ版<div id="dls-global-footer">DLS TOOL HUB | だい3ゲームch · 非公式ファンツール</div></footer></div>
+
+/* Notices (phase 1): isolated from the existing calendar styling. */
+#noticePanel{margin-bottom:16px}
+#noticePanel[hidden]{display:none!important}
+.notice-heading{display:flex;align-items:center;gap:9px;margin-bottom:14px}
+.notice-heading h2{font-size:17px}
+.notice-list{display:grid;gap:0}
+.notice-entry{display:flex;gap:13px;padding:13px 0;border-bottom:1px solid #3b3e46}
+.notice-entry:first-child{padding-top:3px}
+.notice-entry:last-child{border-bottom:0;padding-bottom:4px}
+.notice-mark{width:4px;flex:0 0 4px;border-radius:5px}
+.notice-entry[data-level="important"] .notice-mark{background:#dc7777}
+.notice-entry[data-level="warning"] .notice-mark{background:#dfa45e}
+.notice-entry[data-level="info"] .notice-mark{background:#7baed5}
+.notice-entry-content{min-width:0;flex:1;overflow-wrap:anywhere}
+.notice-entry-title{font-weight:750;line-height:1.5}
+.notice-entry-label{font-size:11px;font-weight:800;margin-right:8px}
+.notice-entry[data-level="important"] .notice-entry-label{color:#f19b9b}
+.notice-entry[data-level="warning"] .notice-entry-label{color:#efb975}
+.notice-entry[data-level="info"] .notice-entry-label{color:#9cc7e8}
+.notice-entry-message{color:#bfc3cb;font-size:12px;line-height:1.75;margin:4px 0 0;white-space:pre-wrap}
+.notice-entry-link{display:inline-block;margin-top:5px;color:#9bd5e4;font-size:12px;text-decoration:underline;text-underline-offset:3px}
+.notice-expand{width:100%;margin-top:12px}
+body[data-theme="light"] .notice-entry{border-color:#e2e5e9}
+body[data-theme="light"] .notice-entry-message{color:#555d6b}
+body[data-theme="light"] .notice-entry[data-level="important"] .notice-entry-label{color:#b13c45}
+body[data-theme="light"] .notice-entry[data-level="warning"] .notice-entry-label{color:#a16213}
+body[data-theme="light"] .notice-entry[data-level="info"] .notice-entry-label{color:#246e9b}
+body[data-theme="light"] .notice-entry-link{color:#136f89}
+</style><link rel="stylesheet" href="./shared/header.css?v=1.0"></head><body><div id="dls-global-header" data-tool="event"><a href="https://dai3gamechu.github.io/dls_tool_hub/">DLS TOOL HUB | だい3ゲームch</a></div><div class="app"><header class="top"><div><div class="eyebrow">EVENT CALENDAR</div><h1>イベントスケジュール</h1><div class="muted sub">登録された開催周期から予定を自動生成する試作版</div></div></header><section class="card" id="noticePanel" aria-labelledby="noticeHeading" hidden><div class="notice-heading"><span aria-hidden="true">📢</span><h2 id="noticeHeading">お知らせ</h2></div><div class="notice-list" id="noticeList"></div><button class="btn notice-expand" id="noticeExpand" type="button" hidden aria-expanded="false"></button></section><div class="shell"><main class="card"><div class="headrow"><div class="nav"><button class="btn" id="prev">❮</button><button class="btn" id="today">今週 / 今月</button><button class="btn" id="next">❯</button></div><div class="nav"><div class="control"><button id="weekly" class="active">週間</button><button id="monthly">月間</button></div></div></div><div class="headrow"><div class="period" id="period"></div><div class="utc-now" id="utcNow" aria-live="off"></div></div><div class="sorting"><label for="sortMode">表示順</label><select id="sortMode"><option value="date" selected>開始日が早い順</option><option value="custom">指定したイベント順</option></select><button class="btn" id="editOrder">並び順を編集</button></div><div class="legend" id="legend"></div><div class="fine" style="margin:-12px 0 18px">カテゴリーをクリックして絞り込み。さらに選ぶと複数カテゴリーを同時表示できます。</div><div id="calendar"></div><div class="fine" id="dataStatus" role="status" style="margin-top:12px">共通データを読み込み中…</div><div class="note">掲載予定は提供されたExcelの周期から計算した<strong>予想日程</strong>です。公式確定日とは限りません。臨時イベントは管理者がGitHubの events.json に登録し、全閲覧者へ共有します。</div></main><aside class="card right"><div class="section"><div class="muted sub">表示中のイベント</div><div class="stat" id="counter">—</div><span class="pill" id="periodMode">週間表示</span></div><div class="section"><h2>イベントを選択</h2><p class="muted">色付きのバーや月間カレンダーのイベント名をクリックすると、開始・終了日時、開催周期、備考を確認できるよ。</p></div><div class="section"><h2>仕様・データ</h2><ul><li>20種類のイベントを登録済み</li><li>カテゴリーは確定済みの6分類</li><li>時刻はすべてUTC（00:00開始）</li><li>開催最終日の翌日00:00終了</li><li>オールスターナイトは兵種による周期表示なし</li><li>臨時イベントはGitHubで一元管理</li></ul></div><div class="section"><h2>表示方法</h2><p class="fine">「すべて」からカテゴリーを選ぶとそのカテゴリーだけ表示、追加で選ぶと複数表示。並び順はイベント単位で編集できます。すべての時刻はUTCです。全イベントの表示は基準日から周期計算された予想。共通イベントデータをGitHubから取得します。並び順と配色の好みだけ各ブラウザに保存します。</p></div></aside></div><footer class="foot">イベントスケジュール Ver.0.8 · GitHub共通データ版<div id="dls-global-footer">DLS TOOL HUB | だい3ゲームch · 非公式ファンツール</div></footer></div>
 <div class="dialog" id="orderDlg"><div class="modal"><div class="headrow"><h2>イベントの並び順を編集</h2><button class="btn" id="closeOrder">✕</button></div><p class="muted sub">左の「⠿」をつかんで、好きな位置へドラッグ＆ドロップできます。▲▼や「先頭へ」も利用可能。指定したイベント順を選ぶと週間・月間の両方で使えます。週間の標準は開始日順、月間の標準は指定順です。個人の並び替え設定は、このブラウザに保存されます。</p><div id="orderList"></div><div class="modalfooter"><button class="btn" id="resetOrder">初期順に戻す</button><button class="btn primary" id="doneOrder">完了</button></div></div></div><div class="dialog" id="detailDlg"><div class="modal"><div class="headrow"><h2 id="detailName"></h2><button class="btn" id="closeDetail">✕</button></div><div id="detailBody"></div><div class="modalfooter"><button class="btn primary" id="doneDetail">閉じる</button></div></div></div>
 
 <script src="./shared/header.js?v=1.0" defer></script>
@@ -179,4 +208,53 @@ function formatDateTime(t){return fmt(t+offset())+' '+String(new Date(t+offset()
 function showDetail(ev){if(!ev)return;document.getElementById('detailName').textContent=ev.title;document.getElementById('detailBody').innerHTML=`<span class="status">${ev.manual?'GitHub登録の臨時イベント':'周期から計算した予想日程'}</span><div class="detailrow"><span>カテゴリー</span><strong><i class="dot" style="background:${colorByCat[ev.category]}"></i> ${esc(ev.category)}</strong></div><div class="detailrow"><span>開始（UTC）</span><strong>${formatDateTime(ev.start)}</strong></div><div class="detailrow"><span>終了（UTC）</span><strong>${formatDateTime(ev.end)}</strong></div><div class="detailrow"><span>開催日数</span><strong>${ev.duration} 日</strong></div><div class="detailrow"><span>開催周期</span><strong>${ev.manual?'単発':esc(ev.frequency)}</strong></div>${ev.notes?`<div class="detailrow"><span>備考・段階</span><strong>${esc(ev.notes)}</strong></div>`:''}<div class="fine">※終了は最終日の翌日00:00（UTC）です。</div>`;document.getElementById('detailDlg').classList.add('show')}
 function close(id){document.getElementById(id).classList.remove('show')}
 document.getElementById('sortMode').onchange=e=>{sortMode=e.target.value;if(view==='week')weekSortMode=sortMode;else monthSortMode=sortMode;render()};document.getElementById('editOrder').onclick=()=>{renderOrderList();document.getElementById('orderDlg').classList.add('show')};document.getElementById('closeOrder').onclick=()=>close('orderDlg');document.getElementById('doneOrder').onclick=()=>close('orderDlg');document.getElementById('resetOrder').onclick=()=>{customOrder=[...DEFAULT_ORDER];saveOrder();renderOrderList();render()};document.getElementById('prev').onclick=()=>move(-1);document.getElementById('next').onclick=()=>move(1);document.getElementById('today').onclick=()=>{reset();render()};document.getElementById('weekly').onclick=()=>{view='week';sortMode=weekSortMode;reset();render()};document.getElementById('monthly').onclick=()=>{view='month';sortMode=monthSortMode;reset();render()};document.getElementById('closeDetail').onclick=()=>close('detailDlg');document.getElementById('doneDetail').onclick=()=>close('detailDlg');['detailDlg','orderDlg'].forEach(id=>document.getElementById(id).addEventListener('click',e=>{if(e.target.id===id)close(id)}));reset();render();loadSharedEvents();
+
+// Phase 1 notices: dates in UTC, end exclusive, optional https links.
+(function(){
+ const panel=document.getElementById('noticePanel'),list=document.getElementById('noticeList'),toggle=document.getElementById('noticeExpand');
+ const priority={important:0,warning:1,info:2};
+ const labels={important:'重要',warning:'注意',info:'お知らせ'};
+ let entries=[],expanded=false;
+ function isValid(item){
+  if(!item||typeof item!=='object'||!Object.hasOwn(priority,item.level)||typeof item.title!=='string'||!item.title.trim()||typeof item.message!=='string')return false;
+  if(typeof item.start!=='string'||typeof item.end!=='string'||!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/.test(item.start)||!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/.test(item.end))return false;
+  const a=Date.parse(item.start),b=Date.parse(item.end);
+  return Number.isFinite(a)&&Number.isFinite(b)&&new Date(a).toISOString().replace('.000Z','Z')===item.start&&new Date(b).toISOString().replace('.000Z','Z')===item.end&&a<b;
+ }
+ function draw(){
+  const now=Date.now();
+  const visible=entries.filter(n=>Date.parse(n.start)<=now&&now<Date.parse(n.end))
+   .sort((a,b)=>priority[a.level]-priority[b.level]||Date.parse(b.start)-Date.parse(a.start)||a.id.localeCompare(b.id));
+  panel.hidden=visible.length===0;
+  list.replaceChildren();
+  visible.slice(0,expanded?undefined:3).forEach(n=>{
+   const row=document.createElement('article');row.className='notice-entry';row.dataset.level=n.level;
+   const mark=document.createElement('div');mark.className='notice-mark';mark.setAttribute('aria-hidden','true');
+   const content=document.createElement('div');content.className='notice-entry-content';
+   const heading=document.createElement('div');heading.className='notice-entry-title';
+   const label=document.createElement('span');label.className='notice-entry-label';label.textContent=labels[n.level];
+   heading.append(label,document.createTextNode(n.title));content.append(heading);
+   if(n.message){const msg=document.createElement('p');msg.className='notice-entry-message';msg.textContent=n.message;content.append(msg)}
+   if(typeof n.url==='string'&&/^https:\/\/[^\s]+$/i.test(n.url)){
+    try{const u=new URL(n.url);if(u.protocol==='https:'){const link=document.createElement('a');link.className='notice-entry-link';link.href=u.href;link.target='_blank';link.rel='noopener noreferrer';link.textContent='関連ページを開く ↗';content.append(link)}}catch(e){}
+   }
+   row.append(mark,content);list.append(row);
+  });
+  toggle.hidden=visible.length<=3;
+  toggle.textContent=expanded?'閉じる':`すべてのお知らせを見る（全${visible.length}件）`;
+  toggle.setAttribute('aria-expanded',String(expanded));
+ }
+ toggle.addEventListener('click',()=>{expanded=!expanded;draw()});
+ async function load(){
+  try{
+   const response=await fetch('./notices.json',{cache:'no-store'});
+   if(!response.ok)throw new Error('HTTP '+response.status);
+   const data=await response.json();
+   if(!data||!Array.isArray(data.notices))throw new Error('Invalid notices format');
+   entries=data.notices.filter(isValid).map(n=>({...n,id:typeof n.id==='string'?n.id:''}));
+   draw();
+  }catch(error){panel.hidden=true;console.warn('notices.json を読み込めません:',error)}
+ }
+ load();setInterval(draw,60000);
+})();
 </script></body></html>
