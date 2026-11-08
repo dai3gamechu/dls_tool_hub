@@ -182,7 +182,23 @@
       "frequency": "4週間ごと"
     }
   ],
-  "specialEvents": [],
+  "specialEvents": [
+    {
+      "name": "ラッキーマーケット",
+      "category": "期間限定・コラボ",
+      "anchor": "2026-11-08",
+      "duration": 7,
+      "notes": "イレギュラー、シェルター復刻"
+    },
+    {
+      "name": "緊急セール",
+      "category": "期間限定・コラボ",
+      "anchor": "2026-11-08",
+      "duration": 1,
+      "notes": "イレギュラー"
+    }
+
+  ],
   "defaultOrder": [
     "群島レイド",
     "孤島レイド",
