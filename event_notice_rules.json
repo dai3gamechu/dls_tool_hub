@@ -378,11 +378,17 @@
         {
           "day": 0,
           "level": "info",
-          "title": "本日から沈没船の秘宝が始まります！",
+          "title": "本日は沈没船の秘宝の登録日です！",
           "message": ""
         },
         {
           "day": 1,
+          "level": "info",
+          "title": "本日から沈没船の秘宝が始まります！",
+          "message": ""
+        },
+        {
+          "day": "last",
           "level": "important",
           "title": "本日は沈没船の秘宝の最終日・報酬受取期限日です！",
           "message": "報酬の受け取り漏れにご注意ください。"
