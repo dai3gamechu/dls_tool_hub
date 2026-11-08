@@ -122,7 +122,7 @@ function updateUtcClock(){
 updateUtcClock();setInterval(updateUtcClock,60000);
 
 let PRESET=[{"name":"オールスターナイト（トップ司令官）","category":"個人対抗イベント","anchor":"2026-11-02","everyDays":14,"duration":7,"notes":"","frequency":"隔週"},{"name":"立入禁止戦域","category":"協力イベント","anchor":"2026-11-10","everyDays":14,"duration":2,"notes":"1日目は登録日、2日目以降イベント開始","frequency":"隔週"},{"name":"群島レイド","category":"同盟対抗＆戦闘イベント","anchor":"2026-11-09","everyDays":28,"duration":7,"notes":"1日目は登録日、2日目マッチング、3日目以降イベント開始","frequency":"4週間ごと"},{"name":"孤島レイド","category":"同盟対抗＆戦闘イベント","anchor":"2026-11-25","everyDays":28,"duration":5,"notes":"1日目は登録日、2日目マッチング、3日目以降イベント開始","frequency":"4週間ごと"},{"name":"ポンペイ","category":"協力イベント","anchor":"2026-11-02","everyDays":7,"duration":2,"notes":"1日目は登録日、2日目以降イベント開始","frequency":"毎週"},{"name":"ウォーター戦争","category":"個人対抗＆協力イベント","anchor":"2026-11-02","everyDays":7,"duration":3,"notes":"","frequency":"毎週"},{"name":"同盟リーグ","category":"個人対抗＆協力イベント","anchor":"2026-11-23","everyDays":28,"duration":7,"notes":"","frequency":"4週間ごと"},{"name":"極限対決","category":"同盟対抗＆戦闘イベント","anchor":"2026-11-18","everyDays":28,"duration":2,"notes":"1日目は登録日、2日目以降イベント開始","frequency":"4週間ごと"},{"name":"名誉エンブレム","category":"個人対抗イベント","anchor":"2026-11-08","everyDays":14,"duration":1,"notes":"","frequency":"隔週"},{"name":"釣りイベント","category":"個人対抗イベント","anchor":"2026-11-13","everyDays":14,"duration":3,"notes":"","frequency":"隔週"},{"name":"黙示録の金庫","category":"個人イベント（対抗無し）","anchor":"2026-11-01","everyDays":28,"duration":7,"notes":"","frequency":"4週間ごと"},{"name":"運命の勝者","category":"個人対抗イベント","anchor":"2026-11-07","everyDays":28,"duration":2,"notes":"","frequency":"4週間ごと"},{"name":"荒野の探索","category":"個人対抗＆協力イベント","anchor":"2026-11-09","everyDays":14,"duration":4,"notes":"1日目は登録日、2日目以降イベント開始","frequency":"隔週"},{"name":"拠点防衛","category":"協力イベント","anchor":"2026-11-04","everyDays":7,"duration":1,"notes":"","frequency":"毎週"},{"name":"同盟の旅","category":"個人対抗＆協力イベント","anchor":"2026-11-11","everyDays":28,"duration":5,"notes":"","frequency":"4週間ごと"},{"name":"生化獣探索","category":"個人イベント（対抗無し）","anchor":"2026-11-09","everyDays":14,"duration":3,"notes":"","frequency":"隔週"},{"name":"禁区探索","category":"個人対抗イベント","anchor":"2026-11-09","everyDays":14,"duration":7,"notes":"","frequency":"隔週"},{"name":"砲火の祭典","category":"個人対抗イベント","anchor":"2026-11-15","everyDays":14,"duration":1,"notes":"","frequency":"隔週"},{"name":"地区対決（スゴロク）","category":"協力イベント","anchor":"2026-11-04","everyDays":28,"duration":5,"notes":"1日目は登録日、2日目マッチング、3日目以降イベント開始","frequency":"4週間ごと"},{"name":"精製チャレンジ","category":"個人対抗イベント","anchor":"2026-11-20","everyDays":28,"duration":3,"notes":"","frequency":"4週間ごと"}];
-const CATS=[{name:'同盟対抗＆戦闘イベント',color:'#C86D56'},{name:'協力イベント',color:'#328F83'},{name:'個人対抗＆協力イベント',color:'#8C71BE'},{name:'個人対抗イベント',color:'#4F8DC3'},{name:'個人イベント（対抗無し）',color:'#C39A3B'},{name:'期間限定・コラボ',color:'#888D95'}];
+const CATS=[{name:'同盟対抗＆戦闘イベント',color:'#C86D56'},{name:'協力イベント',color:'#328F83'},{name:'個人対抗＆協力イベント',color:'#8C71BE'},{name:'個人対抗イベント',color:'#4F8DC3'},{name:'個人イベント（対抗無し）',color:'#C39A3B'},{name:'期間限定・コラボ',color:'#B83242'}];
 const CATEGORY_SHORT_LABELS={'同盟対抗＆戦闘イベント':'同盟対抗＆戦闘','協力イベント':'協力','個人対抗＆協力イベント':'個人対抗＆協力','個人対抗イベント':'個人対抗','個人イベント（対抗無し）':'個人（対抗無し）','期間限定・コラボ':'期間限定・コラボ'};
 const colorByCat=Object.fromEntries(CATS.map(c=>[c.name,c.color]));
 const dayMS=86400000;const dateUTC=s=>new Date(s+'T00:00:00Z').getTime();const iso=t=>new Date(t).toISOString().slice(0,10);const fmt=t=>new Intl.DateTimeFormat('ja-JP',{year:'numeric',month:'numeric',day:'numeric',timeZone:'UTC'}).format(new Date(t));const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));const fmtMd=t=>{let d=new Date(t);return `${d.getUTCMonth()+1}/${d.getUTCDate()}`};
@@ -145,7 +145,17 @@ let DEFAULT_ORDER=[
 let customOrder=[...DEFAULT_ORDER];
 try{const saved=JSON.parse(localStorage.getItem('dls-order-v5')||'null');if(Array.isArray(saved))customOrder=[...saved.filter(n=>customOrder.includes(n)),...customOrder.filter(n=>!saved.includes(n))]}catch(e){}
 function orderRank(name){const i=customOrder.indexOf(name);return i<0?999:i}
-function compareEvents(a,b){if(sortMode==='custom'){let ar=customOrder.indexOf(a.name),br=customOrder.indexOf(b.name);if(ar!==br)return (ar<0?999:ar)-(br<0?999:br)}return a.start-b.start||orderRank(a.name)-orderRank(b.name)||a.name.localeCompare(b.name,'ja')}
+function compareEvents(a,b){
+ if(sortMode==='custom'){
+  // 臨時イベントを優先。臨時イベント同士は開始UTC→開催日数→50音順。
+  if(Boolean(a.manual)!==Boolean(b.manual))return a.manual?-1:1;
+  if(a.manual&&b.manual)return a.start-b.start||a.duration-b.duration||a.name.localeCompare(b.name,'ja');
+  // 通常イベントの指定順はこれまでどおり維持。
+  let ar=customOrder.indexOf(a.name),br=customOrder.indexOf(b.name);
+  if(ar!==br)return (ar<0?999:ar)-(br<0?999:br);
+ }
+ return a.start-b.start||orderRank(a.name)-orderRank(b.name)||a.name.localeCompare(b.name,'ja');
+}
 function saveOrder(){try{localStorage.setItem('dls-order-v5',JSON.stringify(customOrder))}catch(e){}}
 function changeOrder(from,to){
  if(!Number.isInteger(from)||!Number.isInteger(to)||from<0||from>=customOrder.length||to<0||to>=customOrder.length||from===to)return;
