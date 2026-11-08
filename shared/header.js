@@ -1,4 +1,4 @@
-/* DLS TOOL HUB shared header v1.0. Standalone; no dependency on the tool scripts. */
+/* DLS TOOL HUB shared header v1.1. Standalone; no dependency on the tool scripts. */
 (function () {
   'use strict';
   const ROOT = 'https://dai3gamechu.github.io/';
@@ -14,9 +14,15 @@
   const item = (key, label) => `<a class="dls-gh-link" href="${links[key]}"${page === key ? ' aria-current="page"' : ''}>${label}</a>`;
   const dropItem = (key, label) => `<a href="${links[key]}"${page === key ? ' aria-current="page"' : ''}>${label}</a>`;
   const group = (title, entries) => `<details class="dls-gh-group"><summary>${title} ▾</summary><div class="dls-gh-drop">${entries.map(([key,label])=>dropItem(key,label)).join('')}</div></details>`;
-  const navContents = () => item('event','イベント') + item('daily','日課管理') +
-    group('各種計算', [['tower','見張り台必要数計算'],['tc','TC計算'],['cement','孤島レイド・セメント計算']]) +
-    group('シミュレーター', [['store','孤島レイドストアシミュレーター']]) + item('mission','ミッション一覧');
+  const navContents = () => item('event','イベント') + item('daily','日課') +
+    group('トップ司令官', [['tc','TC計算ツール']]) +
+    group('群島', [['tower','見張り台ルート計算']]) +
+    group('孤島・同盟リーグ', [
+      ['tower','見張り台ルート計算'],
+      ['cement','IR見張り台計算'],
+      ['store','IRストア交換シミュレーター'],
+      ['mission','ミッション一覧']
+    ]);
   host.innerHTML = `<div class="dls-gh-inner">
     <div class="dls-gh-top">
       <a class="dls-gh-brand" href="${links.event}" aria-label="DLS TOOL HUB | だい3ゲームch ホーム">
