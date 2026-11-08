@@ -1,0 +1,393 @@
+{
+  "version": 1,
+  "rules": {
+    "群島レイド": {
+      "notifications": [
+        {
+          "day": 0,
+          "level": "info",
+          "title": "本日は群島レイドの登録日です",
+          "message": ""
+        },
+        {
+          "day": 2,
+          "level": "info",
+          "title": "本日から群島レイドの戦闘が始まります！",
+          "message": ""
+        },
+        {
+          "day": "last",
+          "level": "warning",
+          "title": "本日は群島レイドの最終日です！",
+          "message": ""
+        },
+        {
+          "day": "after",
+          "level": "important",
+          "title": "群島レイドの報酬交換は本日まで！",
+          "message": "交換忘れがないか確認してください。"
+        }
+      ]
+    },
+    "孤島レイド": {
+      "notifications": [
+        {
+          "day": 0,
+          "level": "info",
+          "title": "本日は孤島レイドの登録日です",
+          "message": ""
+        },
+        {
+          "day": 2,
+          "level": "info",
+          "title": "本日から孤島レイドの戦闘が始まります！",
+          "message": ""
+        },
+        {
+          "day": "last",
+          "level": "warning",
+          "title": "本日は孤島レイドの最終日です！",
+          "message": ""
+        },
+        {
+          "day": "after",
+          "level": "important",
+          "title": "孤島レイドの報酬交換は本日まで！",
+          "message": "交換忘れがないか確認してください。"
+        }
+      ]
+    },
+    "同盟リーグ": {
+      "notifications": [
+        {
+          "day": 0,
+          "level": "info",
+          "title": "本日は同盟リーグの登録日です",
+          "message": ""
+        },
+        {
+          "day": 1,
+          "level": "info",
+          "title": "本日から同盟リーグが始まります！",
+          "message": ""
+        },
+        {
+          "day": "last",
+          "level": "warning",
+          "title": "本日は同盟リーグの最終日です！",
+          "message": ""
+        }
+      ]
+    },
+    "極限対決": {
+      "notifications": [
+        {
+          "day": 0,
+          "level": "info",
+          "title": "本日は極限対決の登録日です",
+          "message": ""
+        },
+        {
+          "day": 1,
+          "level": "warning",
+          "title": "本日は極限対決の戦闘日です！",
+          "message": ""
+        }
+      ]
+    },
+    "立入禁止戦域": {
+      "notifications": [
+        {
+          "day": 0,
+          "level": "info",
+          "title": "本日は立入禁止戦域の登録日です",
+          "message": ""
+        },
+        {
+          "day": 1,
+          "level": "warning",
+          "title": "本日は立入禁止戦域の戦闘日です！",
+          "message": ""
+        }
+      ]
+    },
+    "ポンペイ": {
+      "notifications": [
+        {
+          "day": 0,
+          "level": "info",
+          "title": "本日はポンペイの登録日です。",
+          "message": "参加希望者で参加アンケートへの回答を忘れた方はR4へ連絡してください。"
+        },
+        {
+          "day": 1,
+          "level": "warning",
+          "title": "本日はポンペイの戦闘日です！",
+          "message": ""
+        }
+      ]
+    },
+    "ウォーター戦争": {
+      "activeEveryDay": {
+        "requiresOverlap": "オールスターナイト（トップ司令官）",
+        "level": "warning",
+        "title": "ウォーター戦争開催中です！",
+        "message": "イベントに参加しヤスリを獲得してください。"
+      }
+    },
+    "拠点防衛": {
+      "notifications": [
+        {
+          "day": 0,
+          "level": "info",
+          "title": "本日は拠点防衛の開催日です！",
+          "message": "参加予定の方は、イベントを確認してください。"
+        }
+      ]
+    },
+    "地区対決（スゴロク）": {
+      "notifications": [
+        {
+          "day": 0,
+          "level": "info",
+          "title": "本日は地区対決（スゴロク）の登録日です",
+          "message": ""
+        },
+        {
+          "day": 2,
+          "level": "info",
+          "title": "本日から地区対決（スゴロク）が始まります！",
+          "message": ""
+        },
+        {
+          "day": "last",
+          "level": "warning",
+          "title": "本日は地区対決（スゴロク）の最終日です！",
+          "message": ""
+        }
+      ]
+    },
+    "荒野の探索": {
+      "notifications": [
+        {
+          "day": 0,
+          "level": "info",
+          "title": "本日は荒野の探索の登録日です",
+          "message": ""
+        },
+        {
+          "day": 1,
+          "level": "info",
+          "title": "本日から荒野の探索が始まります！",
+          "message": ""
+        },
+        {
+          "day": "last",
+          "level": "warning",
+          "title": "本日は荒野の探索の最終日です！",
+          "message": ""
+        }
+      ]
+    },
+    "オールスターナイト（トップ司令官）": {
+      "notifications": [
+        {
+          "day": 0,
+          "level": "info",
+          "title": "トップ司令官：スピードアップの日",
+          "message": ""
+        },
+        {
+          "day": 1,
+          "level": "info",
+          "title": "トップ司令官：ヒーローの日",
+          "message": ""
+        },
+        {
+          "day": 2,
+          "level": "warning",
+          "title": "トップ司令官：兵士訓練の日、ヤスリ利用期限日",
+          "message": "上位を目指す方は、今日が正念場です。幸運を祈ります。"
+        },
+        {
+          "day": 3,
+          "level": "info",
+          "title": "トップ司令官：乗り物の日",
+          "message": ""
+        },
+        {
+          "day": 4,
+          "level": "info",
+          "title": "トップ司令官：兵装・装備の日",
+          "message": ""
+        },
+        {
+          "day": 5,
+          "level": "info",
+          "title": "本日からトップ司令官のオールスター期間です！",
+          "message": ""
+        },
+        {
+          "day": 6,
+          "level": "warning",
+          "title": "本日はトップ司令官の最終日です！",
+          "message": ""
+        }
+      ]
+    },
+    "名誉エンブレム": {
+      "notifications": [
+        {
+          "day": 0,
+          "level": "info",
+          "title": "本日は名誉エンブレムの開催日です！",
+          "message": ""
+        }
+      ]
+    },
+    "砲火の祭典": {
+      "notifications": [
+        {
+          "day": 0,
+          "level": "info",
+          "title": "本日は砲火の祭典の開催日です！",
+          "message": ""
+        }
+      ]
+    },
+    "釣りイベント": {
+      "notifications": [
+        {
+          "day": 0,
+          "level": "info",
+          "title": "本日から釣りイベントが始まります！",
+          "message": ""
+        },
+        {
+          "day": "last",
+          "level": "warning",
+          "title": "本日は釣りイベントの最終日です！",
+          "message": "釣り忘れや報酬の受け取り忘れがないか確認しましょう。"
+        }
+      ]
+    },
+    "黙示録の金庫": {
+      "notifications": [
+        {
+          "day": "last",
+          "level": "warning",
+          "title": "本日は黙示録の金庫の最終日です！",
+          "message": "報酬の受け取り忘れがないか確認しましょう。"
+        },
+        {
+          "day": "after",
+          "level": "important",
+          "title": "黙示録の金庫の交換期限は本日まで！",
+          "message": "交換忘れがないか確認してください。"
+        }
+      ]
+    },
+    "運命の勝者": {
+      "notifications": [
+        {
+          "day": 0,
+          "level": "info",
+          "title": "本日から運命の勝者が始まります！",
+          "message": ""
+        },
+        {
+          "day": "last",
+          "level": "warning",
+          "title": "本日は運命の勝者の最終日です！",
+          "message": ""
+        }
+      ]
+    },
+    "生化獣探索": {
+      "notifications": [
+        {
+          "day": 0,
+          "level": "info",
+          "title": "本日から生化獣探索が始まります！",
+          "message": ""
+        },
+        {
+          "day": "last",
+          "level": "warning",
+          "title": "本日は生化獣探索の最終日です！",
+          "message": ""
+        }
+      ]
+    },
+    "同盟の旅": {
+      "notifications": [
+        {
+          "day": 0,
+          "level": "info",
+          "title": "本日から同盟の旅が始まります！",
+          "message": ""
+        },
+        {
+          "day": "last",
+          "level": "warning",
+          "title": "本日は同盟の旅の最終日です！",
+          "message": ""
+        }
+      ]
+    },
+    "精製チャレンジ": {
+      "notifications": [
+        {
+          "day": 0,
+          "level": "info",
+          "title": "本日から精製チャレンジが始まります！",
+          "message": ""
+        },
+        {
+          "day": "last",
+          "level": "warning",
+          "title": "本日は精製チャレンジの最終日です！",
+          "message": ""
+        }
+      ]
+    },
+    "バイオパンク": {
+      "notifications": [
+        {
+          "day": -1,
+          "level": "warning",
+          "title": "明日からバイオパンクが始まります。",
+          "message": "今日はレーダー基地は保留し、明日に備えてください。"
+        },
+        {
+          "day": 0,
+          "level": "info",
+          "title": "本日からバイオパンクが始まります！",
+          "message": ""
+        },
+        {
+          "day": "last",
+          "level": "warning",
+          "title": "本日はバイオパンクの最終日です！",
+          "message": ""
+        }
+      ]
+    },
+    "沈没船の秘宝": {
+      "notifications": [
+        {
+          "day": 0,
+          "level": "info",
+          "title": "本日から沈没船の秘宝が始まります！",
+          "message": ""
+        },
+        {
+          "day": 1,
+          "level": "important",
+          "title": "本日は沈没船の秘宝の最終日・交換期限日です！",
+          "message": "報酬の交換を忘れずに済ませてください。"
+        }
+      ]
+    }
+  }
+}
