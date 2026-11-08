@@ -47,3 +47,50 @@ body[data-theme="light"] #dls-global-footer {color:#646b77;}
  body[data-theme="light"] #dls-global-header .dls-gh-mobile-nav .dls-gh-link,body[data-theme="light"] #dls-global-header .dls-gh-mobile-nav summary{background:#f1f3f6;color:#2b313b;border-color:#cfd5de;}
  body[data-theme="light"] #dls-global-header .dls-gh-mobile-nav .dls-gh-link[aria-current="page"]{background:#267e89;color:white;border-color:#267e89;}
 }
+
+/* Pink builds on each tool's existing light table and form styles. */
+body[data-dls-palette="pink"] {
+  --dls-rose: #a82a5c;
+  background: #fff5f7;
+  color: #382531;
+}
+body[data-dls-palette="pink"] #dls-global-header {
+  color: #492638;
+  background: #fffafb;
+  border-color: #e6bdcb;
+}
+body[data-dls-palette="pink"] #dls-global-header .dls-gh-brand-sub { color: #7a4d60; }
+body[data-dls-palette="pink"] #dls-global-header nav { border-color: #edd0da; }
+body[data-dls-palette="pink"] #dls-global-header :is(.dls-gh-iconbtn, nav .dls-gh-link, nav summary) {
+  color: #662c45;
+  background: #fff2f6;
+  border-color: #e1b6c6;
+}
+body[data-dls-palette="pink"] #dls-global-header :is(nav .dls-gh-link:hover, nav summary:hover, details[open] > summary, .dls-gh-iconbtn:hover) {
+  background: #f9dfe8;
+}
+body[data-dls-palette="pink"] #dls-global-header nav .dls-gh-link[aria-current="page"] {
+  color: white; background: var(--dls-rose); border-color: var(--dls-rose);
+}
+body[data-dls-palette="pink"] #dls-global-header .dls-gh-drop { background: #fffbfc; border-color: #e1b6c6; }
+body[data-dls-palette="pink"] #dls-global-header .dls-gh-drop a:is(:hover, [aria-current]) { background: #f9dfe8; }
+body[data-dls-palette="pink"] #dls-global-header :focus-visible { outline-color: var(--dls-rose); }
+body[data-dls-palette="pink"] #dls-global-footer { color: #775665; }
+
+#dls-global-header .dls-gh-heart {
+  width: auto; gap: 5px; padding: 0 10px; border-radius: 20px;
+  white-space: nowrap; font-size: 13px; font-weight: 700;
+}
+#dls-global-header .dls-gh-heart span { color: #fb8eb3; font-size: 18px; line-height: 1; }
+body[data-theme="light"] #dls-global-header .dls-gh-heart span { color: #a82a5c; }
+body[data-dls-palette="pink"] #dls-global-header .dls-gh-heart[aria-pressed="true"] {
+  background: var(--dls-rose); border-color: var(--dls-rose); color: white;
+}
+body[data-dls-palette="pink"] #dls-global-header .dls-gh-heart span { color: white; }
+body[data-dls-palette="pink"] #dls-global-header .dls-gh-brand-title::after {
+  content: "♥" / ""; margin-inline-start: .35em; color: var(--dls-rose); font-size: .8em;
+}
+@media (max-width: 380px) {
+  #dls-global-header .dls-gh-top { flex-wrap: wrap; gap: 6px; }
+  #dls-global-header .dls-gh-actions { margin-left: auto; gap: 4px; }
+}

@@ -29,6 +29,7 @@
         <span class="dls-gh-brand-title">DLS TOOL HUB</span><span class="dls-gh-brand-sub">だい3ゲームch</span>
       </a>
       <div class="dls-gh-actions">
+        <button class="dls-gh-iconbtn dls-gh-heart" id="dls-heart-toggle" type="button" aria-pressed="false"><span aria-hidden="true">♥</span>愛の戦士</button>
         <button class="dls-gh-iconbtn" id="dls-theme-toggle" type="button" aria-label="テーマを切り替える" title="テーマを切り替える">☀</button>
         <button class="dls-gh-iconbtn dls-gh-mobile" id="dls-menu-toggle" type="button" aria-label="メニューを開く" aria-expanded="false" aria-controls="dls-mobile-nav">☰</button>
       </div>
@@ -36,20 +37,43 @@
     <nav class="dls-gh-nav" aria-label="ツールナビゲーション">${navContents()}</nav>
     <nav class="dls-gh-mobile-nav" id="dls-mobile-nav" aria-label="スマホ用ツールナビゲーション">${navContents()}</nav>
   </div>`;
-  // Keep the existing Ver.0.8 theme storage key for backward compatibility.
-  let theme = 'dark';
-  try { theme = localStorage.getItem('dls-theme-v1') === 'light' ? 'light' : 'dark'; } catch (_) {}
   const themeButton = host.querySelector('#dls-theme-toggle');
-  function applyTheme(value) {
-    theme = value === 'light' ? 'light' : 'dark';
+  const heartButton = host.querySelector('#dls-heart-toggle');
+  let baseTheme = 'dark';
+  let heartActive = false;
+  try {
+    const saved = localStorage.getItem('dls-theme-v1');
+    if (saved === 'light') baseTheme = 'light';
+    heartActive = saved === 'pink' || localStorage.getItem('dls-heart-theme') === 'on';
+  } catch (_) {}
+
+  function applyTheme() {
+    const theme = heartActive ? 'light' : baseTheme;
     document.body.dataset.theme = theme;
+    document.body.dataset.dlsPalette = heartActive ? 'pink' : theme;
+    heartButton.setAttribute('aria-pressed', String(heartActive));
+    heartButton.title = heartActive ? '元の配色に戻す' : '愛の戦士テーマに切り替える';
     themeButton.textContent = theme === 'dark' ? '☀' : '☾';
-    themeButton.setAttribute('aria-label', theme === 'dark' ? 'ライトテーマに切り替える' : 'ダークグレーテーマに切り替える');
-    themeButton.title = themeButton.getAttribute('aria-label');
-    try { localStorage.setItem('dls-theme-v1', theme); } catch (_) {}
+    themeButton.title = theme === 'dark' ? 'ライトテーマに切り替える' : 'ダークグレーテーマに切り替える';
+    themeButton.setAttribute('aria-label', themeButton.title);
   }
-  applyTheme(theme);
-  themeButton.addEventListener('click', () => applyTheme(theme === 'dark' ? 'light' : 'dark'));
+  function saveTheme() {
+    applyTheme();
+    try {
+      localStorage.setItem('dls-theme-v1', baseTheme);
+      localStorage.setItem('dls-heart-theme', heartActive ? 'on' : 'off');
+    } catch (_) {}
+  }
+  applyTheme();
+  heartButton.addEventListener('click', () => {
+    heartActive = !heartActive;
+    saveTheme();
+  });
+  themeButton.addEventListener('click', () => {
+    baseTheme = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+    heartActive = false;
+    saveTheme();
+  });
   const menuButton = host.querySelector('#dls-menu-toggle');
   const mobileNav = host.querySelector('#dls-mobile-nav');
   menuButton.addEventListener('click', () => {
