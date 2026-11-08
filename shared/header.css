@@ -1,0 +1,49 @@
+/* DLS TOOL HUB shared navigation v1.0 — namespace all selectors to avoid tool CSS conflicts. */
+#dls-global-header, #dls-global-header *, #dls-global-footer, #dls-global-footer * { box-sizing: border-box; }
+#dls-global-header { font-family: "Segoe UI", "Yu Gothic", Meiryo, sans-serif; color: #e7e8eb; background:#23262b; border-bottom:1px solid #41454d; }
+#dls-global-header .dls-gh-inner { max-width:1400px; margin:auto; padding:15px 24px 12px; }
+#dls-global-header a { color:inherit; text-decoration:none; }
+#dls-global-header .dls-gh-top { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+#dls-global-header .dls-gh-brand { display:inline-flex; flex-direction:column; gap:3px; line-height:1.2; }
+#dls-global-header .dls-gh-brand-title { font-size:23px; font-weight:800; letter-spacing:.03em; }
+#dls-global-header .dls-gh-brand-sub { font-size:12px; color:#aeb8c5; }
+#dls-global-header .dls-gh-actions { display:flex; align-items:center; gap:8px; }
+#dls-global-header .dls-gh-iconbtn { display:inline-flex; align-items:center; justify-content:center; width:38px; height:38px; border:1px solid #4d525c; border-radius:9px; color:#e9edf2; background:#343940; cursor:pointer; font-size:19px; }
+#dls-global-header .dls-gh-iconbtn:hover { background:#454b54; }
+#dls-global-header .dls-gh-iconbtn:focus-visible, #dls-global-header a:focus-visible, #dls-global-header summary:focus-visible {outline:2px solid #8ad8e5;outline-offset:2px;}
+#dls-global-header .dls-gh-nav { display:flex; flex-wrap:wrap; align-items:center; gap:7px; margin-top:13px; padding-top:12px; border-top:1px solid #41454d; }
+#dls-global-header .dls-gh-link, #dls-global-header .dls-gh-nav summary { display:block; border:1px solid #474c56; background:#343941; border-radius:8px; padding:9px 12px; font-size:13px; font-weight:700; white-space:nowrap; line-height:1.4; cursor:pointer; list-style:none; }
+#dls-global-header .dls-gh-nav summary::-webkit-details-marker {display:none;}
+#dls-global-header .dls-gh-link:hover, #dls-global-header .dls-gh-nav summary:hover { background:#454c55; }
+#dls-global-header .dls-gh-link[aria-current="page"] { background:#267e89; border-color:#267e89; color:white; }
+#dls-global-header .dls-gh-group { position:relative; }
+#dls-global-header .dls-gh-group[open] > summary { background:#43535b; }
+#dls-global-header .dls-gh-drop {position:absolute; z-index:30; top:calc(100% + 5px); left:0; min-width:235px; padding:5px; background:#292d33; border:1px solid #535964; box-shadow:0 15px 35px #0007; border-radius:10px; }
+#dls-global-header .dls-gh-drop a { display:block; padding:11px 12px; font-size:13px; border-radius:6px; }
+#dls-global-header .dls-gh-drop a:hover, #dls-global-header .dls-gh-drop a[aria-current="page"] { background:#3e5058; }
+#dls-global-header .dls-gh-mobile { display:none; }
+#dls-global-header .dls-gh-mobile-nav { display:none; }
+#dls-global-footer {font-family:"Segoe UI", "Yu Gothic", Meiryo,sans-serif; color:#a2a5ae; font-size:11px; text-align:center; line-height:1.8; padding:12px 10px 4px;}
+body[data-theme="light"] #dls-global-header { background:#fff; color:#262c34; border-color:#d5d9e0; }
+body[data-theme="light"] #dls-global-header .dls-gh-brand-sub { color:#5e6c7d; }
+body[data-theme="light"] #dls-global-header .dls-gh-nav { border-color:#dce0e6; }
+body[data-theme="light"] #dls-global-header .dls-gh-iconbtn, body[data-theme="light"] #dls-global-header .dls-gh-link, body[data-theme="light"] #dls-global-header .dls-gh-nav summary {background:#f1f3f6;color:#2b313b;border-color:#cfd5de;}
+body[data-theme="light"] #dls-global-header .dls-gh-iconbtn:hover,body[data-theme="light"] #dls-global-header .dls-gh-link:hover,body[data-theme="light"] #dls-global-header .dls-gh-nav summary:hover {background:#e2e9ee;}
+body[data-theme="light"] #dls-global-header .dls-gh-link[aria-current="page"] {background:#267e89;border-color:#267e89;color:#fff;}
+body[data-theme="light"] #dls-global-header .dls-gh-group[open]>summary {background:#dcebf0;}
+body[data-theme="light"] #dls-global-header .dls-gh-drop {background:#fff;border-color:#cbd2dc;box-shadow:0 14px 30px #0002;}
+body[data-theme="light"] #dls-global-header .dls-gh-drop a:hover,body[data-theme="light"] #dls-global-header .dls-gh-drop a[aria-current="page"] {background:#e2edf1;}
+body[data-theme="light"] #dls-global-footer {color:#646b77;}
+@media(max-width:720px){
+ #dls-global-header .dls-gh-inner{padding:13px 12px;}
+ #dls-global-header .dls-gh-brand-title{font-size:20px;}
+ #dls-global-header .dls-gh-nav{display:none;}
+ #dls-global-header .dls-gh-mobile{display:inline-flex;}
+ #dls-global-header .dls-gh-mobile-nav.is-open{display:block;margin-top:12px;border-top:1px solid #49505a;padding-top:8px;}
+ #dls-global-header .dls-gh-mobile-nav .dls-gh-link,#dls-global-header .dls-gh-mobile-nav summary {display:block;width:100%;margin:4px 0;padding:11px 12px;border:1px solid #474c56;background:#343941;color:inherit;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;list-style:none;}
+ #dls-global-header .dls-gh-mobile-nav summary::-webkit-details-marker{display:none;}
+ #dls-global-header .dls-gh-mobile-nav .dls-gh-link[aria-current="page"]{background:#267e89;color:white;border-color:#267e89;}
+ #dls-global-header .dls-gh-mobile-nav .dls-gh-drop{position:static;box-shadow:none;min-width:0;margin:4px 0 7px 12px;}
+ body[data-theme="light"] #dls-global-header .dls-gh-mobile-nav .dls-gh-link,body[data-theme="light"] #dls-global-header .dls-gh-mobile-nav summary{background:#f1f3f6;color:#2b313b;border-color:#cfd5de;}
+ body[data-theme="light"] #dls-global-header .dls-gh-mobile-nav .dls-gh-link[aria-current="page"]{background:#267e89;color:white;border-color:#267e89;}
+}
