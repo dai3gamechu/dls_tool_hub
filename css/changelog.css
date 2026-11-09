@@ -95,3 +95,17 @@ body[data-heart-mode="on"] .weekly-editor-list,body[data-heart-mode="on"] .weekl
 body[data-heart-mode="on"] .weekly-editor-date,body[data-heart-mode="on"] .weekly-editor-count,body[data-heart-mode="on"] .weekly-editor-edit summary{color:#9c426e!important}
 body[data-heart-mode="on"] .weekly-editor-edit input,body[data-heart-mode="on"] .weekly-editor-edit textarea{background:#fff9fc!important;color:#753957!important;border-color:#e9b8ce!important}
 @media(max-width:720px){.weekly-editor{padding:10px}.weekly-editor-list{max-height:250px}}
+
+/* Week-copy 500-character guard (compatible with all existing themes). */
+#noticeCopyCount{font-weight:800;font-variant-numeric:tabular-nums}
+#noticeCopyCount[data-state="near"]{color:#e7ba70}
+#noticeCopyCount[data-state="over"]{color:#ff9595}
+.notice-copy-meter{width:100%;height:7px;overflow:hidden;border-radius:99px;background:#454b55;margin-top:7px}
+.notice-copy-meter-bar{height:100%;width:0;background:#76b8a6;border-radius:inherit;transition:width .12s ease,background .12s ease}
+.notice-copy-meter-bar[data-state="near"]{background:#daa457}
+.notice-copy-meter-bar[data-state="over"]{background:#de6971}
+body[data-theme="light"] #noticeCopyCount[data-state="near"]{color:#99620f}
+body[data-theme="light"] #noticeCopyCount[data-state="over"]{color:#b53140}
+body[data-theme="light"] .notice-copy-meter{background:#e2e7ec}
+body[data-heart-mode="on"] #noticeCopyCount[data-state="over"]{color:#c1325e!important}
+body[data-heart-mode="on"] .notice-copy-meter{background:#f4cfdf!important}
