@@ -193,16 +193,135 @@ document.getElementById('sortMode').onchange=e=>{sortMode=e.target.value;if(view
   return {text:chunks.join('\n\n').replace(/(■ [^\n]+)\n\n(?=【)/g,'$1\n'),count:all.length,from:day,to:until};
  }
  function syncCopyCount(){noticeCopyCount.textContent=Array.from(noticeCopyText.value).length+'文字';document.getElementById('noticeCopyDo').disabled=!noticeCopyText.value.trim()}
+ // Week editor is intentionally ephemeral: nothing is stored or written back to JSON.
+ const weeklyEditor=document.getElementById('weeklyEditor');
+ const weeklyEditorList=document.getElementById('weeklyEditorList');
+ const weeklySelectedCount=document.getElementById('weeklySelectedCount');
+ const weeklyEditorSummary=document.getElementById('weeklyEditorSummary');
+ let weeklyCandidates=[],weekDraftEdited=false;
+ const shortTitle=title=>title.replace(/^本日は(?:、)?/,'').replace(/^本日から/,'').replace(/^今日は/,'').trim();
+ // Only start/held info notifications are allowed as optional blue candidates.
+ function isWeekStartInfo(n){
+  return n.source==='auto'&&n.level==='info'&&/(始まり|始まります|開催日|開催されます|開始|登録日)/.test(n.title)
+   && !/(トップ司令官：|オールスター期間)/.test(n.title);
+ }
+ function selectedByDefault(n){
+  if(n.source==='manual'||n.level==='important')return true;
+  if(n.level==='info')return false; // Blue start alerts are selectable candidates, not copied by default.
+  // A bare final-day warning is optional by default; deadlines are selected.
+  if(/最終日/.test(n.title)&&!/(交換|報酬|受取|受け取り|期限)/.test(n.title))return false;
+  return true;
+ }
+ function weekCandidates(){
+  const now=Date.now(),day=fullUtcDay(now);
+  const until=day+((7-new Date(day).getUTCDay())%7)*dayMS;
+  const output=[];
+  for(let d=day;d<=until;d+=dayMS){
+   const start=Math.max(d,now),end=d+dayMS;
+   const manual=entries.filter(n=>Date.parse(n.start)<end&&Date.parse(n.end)>start).map(n=>({...n,source:'manual'}));
+   const auto=buildAutoNotices(d);
+   for(const n of [...manual,...auto].filter(n=>eligible(n)||isWeekStartInfo(n)).sort(compareNotices)){
+    const identity=n.source==='manual'?n.id:n.event;
+    const key=JSON.stringify([d,n.source,identity,n.title]);
+    const title=shortTitle(n.title);
+    // Remove generic daily-detail prose from the weekly default, retain deadlines and useful advance advice.
+    const message=n.source==='manual'||n.level==='important'||/報酬が良い|チームは組んで|受け取り漏れ|交換忘れ/.test(n.message)?n.message.trim():'';
+    output.push({key,day:d,notice:n,selected:selectedByDefault(n),defaultSelected:selectedByDefault(n),title,message});
+   }
+  }
+  return output;
+ }
+ function weeklyText(){
+  const chosen=weeklyCandidates.filter(n=>n.selected);
+  if(!chosen.length)return '';
+  const rows=['【今週のお知らせ（UTC）】'];
+  let day=null;
+  for(const c of chosen){
+   if(day!==c.day){rows.push('',`■ ${copyDate(c.day)}`);day=c.day;}
+   rows.push(`【${labels[c.notice.level]}】${c.title}`);
+   if(c.message.trim())rows.push(c.message.trim());
+  }
+  return rows.join('\n');
+ }
+ function updateWeekDraft(ask=true){
+  if(ask&&weekDraftEdited&&!confirm('文章欄に直接加えた変更を、選択内容から再生成して置き換えますか？'))return false;
+  noticeCopyText.value=weeklyText();
+  weekDraftEdited=false;
+  const count=weeklyCandidates.filter(x=>x.selected).length;
+  weeklySelectedCount.textContent=count+'件選択';
+  weeklyEditorSummary.textContent=`候補 ${weeklyCandidates.length} 件／選択 ${count} 件。最終確認で文章を自由に編集できます。`;
+  noticeCopyMessage.textContent=count?'内容を選び、文章を確認・編集してコピーしてください。':'選択中のお知らせはありません。';
+  noticeCopyMessage.dataset.error='false';
+  syncCopyCount();
+  return true;
+ }
+ function renderWeekEditor(){
+  weeklyEditorList.replaceChildren();
+  let lastDay=null;
+  for(const candidate of weeklyCandidates){
+   if(candidate.day!==lastDay){
+    const date=document.createElement('div');date.className='weekly-editor-date';date.textContent='■ '+copyDate(candidate.day);weeklyEditorList.append(date);lastDay=candidate.day;
+   }
+   const item=document.createElement('div');item.className='weekly-editor-item';item.dataset.level=candidate.notice.level;
+   const row=document.createElement('div');row.className='weekly-editor-row';
+   const checkbox=document.createElement('input');checkbox.type='checkbox';checkbox.className='weekly-editor-checkbox';checkbox.checked=candidate.selected;checkbox.setAttribute('aria-label',candidate.title+'をコピー対象にする');
+   const summary=document.createElement('div');summary.className='weekly-editor-summary';
+   const tag=document.createElement('span');tag.className='weekly-level';tag.textContent=labels[candidate.notice.level];
+   const headline=document.createElement('span');headline.textContent=candidate.title;
+   summary.append(tag,headline);
+   row.append(checkbox,summary);item.append(row);
+   checkbox.addEventListener('change',()=>{
+    const old=candidate.selected;candidate.selected=checkbox.checked;
+    if(!updateWeekDraft()){candidate.selected=old;checkbox.checked=old;return}
+    summary.style.opacity=candidate.selected?'':'.57';
+   });
+   const details=document.createElement('details');details.className='weekly-editor-edit';
+   const toggle=document.createElement('summary');toggle.textContent='文章を調整';details.append(toggle);
+   const titleLabel=document.createElement('label');titleLabel.textContent='タイトル（週間コピー用）';
+   const titleInput=document.createElement('input');titleInput.type='text';titleInput.value=candidate.title;
+   const msgLabel=document.createElement('label');msgLabel.textContent='補足文（空欄でもOK）';
+   const msgInput=document.createElement('textarea');msgInput.value=candidate.message;
+   details.append(titleLabel,titleInput,msgLabel,msgInput);
+   const changeField=(field,value)=>{
+    const old=candidate[field];candidate[field]=value;
+    if(!updateWeekDraft()){candidate[field]=old;return false}
+    headline.textContent=candidate.title;
+    return true;
+   };
+   titleInput.addEventListener('change',()=>{if(!changeField('title',titleInput.value))titleInput.value=candidate.title});
+   msgInput.addEventListener('change',()=>{if(!changeField('message',msgInput.value))msgInput.value=candidate.message});
+   item.append(details);weeklyEditorList.append(item);
+  }
+ }
+ function setWeekChecks(choice){
+  if(weekDraftEdited&&!confirm('文章欄の手動変更を破棄して選択内容を更新しますか？'))return;
+  for(const candidate of weeklyCandidates)candidate.selected=choice==='all'?true:choice==='none'?false:candidate.defaultSelected;
+  renderWeekEditor();updateWeekDraft(false);
+ }
+ document.getElementById('weeklySelectAll').addEventListener('click',()=>setWeekChecks('all'));
+ document.getElementById('weeklySelectNone').addEventListener('click',()=>setWeekChecks('none'));
+ document.getElementById('weeklyRestore').addEventListener('click',()=>setWeekChecks('default'));
  function showCopy(which){
   const result=makeCopyText(which);
   copyReturnFocus=document.activeElement;
-  document.getElementById('noticeCopyTitle').textContent=which==='today'?'📋 今日のお知らせをコピー':'📅 今週のお知らせをコピー';
-  document.getElementById('noticeCopyPeriod').textContent=`対象：${copyDate(result.from)}${result.to!==result.from?'〜'+copyDate(result.to):''}（UTC）／ ${result.count}件`;
-  noticeCopyText.value=result.text;
+  document.getElementById('noticeCopyTitle').textContent=which==='today'?'📋 今日のお知らせをコピー':'📅 今週のお知らせを編集・コピー';
+  const note=document.getElementById('noticeCopyNote');
+  if(which==='week'){
+   weeklyCandidates=weekCandidates();weeklyEditor.hidden=false;
+   renderWeekEditor();weekDraftEdited=false;updateWeekDraft(false);
+   const today=fullUtcDay(Date.now());const until=today+((7-new Date(today).getUTCDay())%7)*dayMS;
+   document.getElementById('noticeCopyPeriod').textContent=`対象：${copyDate(today)}〜${copyDate(until)}（UTC）`;
+   note.textContent='週間向け：重要・注意に加えて、イベント開始の青い自動通知も候補に表示します。選択と個別編集はJSONに保存されません。';
+  }else{
+   weeklyEditor.hidden=true;
+   document.getElementById('noticeCopyPeriod').textContent=`対象：${copyDate(result.from)}（UTC）／ ${result.count}件`;
+   noticeCopyText.value=result.text;
+   note.textContent='自動通知は重要・注意のみ、手動通知は全レベルが対象です。編集内容はJSONに保存されません。';
+   noticeCopyMessage.textContent=result.count?'文章を確認・編集してからコピーしてください。':'コピー対象のお知らせはありません。';
+   noticeCopyMessage.dataset.error='false';
+   syncCopyCount();
+  }
   noticeCopyText.placeholder='対象のお知らせはありません。';
-  noticeCopyMessage.textContent=result.count?'文章を確認・編集してからコピーしてください。':'コピー対象のお知らせはありません。';
-  noticeCopyMessage.dataset.error='false';
-  syncCopyCount();
   noticeCopyDialog.classList.add('show');noticeCopyDialog.setAttribute('aria-hidden','false');
   document.getElementById('noticeCopyClose').focus();
  }
@@ -222,7 +341,7 @@ document.getElementById('sortMode').onchange=e=>{sortMode=e.target.value;if(view
    else if(!e.shiftKey&&document.activeElement===targets[targets.length-1]){e.preventDefault();targets[0].focus()}
   }
  });
- noticeCopyText.addEventListener('input',()=>{syncCopyCount();noticeCopyMessage.textContent='編集した文章をコピーできます。';noticeCopyMessage.dataset.error='false'});
+ noticeCopyText.addEventListener('input',()=>{if(!weeklyEditor.hidden)weekDraftEdited=true;syncCopyCount();noticeCopyMessage.textContent='編集した文章をコピーできます。';noticeCopyMessage.dataset.error='false'});
  document.getElementById('noticeCopyDo').addEventListener('click',async()=>{
   const text=noticeCopyText.value;
   if(!text.trim())return;
@@ -243,7 +362,7 @@ document.getElementById('sortMode').onchange=e=>{sortMode=e.target.value;if(view
   const today=fullUtcDay(now);
   const until=today+((7-new Date(today).getUTCDay())%7)*dayMS;
   let futureAvailable=false;
-  for(let day=today;day<=until;day+=dayMS){if(copyForDay(day,now).length){futureAvailable=true;break}}
+  for(let day=today;day<=until;day+=dayMS){if(copyForDay(day,now).length||buildAutoNotices(day).some(isWeekStartInfo)){futureAvailable=true;break}}
   panel.hidden=visible.length===0&&!futureAvailable;
   list.replaceChildren();
   visible.slice(0,expanded?undefined:3).forEach(n=>{
