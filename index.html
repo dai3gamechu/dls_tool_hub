@@ -235,8 +235,53 @@ body[data-heart-mode="on"] .dls-heart-sky .dls-heart.dls-heart-giant {
   body[data-heart-mode="on"] .mnum {font-size:12px;}
 }
 </style>
-</head><body><div id="dls-global-header" data-tool="event"><a href="https://dai3gamechu.github.io/dls_tool_hub/">DLS TOOL HUB | だい3ゲームch</a></div><div class="app"><header class="top"><div><div class="eyebrow">EVENT CALENDAR</div><h1>イベントスケジュール</h1><div class="muted sub">DLSイベントの開催予定をUTC基準で確認</div></div></header><section class="card" id="noticePanel" aria-labelledby="noticeHeading" hidden><div class="notice-heading"><span aria-hidden="true">📢</span><h2 id="noticeHeading">お知らせ</h2></div><div class="notice-list" id="noticeList"></div><button class="btn notice-expand" id="noticeExpand" type="button" hidden aria-expanded="false"></button></section><div class="shell"><main class="card"><div class="headrow"><div class="nav"><button class="btn" id="prev">❮</button><button class="btn" id="today">今週 / 今月</button><button class="btn" id="next">❯</button></div><div class="nav"><div class="control"><button id="weekly" class="active">週間</button><button id="monthly">月間</button></div></div></div><div class="headrow"><div class="period" id="period"></div><div class="utc-now" id="utcNow" aria-live="off"></div></div><details class="display-settings" id="displaySettings"><summary><span>⚙ 表示設定</span><span class="display-settings-current" id="displaySettingsCurrent">現在：開始日が早い順</span></summary><div class="sorting"><label for="sortMode">表示順</label><select id="sortMode"><option value="date" selected>開始日が早い順</option><option value="custom">指定したイベント順</option></select><button class="btn" id="editOrder">並び順を編集</button></div></details><div class="legend" id="legend"></div><div class="fine" style="margin:-12px 0 18px">カテゴリーをクリックして絞り込み。さらに選ぶと複数カテゴリーを同時表示できます。</div><div id="calendar"></div><div class="fine" id="dataStatus" role="status" style="margin-top:12px">共通データを読み込み中…</div><div class="note">掲載されているスケジュールは、だい３の記録に基づき作成された<strong>予想日程</strong>です。公式確定日とは限りません。臨時イベントはページ管理者が手動で登録するため、反映が遅れる場合があります。何卒ご了承ください。</div></main><aside class="card right"><div class="section"><div class="muted sub">表示中のイベント</div><div class="stat" id="counter">—</div><span class="pill" id="periodMode">週間表示</span></div><div class="section"><h2>イベントを選択</h2><p class="muted">色付きのバーや月間カレンダーのイベント名をクリックすると、開始・終了日時、開催周期、備考を確認できるよ。</p></div><div class="section"><h2>仕様・データ</h2><ul><li>21種類のイベントを登録済み</li><li>カテゴリーは確定済みの6分類</li><li>時刻はすべてUTC（00:00開始）</li><li>開催最終日の翌日00:00終了</li><li>オールスターナイトは兵種による周期表示なし</li><li>臨時イベントはGitHubで一元管理</li></ul></div><div class="section"><h2>表示方法</h2><p class="fine">「すべて」からカテゴリーを選ぶとそのカテゴリーだけ表示、追加で選ぶと複数表示。並び順はイベント単位で編集できます。すべての時刻はUTCです。全イベントの表示は基準日から周期計算された予想。共通イベントデータをGitHubから取得します。並び順と配色の好みだけ各ブラウザに保存します。</p></div></aside></div><footer class="foot">イベントスケジュール Ver.0.8 · GitHub共通データ版<div id="dls-global-footer">DLS TOOL HUB | だい3ゲームch · 非公式ファンツール</div></footer></div>
-<div class="dialog" id="orderDlg"><div class="modal"><div class="headrow"><h2>イベントの並び順を編集</h2><button class="btn" id="closeOrder">✕</button></div><p class="muted sub">左の「⠿」をつかんで、好きな位置へドラッグ＆ドロップできます。▲▼や「先頭へ」も利用可能。指定したイベント順を選ぶと週間・月間の両方で使えます。週間の標準は開始日順、月間の標準は指定順です。個人の並び替え設定は、このブラウザに保存されます。</p><div id="orderList"></div><div class="modalfooter"><button class="btn" id="resetOrder">初期順に戻す</button><button class="btn primary" id="doneOrder">完了</button></div></div></div><div class="dialog" id="detailDlg"><div class="modal"><div class="headrow"><h2 id="detailName"></h2><button class="btn" id="closeDetail">✕</button></div><div id="detailBody"></div><div class="modalfooter"><button class="btn primary" id="doneDetail">閉じる</button></div></div></div>
+
+<style id="dls-changelog-style">
+/* Recent update panel: compact rounded card shown beside the title. */
+.update-teaser{display:flex;flex-direction:column;align-items:flex-start;gap:10px;min-width:250px;max-width:360px;padding:17px 18px 16px;border:1px solid #434952;border-radius:20px;background:linear-gradient(155deg,#31353c 0%,#2a2d33 58%,#25282d 100%);color:#eef1f4;text-align:left;box-shadow:inset 0 1px 0 #ffffff10,0 10px 28px #0000002f;cursor:pointer;transition:transform .15s ease,border-color .2s ease,box-shadow .2s ease,background .2s ease}
+.update-teaser:hover{transform:translateY(-1px);border-color:#6d8794;background:linear-gradient(155deg,#373c44 0%,#2d3138 58%,#282b31 100%);box-shadow:inset 0 1px 0 #ffffff15,0 14px 32px #00000038}
+.update-teaser:focus-visible{outline:2px solid #95ddeb;outline-offset:3px}
+.update-teaser-head{display:flex;align-items:center;gap:11px;width:100%}
+.update-teaser-icon{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:999px;border:1px solid #5f6770;background:#ffffff10;color:#dce5ec;flex:0 0 28px;font-size:15px;box-shadow:inset 0 1px 0 #ffffff20}
+.update-teaser-version-wrap{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.update-teaser-version{font-size:15px;font-weight:800;letter-spacing:.01em}
+.update-teaser-new{font-size:10px;font-weight:900;letter-spacing:.06em;color:#154339;background:#a7e0c8;border-radius:999px;padding:4px 9px;line-height:1}
+.update-teaser-date{font-size:12px;color:#c6cdd6;padding-left:39px}
+.update-teaser-action{display:flex;align-items:center;gap:6px;font-size:13px;color:#e9edf1;font-weight:800;padding-left:39px}
+.update-teaser-action .mutedicon{opacity:.7}
+body[data-theme="light"] .update-teaser{background:linear-gradient(155deg,#fbfbfc 0%,#f3f5f8 62%,#edf1f5 100%);color:#1f2730;border-color:#d7dde4;box-shadow:inset 0 1px 0 #ffffff,0 8px 22px #22334412}
+body[data-theme="light"] .update-teaser:hover{background:linear-gradient(155deg,#ffffff 0%,#f6f9fb 62%,#eef3f6 100%);border-color:#bfcbd5;box-shadow:inset 0 1px 0 #ffffff,0 10px 24px #22334418}
+body[data-theme="light"] .update-teaser-icon{background:#f2f5f8;border-color:#d3d9df;color:#53606c;box-shadow:inset 0 1px 0 #fff}
+body[data-theme="light"] .update-teaser-date{color:#66717d}
+body[data-theme="light"] .update-teaser-action{color:#2a3542}
+body[data-heart-mode="on"] .update-teaser{background:linear-gradient(160deg,#fff7fb 0%,#ffeef6 58%,#ffe6f1 100%)!important;color:#8f355e!important;border-color:#e6b2c9!important;box-shadow:inset 0 1px 0 #fff,0 12px 26px #d596b21f!important}
+body[data-heart-mode="on"] .update-teaser:hover{background:linear-gradient(160deg,#fffafc 0%,#fff1f7 56%,#ffe7f1 100%)!important;border-color:#df9ebd!important;box-shadow:inset 0 1px 0 #fff,0 14px 28px #d596b230!important}
+body[data-heart-mode="on"] .update-teaser-icon{background:#fff1f7!important;border-color:#e0afc5!important;color:#9b3f66!important;box-shadow:inset 0 1px 0 #fff!important}
+body[data-heart-mode="on"] .update-teaser-date{color:#99627d!important}
+body[data-heart-mode="on"] .update-teaser-action{color:#8f355e!important}
+body[data-heart-mode="on"] .update-teaser-new{background:#cc5d93!important;color:#fff!important}
+@media(max-width:720px){.update-teaser{width:100%;max-width:none;min-width:0}.app>.top{align-items:stretch}}
+
+.version-link{background:transparent;border:0;color:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer;font-size:inherit;padding:4px 5px;border-radius:5px}
+.version-link:hover{color:#9bd5e4}.version-link:focus-visible{outline:2px solid #83c8d4;outline-offset:2px}
+.version-modal{max-width:620px}.version-history{margin-top:17px;max-height:55vh;overflow:auto}
+.version-release{border:1px solid #4a5059;border-radius:12px;padding:15px 16px;margin:10px 0;background:linear-gradient(165deg,#30333a,#2a2d33)}
+.version-release-title{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:baseline}
+.version-release-title strong{font-size:16px;color:#9fdae6}.version-release-title time{font-size:12px;color:#b7beca}
+.version-release h3{font-size:14px;margin:8px 0;color:inherit}.version-release ul{margin:9px 0 0;padding-left:20px;line-height:1.8;font-size:13px}.version-release li{margin:2px 0}
+.version-empty{font-size:13px;line-height:1.8;color:#b9c0c9;padding:8px}
+body[data-theme="light"] .version-release{background:linear-gradient(165deg,#ffffff,#f3f6f8);border-color:#d0d7df}
+body[data-theme="light"] .version-release-title strong{color:#236d7b}
+body[data-theme="light"] .version-release-title time,body[data-theme="light"] .version-empty{color:#5b6777}
+body[data-theme="light"] .version-link:hover{color:#136f89}
+body[data-heart-mode="on"] .version-release{background:linear-gradient(160deg,#fff8fc,#fff0f7)!important;border-color:#eab6ce!important}
+body[data-heart-mode="on"] .version-release-title strong{color:#96325f!important}
+body[data-heart-mode="on"] .version-release-title time,body[data-heart-mode="on"] .version-empty{color:#91536f!important}
+body[data-heart-mode="on"] .version-link:hover{color:#ac3271!important}
+@media(max-width:720px){.version-modal{padding:16px}.version-history{max-height:60vh}}
+</style>
+</head><body><div id="dls-global-header" data-tool="event"><a href="https://dai3gamechu.github.io/dls_tool_hub/">DLS TOOL HUB | だい3ゲームch</a></div><div class="app"><header class="top"><div><div class="eyebrow">EVENT CALENDAR</div><h1>イベントスケジュール</h1><div class="muted sub">DLSイベントの開催予定をUTC基準で確認</div></div><button type="button" class="update-teaser" id="versionTopOpen" aria-haspopup="dialog" aria-controls="versionDlg" aria-label="更新履歴を確認する"><span class="update-teaser-head"><span class="update-teaser-icon" aria-hidden="true">↻</span><span class="update-teaser-version-wrap"><span class="update-teaser-version" id="versionTopText">バージョン確認中…</span><span class="update-teaser-new" id="versionTopNew" hidden>NEW</span></span></span><span class="update-teaser-date" id="versionTopDate">更新情報を読み込み中</span><span class="update-teaser-action"><span class="mutedicon" aria-hidden="true">⌁</span><span>更新履歴を見る</span><span aria-hidden="true">›</span></span></button></header><section class="card" id="noticePanel" aria-labelledby="noticeHeading" hidden><div class="notice-heading"><span aria-hidden="true">📢</span><h2 id="noticeHeading">お知らせ</h2></div><div class="notice-list" id="noticeList"></div><button class="btn notice-expand" id="noticeExpand" type="button" hidden aria-expanded="false"></button></section><div class="shell"><main class="card"><div class="headrow"><div class="nav"><button class="btn" id="prev">❮</button><button class="btn" id="today">今週 / 今月</button><button class="btn" id="next">❯</button></div><div class="nav"><div class="control"><button id="weekly" class="active">週間</button><button id="monthly">月間</button></div></div></div><div class="headrow"><div class="period" id="period"></div><div class="utc-now" id="utcNow" aria-live="off"></div></div><details class="display-settings" id="displaySettings"><summary><span>⚙ 表示設定</span><span class="display-settings-current" id="displaySettingsCurrent">現在：開始日が早い順</span></summary><div class="sorting"><label for="sortMode">表示順</label><select id="sortMode"><option value="date" selected>開始日が早い順</option><option value="custom">指定したイベント順</option></select><button class="btn" id="editOrder">並び順を編集</button></div></details><div class="legend" id="legend"></div><div class="fine" style="margin:-12px 0 18px">カテゴリーをクリックして絞り込み。さらに選ぶと複数カテゴリーを同時表示できます。</div><div id="calendar"></div><div class="fine" id="dataStatus" role="status" style="margin-top:12px">共通データを読み込み中…</div><div class="note">掲載されているスケジュールは、だい３の記録に基づき作成された<strong>予想日程</strong>です。公式確定日とは限りません。臨時イベントはページ管理者が手動で登録するため、反映が遅れる場合があります。何卒ご了承ください。</div></main><aside class="card right"><div class="section"><div class="muted sub">表示中のイベント</div><div class="stat" id="counter">—</div><span class="pill" id="periodMode">週間表示</span></div><div class="section"><h2>イベントを選択</h2><p class="muted">色付きのバーや月間カレンダーのイベント名をクリックすると、開始・終了日時、開催周期、備考を確認できるよ。</p></div><div class="section"><h2>仕様・データ</h2><ul><li>21種類のイベントを登録済み</li><li>カテゴリーは確定済みの6分類</li><li>時刻はすべてUTC（00:00開始）</li><li>開催最終日の翌日00:00終了</li><li>オールスターナイトは兵種による周期表示なし</li><li>臨時イベントはGitHubで一元管理</li></ul></div><div class="section"><h2>表示方法</h2><p class="fine">「すべて」からカテゴリーを選ぶとそのカテゴリーだけ表示、追加で選ぶと複数表示。並び順はイベント単位で編集できます。すべての時刻はUTCです。全イベントの表示は基準日から周期計算された予想。共通イベントデータをGitHubから取得します。並び順と配色の好みだけ各ブラウザに保存します。</p></div></aside></div><footer class="foot">イベントスケジュール <button type="button" class="version-link" id="versionOpen" aria-haspopup="dialog" aria-controls="versionDlg"><span id="versionText">Ver.0.8</span> · 更新履歴</button> · GitHub共通データ版<div id="dls-global-footer">DLS TOOL HUB | だい3ゲームch · 非公式ファンツール</div></footer></div>
+<div class="dialog" id="orderDlg"><div class="modal"><div class="headrow"><h2>イベントの並び順を編集</h2><button class="btn" id="closeOrder">✕</button></div><p class="muted sub">左の「⠿」をつかんで、好きな位置へドラッグ＆ドロップできます。▲▼や「先頭へ」も利用可能。指定したイベント順を選ぶと週間・月間の両方で使えます。週間の標準は開始日順、月間の標準は指定順です。個人の並び替え設定は、このブラウザに保存されます。</p><div id="orderList"></div><div class="modalfooter"><button class="btn" id="resetOrder">初期順に戻す</button><button class="btn primary" id="doneOrder">完了</button></div></div></div><div class="dialog" id="versionDlg" role="dialog" aria-modal="true" aria-labelledby="versionTitle" aria-hidden="true"><div class="modal version-modal"><div class="headrow"><h2 id="versionTitle">📋 バージョン・更新履歴</h2><button class="btn" type="button" id="versionClose" aria-label="更新履歴を閉じる">✕</button></div><p class="fine">DLS TOOL HUBの公開済み更新履歴です。更新日はUTCで表示します。</p><div class="version-history" id="versionHistory" aria-live="polite">読み込み中…</div><div class="modalfooter"><button class="btn primary" type="button" id="versionDone">閉じる</button></div></div></div><div class="dialog" id="detailDlg"><div class="modal"><div class="headrow"><h2 id="detailName"></h2><button class="btn" id="closeDetail">✕</button></div><div id="detailBody"></div><div class="modalfooter"><button class="btn primary" id="doneDetail">閉じる</button></div></div></div>
 
 <script src="./shared/header.js?v=1.1" defer></script>
 
@@ -554,5 +599,90 @@ document.getElementById('sortMode').onchange=e=>{sortMode=e.target.value;if(view
  }
  loadAutoRules();
  load();setInterval(()=>{if(autoRules)autoEntries=buildAutoNotices();draw()},60000);
+})();
+</script>
+<script id="dls-changelog-script">
+(function(){
+  'use strict';
+  const modal=document.getElementById('versionDlg');
+  const open=document.getElementById('versionOpen');
+  const closeBtn=document.getElementById('versionClose');
+  const done=document.getElementById('versionDone');
+  const history=document.getElementById('versionHistory');
+  const badge=document.getElementById('versionText');
+  const topOpen=document.getElementById('versionTopOpen');
+  const topText=document.getElementById('versionTopText');
+  const topDate=document.getElementById('versionTopDate');
+  const topNew=document.getElementById('versionTopNew');
+  let beforeOpen=null;
+  const el=(tag,text)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;return n};
+  function show(){beforeOpen=document.activeElement;modal.classList.add('show');modal.setAttribute('aria-hidden','false');closeBtn.focus()}
+  function hide(){modal.classList.remove('show');modal.setAttribute('aria-hidden','true');if(beforeOpen&&beforeOpen.focus)beforeOpen.focus()}
+  open.addEventListener('click',show);
+  topOpen.addEventListener('click',show);
+  closeBtn.addEventListener('click',hide);
+  done.addEventListener('click',hide);
+  modal.addEventListener('click',e=>{if(e.target===modal)hide()});
+  document.addEventListener('keydown',e=>{
+    if(!modal.classList.contains('show'))return;
+    if(e.key==='Escape'){e.preventDefault();hide();return}
+    if(e.key==='Tab'){
+      const targets=[...modal.querySelectorAll('button:not([disabled]),a[href]')];
+      if(!targets.length)return;
+      if(e.shiftKey&&document.activeElement===targets[0]){e.preventDefault();targets[targets.length-1].focus()}
+      else if(!e.shiftKey&&document.activeElement===targets[targets.length-1]){e.preventDefault();targets[0].focus()}
+    }
+  });
+  function render(data){
+    if(!data||!Array.isArray(data.releases)||typeof data.currentVersion!=='string'||!data.currentVersion.trim())throw new Error('changelog.json の形式が不正です');
+    const versions=new Set();
+    for(const release of data.releases){
+      if(!release||typeof release.version!=='string'||!release.version.trim()||versions.has(release.version)||typeof release.date!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(release.date)||!Number.isFinite(Date.parse(release.date+'T00:00:00Z'))||new Date(release.date+'T00:00:00Z').toISOString().slice(0,10)!==release.date||typeof release.title!=='string'||!Array.isArray(release.changes)||!release.changes.every(x=>typeof x==='string'))throw new Error('更新履歴に不正な項目があります');
+      versions.add(release.version);
+    }
+    if(!versions.has(data.currentVersion))throw new Error('現在のバージョンが更新履歴にありません');
+    badge.textContent='Ver.'+data.currentVersion;
+    topText.textContent='Ver.'+data.currentVersion;
+    const current=data.releases.find(x=>x.version===data.currentVersion);
+    topDate.textContent=current ? current.date.replaceAll('-','/')+' 更新' : '更新日不明';
+    const today=new Date().toISOString().slice(0,10);
+    const elapsed=current ? Math.round((Date.parse(today+'T00:00:00Z')-Date.parse(current.date+'T00:00:00Z'))/86400000) : -1;
+    topNew.hidden=!(elapsed>=0&&elapsed<7);
+    history.replaceChildren();
+    const releases=[...data.releases].sort((a,b)=>b.date.localeCompare(a.date)||b.version.localeCompare(a.version,undefined,{numeric:true}));
+    if(!releases.length){history.append(el('div','更新履歴はまだありません。'));return}
+    for(const release of releases){
+      const section=el('section');section.className='version-release';
+      const top=el('div');top.className='version-release-title';
+      const title=el('strong','Ver.'+release.version+(release.version===data.currentVersion?'（現在）':''));
+      const date=el('time',release.date+' UTC');date.dateTime=release.date;top.append(title,date);section.append(top);
+      section.append(el('h3',release.title));
+      if(release.changes.length){const list=el('ul');for(const change of release.changes)list.append(el('li',change));section.append(list)}
+      history.append(section);
+    }
+  }
+  async function load(){
+    if(location.protocol==='file:'){
+      topText.textContent='更新履歴';
+      topDate.textContent='GitHub公開後に表示';
+      history.textContent='ローカルHTMLでは更新履歴を取得できません。GitHub Pages上で確認してください。';
+      return;
+    }
+    try{
+      const response=await fetch('./changelog.json',{cache:'no-store'});
+      if(!response.ok)throw new Error('HTTP '+response.status);
+      render(await response.json());
+    }catch(error){
+      topText.textContent='更新履歴';
+      topDate.textContent='読み込みできませんでした';
+      topNew.hidden=true;
+      history.replaceChildren();
+      const msg=el('p','更新履歴を読み込めませんでした。changelog.json が公開されているか確認してください。');
+      msg.className='version-empty';
+      history.append(msg);
+      console.warn('更新履歴の読み込みに失敗:',error);
+    }
+  }
+  load();
 })();
 </script></body></html>
