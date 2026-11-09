@@ -394,6 +394,38 @@
           "message": "報酬の受け取り漏れにご注意ください。"
         }
       ]
+    },
+    "物資リコール・お宝交換": {
+      "notifications": [
+        {
+          "day": 0,
+          "level": "info",
+          "title": "本日から物資リコール・お宝交換が始まります！",
+          "message": ""
+        },
+        {
+          "day": "last",
+          "level": "warning",
+          "title": "本日は物資リコール・お宝交換の最終日です！",
+          "message": ""
+        }
+      ]
+    },
+    "基地探索": {
+      "notifications": [
+        {
+          "day": 0,
+          "level": "info",
+          "title": "本日から基地探索が始まります！",
+          "message": ""
+        },
+        {
+          "day": "last",
+          "level": "warning",
+          "title": "本日は基地探索の最終日です！",
+          "message": ""
+        }
+      ]
     }
   }
 }
