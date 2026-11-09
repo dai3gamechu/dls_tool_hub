@@ -123,7 +123,7 @@ document.getElementById('sortMode').onchange=e=>{sortMode=e.target.value;if(view
 (function(){
  const panel=document.getElementById('noticePanel'),list=document.getElementById('noticeList'),toggle=document.getElementById('noticeExpand');
  const priority={important:0,warning:1,info:2};
- const labels={important:'重要',warning:'注意',info:'お知らせ'};
+ const labels={important:'重要',warning:'注意',info:'案内'};
  // 同じ重要度の自動通知は events.json の共通 defaultOrder に従う。
  // 手動通知は従来どおり別枠で先に表示する。
  const noticeOrderRank=name=>{const i=DEFAULT_ORDER.indexOf(name);return i<0?Number.MAX_SAFE_INTEGER:i};
@@ -192,25 +192,66 @@ document.getElementById('sortMode').onchange=e=>{sortMode=e.target.value;if(view
   }
   return {text:chunks.join('\n\n').replace(/(■ [^\n]+)\n\n(?=【)/g,'$1\n'),count:all.length,from:day,to:until};
  }
- function syncCopyCount(){noticeCopyCount.textContent=Array.from(noticeCopyText.value).length+'文字';document.getElementById('noticeCopyDo').disabled=!noticeCopyText.value.trim()}
+ const COPY_LIMIT=500;
+ function syncCopyCount(){
+  const count=Array.from(noticeCopyText.value).length;
+  const remaining=COPY_LIMIT-count;
+  noticeCopyCount.textContent=`${count} / ${COPY_LIMIT}文字（${remaining>=0?'残り'+remaining:'超過'+(-remaining)}文字）`;
+  noticeCopyCount.dataset.state=count>COPY_LIMIT?'over':count>=450?'near':'normal';
+  document.getElementById('noticeCopyDo').disabled=!noticeCopyText.value.trim()||count>COPY_LIMIT;
+  const bar=document.getElementById('noticeCopyMeterBar');
+  if(bar){bar.style.width=Math.min(100,count/COPY_LIMIT*100)+'%';bar.dataset.state=noticeCopyCount.dataset.state;}
+  if(count>COPY_LIMIT){noticeCopyMessage.textContent=`500文字を${count-COPY_LIMIT}文字超えています。チェックを外すか文章を短くしてください。`;noticeCopyMessage.dataset.error='true';}
+  else if(noticeCopyMessage.dataset.error==='true'&&noticeCopyMessage.textContent.startsWith('500文字を')){noticeCopyMessage.textContent='文章を確認・編集してコピーしてください。';noticeCopyMessage.dataset.error='false';}
+ }
  // Week editor is intentionally ephemeral: nothing is stored or written back to JSON.
  const weeklyEditor=document.getElementById('weeklyEditor');
  const weeklyEditorList=document.getElementById('weeklyEditorList');
  const weeklySelectedCount=document.getElementById('weeklySelectedCount');
  const weeklyEditorSummary=document.getElementById('weeklyEditorSummary');
  let weeklyCandidates=[],weekDraftEdited=false;
- const shortTitle=title=>title.replace(/^本日は(?:、)?/,'').replace(/^本日から/,'').replace(/^今日は/,'').trim();
- // Only start/held info notifications are allowed as optional blue candidates.
+ // The weekly editor has its own concise wording; the daily notice text is unchanged.
+ function shortTitleForWeek(n){
+  let title=n.title.trim().replace(/^本日は(?:、)?/,'').replace(/^本日から/,'').replace(/^今日は/,'').trim();
+  // Deadlines stay explicit, while generic warning phrases and duplicate 'final-day' prose are removed.
+  title=title.replace(/の最終日・報酬受取期限日です[！!。]?$/, '：報酬受取期限');
+  title=title.replace(/の最終日・報酬受け取り期限日です[！!。]?$/, '：報酬受取期限');
+  title=title.replace(/の報酬交換は本日まで[！!。]?$/, '：報酬交換期限');
+  title=title.replace(/の交換期限は本日まで[！!。]?$/, '：交換期限');
+  title=title.replace(/の最終日です[！!。]?$/, '：最終日');
+  title=title.replace(/の登録日です[！!。]?$/, '：登録日');
+  title=title.replace(/の戦闘日です[！!。]?$/, '：戦闘日');
+  title=title.replace(/の開催日です[！!。]?$/, '：開催日');
+  title=title.replace(/が始まります[！!。]?$/, '開始');
+  title=title.replace(/の戦闘が始まります[！!。]?$/, '：戦闘開始');
+  title=title.replace(/最終日、報酬受け取り漏れにご注意を[！!。]?$/, '最終日（報酬受取注意）');
+  return title;
+ }
+ // Blue automatic notices are possible weekly candidates only for registration/opening information.
  function isWeekStartInfo(n){
   return n.source==='auto'&&n.level==='info'&&/(始まり|始まります|開催日|開催されます|開始|登録日)/.test(n.title)
    && !/(トップ司令官：|オールスター期間)/.test(n.title);
  }
+ function hasRegistrationDay(eventName){
+  const rule=autoRules&&autoRules[eventName];
+  return !!(rule&&Array.isArray(rule.notifications)&&rule.notifications.some(n=>typeof n.title==='string'&&/登録日/.test(n.title)));
+ }
  function selectedByDefault(n){
   if(n.source==='manual'||n.level==='important')return true;
-  if(n.level==='info')return false; // Blue start alerts are selectable candidates, not copied by default.
-  // A bare final-day warning is optional by default; deadlines are selected.
+  // Ordinary final-day reminders remain optional; actual reward/exchange deadlines stay selected.
   if(/最終日/.test(n.title)&&!/(交換|報酬|受取|受け取り|期限)/.test(n.title))return false;
+  if(n.level==='info'){
+   if(/登録日/.test(n.title))return true;
+   if(/(?:始まり|始まります|開催日|開催されます|開始)/.test(n.title))return !hasRegistrationDay(n.event);
+   return false;
+  }
   return true;
+ }
+ function shortMessageForWeek(n){
+  if(n.source==='manual')return n.message.trim();
+  // Keep only specific advice, not repeated generic final-day/reward reminders.
+  if(/報酬が良い|チームは組んで/.test(n.message))return n.message.trim();
+  return '';
  }
  function weekCandidates(){
   const now=Date.now(),day=fullUtcDay(now);
@@ -223,9 +264,8 @@ document.getElementById('sortMode').onchange=e=>{sortMode=e.target.value;if(view
    for(const n of [...manual,...auto].filter(n=>eligible(n)||isWeekStartInfo(n)).sort(compareNotices)){
     const identity=n.source==='manual'?n.id:n.event;
     const key=JSON.stringify([d,n.source,identity,n.title]);
-    const title=shortTitle(n.title);
-    // Remove generic daily-detail prose from the weekly default, retain deadlines and useful advance advice.
-    const message=n.source==='manual'||n.level==='important'||/報酬が良い|チームは組んで|受け取り漏れ|交換忘れ/.test(n.message)?n.message.trim():'';
+    const title=shortTitleForWeek(n);
+    const message=shortMessageForWeek(n);
     output.push({key,day:d,notice:n,selected:selectedByDefault(n),defaultSelected:selectedByDefault(n),title,message});
    }
   }
@@ -311,7 +351,7 @@ document.getElementById('sortMode').onchange=e=>{sortMode=e.target.value;if(view
    renderWeekEditor();weekDraftEdited=false;updateWeekDraft(false);
    const today=fullUtcDay(Date.now());const until=today+((7-new Date(today).getUTCDay())%7)*dayMS;
    document.getElementById('noticeCopyPeriod').textContent=`対象：${copyDate(today)}〜${copyDate(until)}（UTC）`;
-   note.textContent='週間向け：重要・注意に加えて、イベント開始の青い自動通知も候補に表示します。選択と個別編集はJSONに保存されません。';
+   note.textContent='週間向け：登録日がないイベントの開始・開催情報と重要な期限を優先します。500文字以内でコピーできます。編集はJSONには保存されません。';
   }else{
    weeklyEditor.hidden=true;
    document.getElementById('noticeCopyPeriod').textContent=`対象：${copyDate(result.from)}（UTC）／ ${result.count}件`;
@@ -341,10 +381,10 @@ document.getElementById('sortMode').onchange=e=>{sortMode=e.target.value;if(view
    else if(!e.shiftKey&&document.activeElement===targets[targets.length-1]){e.preventDefault();targets[0].focus()}
   }
  });
- noticeCopyText.addEventListener('input',()=>{if(!weeklyEditor.hidden)weekDraftEdited=true;syncCopyCount();noticeCopyMessage.textContent='編集した文章をコピーできます。';noticeCopyMessage.dataset.error='false'});
+ noticeCopyText.addEventListener('input',()=>{if(!weeklyEditor.hidden)weekDraftEdited=true;noticeCopyMessage.textContent='編集した文章をコピーできます。';noticeCopyMessage.dataset.error='false';syncCopyCount()});
  document.getElementById('noticeCopyDo').addEventListener('click',async()=>{
   const text=noticeCopyText.value;
-  if(!text.trim())return;
+  if(!text.trim()||Array.from(text).length>COPY_LIMIT)return;
   let success=false;
   try{if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(text);success=true}}catch(_){/* fallback */}
   if(!success){
