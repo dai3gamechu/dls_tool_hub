@@ -99,7 +99,7 @@
       "notifications": [
         {
           "day": 0,
-          "level": "info",
+          "level": "warning",
           "title": "本日は立入禁止戦域の登録日です",
           "message": "8人集まらなくてもいいので、チームを組めると理想です。報酬のために野良参加も選択肢です。"
         },
@@ -171,7 +171,7 @@
       "notifications": [
         {
           "day": 0,
-          "level": "info",
+          "level": "warning",
           "title": "本日は荒野の探索の登録日です",
           "message": ""
         },
@@ -224,14 +224,14 @@
         {
           "day": 5,
           "level": "info",
-          "title": "本日からトップ司令官のオールスター期間です！",
-          "message": ""
+          "title": "トップ司令官の6日目、オールスター期間です！",
+          "message": "足りないポイントはゾンビ狩りで稼ぐのがお薦めです。"
         },
         {
           "day": 6,
           "level": "warning",
           "title": "本日はトップ司令官の最終日です！",
-          "message": ""
+          "message": "スピードアップは土日TOTAL最大1億ポイントまで。幸運を祈ります。"
         }
       ]
     },
@@ -273,6 +273,12 @@
     },
     "黙示録の金庫": {
       "notifications": [
+        {
+          "day": 0,
+          "level": "warning",
+          "title": "本日から黙示録の金庫が始まります！",
+          "message": "毎日ミッションがあるので、忘れずにやりましょう！"
+        },
         {
           "day": "last",
           "level": "warning",
@@ -339,15 +345,15 @@
       "notifications": [
         {
           "day": 0,
-          "level": "info",
+          "level": "warning",
           "title": "本日から精製チャレンジが始まります！",
           "message": ""
         },
         {
           "day": "last",
-          "level": "warning",
-          "title": "本日は精製チャレンジの最終日です！",
-          "message": ""
+          "level": "important",
+          "title": "本日は精製チャレンジの最終日・報酬受取期限日です！",
+          "message": "報酬の受け取り漏れにご注意ください。"
         }
       ]
     },
@@ -369,7 +375,7 @@
           "day": "last",
           "level": "warning",
           "title": "本日はバイオパンクの最終日です！",
-          "message": ""
+          "message": "禁区ルーレットの回し忘れにご注意ください。"
         }
       ]
     },
@@ -377,9 +383,9 @@
       "notifications": [
         {
           "day": 0,
-          "level": "info",
+          "level": "warning",
           "title": "本日は沈没船の秘宝の登録日です！",
-          "message": ""
+          "message": "報酬が良いので、チームは組んでおきましょう！"
         },
         {
           "day": 1,
