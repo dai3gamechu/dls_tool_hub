@@ -70,7 +70,8 @@ body[data-heart-mode="on"] .notice-copy-modal label,body[data-heart-mode="on"] .
 .weekly-editor-date{margin:13px 0 5px;color:#afd2da;font-size:12px;font-weight:800}
 .weekly-editor-item{padding:10px 3px;border-bottom:1px solid #41474e}
 .weekly-editor-row{display:flex;align-items:flex-start;gap:10px}
-.weekly-editor-checkbox{width:18px;height:18px;flex:none;margin-top:3px;accent-color:#4e9aaa;cursor:pointer}
+/* Override the generic .modal input width:100% rule for checkboxes. */
+.notice-copy-modal input.weekly-editor-checkbox{width:18px;height:18px;min-width:18px;max-width:18px;flex:0 0 18px;margin:3px 0 0;padding:0;border:0;border-radius:3px;accent-color:#4e9aaa;cursor:pointer}
 .weekly-editor-summary{flex:1;min-width:0;font-size:12px;line-height:1.6;overflow-wrap:anywhere}
 .weekly-editor-summary .weekly-level{display:inline-block;font-size:10px;font-weight:850;padding:1px 5px;margin-right:5px;border-radius:5px}
 .weekly-editor-item[data-level="important"] .weekly-level{color:#f6abab;background:#773e45}
