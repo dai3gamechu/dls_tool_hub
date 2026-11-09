@@ -57,3 +57,40 @@ body[data-theme="light"] .notice-copy-meta{color:#596675}
 body[data-heart-mode="on"] .notice-copy-text{background:#fff8fc!important;color:#743556!important;border-color:#e7b1ca!important}
 body[data-heart-mode="on"] .notice-copy-modal label,body[data-heart-mode="on"] .notice-copy-meta{color:#8f4d6c!important}
 @media(max-width:720px){.notice-copy-actions{margin-left:0;width:100%}.notice-copy-trigger{flex:1}.notice-copy-modal{padding:16px}.notice-copy-text{min-height:210px}}
+
+/* Week-only notification selector: independent of the calendar and the standard notice list. */
+.weekly-editor{margin:14px 0 16px;padding:14px;border-radius:13px;border:1px solid #4a515c;background:#272d34}
+.weekly-editor[hidden]{display:none!important}
+.weekly-editor-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.weekly-editor-head strong{font-size:14px}
+.weekly-editor-count{font-size:11px;color:#b5d9e1;font-weight:750}
+.weekly-editor-toolbar{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0 12px}
+.weekly-editor-toolbar .btn{font-size:11px;padding:7px 10px}
+.weekly-editor-list{max-height:285px;overflow:auto;border-top:1px solid #464d57}
+.weekly-editor-date{margin:13px 0 5px;color:#afd2da;font-size:12px;font-weight:800}
+.weekly-editor-item{padding:10px 3px;border-bottom:1px solid #41474e}
+.weekly-editor-row{display:flex;align-items:flex-start;gap:10px}
+.weekly-editor-checkbox{width:18px;height:18px;flex:none;margin-top:3px;accent-color:#4e9aaa;cursor:pointer}
+.weekly-editor-summary{flex:1;min-width:0;font-size:12px;line-height:1.6;overflow-wrap:anywhere}
+.weekly-editor-summary .weekly-level{display:inline-block;font-size:10px;font-weight:850;padding:1px 5px;margin-right:5px;border-radius:5px}
+.weekly-editor-item[data-level="important"] .weekly-level{color:#f6abab;background:#773e45}
+.weekly-editor-item[data-level="warning"] .weekly-level{color:#f8c784;background:#684e32}
+.weekly-editor-item[data-level="info"] .weekly-level{color:#b9dcf5;background:#345669}
+.weekly-editor-item:has(.weekly-editor-checkbox:not(:checked)) .weekly-editor-summary{opacity:.57}
+.weekly-editor-edit{margin:7px 0 0 28px;font-size:11px}
+.weekly-editor-edit summary{cursor:pointer;color:#a8d6de;font-weight:700}
+.weekly-editor-edit label{font-size:11px;margin:8px 0 4px}
+.weekly-editor-edit input,.weekly-editor-edit textarea{width:100%;background:#1c2025;color:#f0f2f4;border:1px solid #5a616b;border-radius:7px;padding:7px 9px;font-family:inherit;font-size:12px;line-height:1.5}
+.weekly-editor-edit textarea{min-height:54px;resize:vertical}
+body[data-theme="light"] .weekly-editor{background:#f5f8fa;border-color:#d4dce4}
+body[data-theme="light"] .weekly-editor-list,body[data-theme="light"] .weekly-editor-item{border-color:#d8e0e5}
+body[data-theme="light"] .weekly-editor-date,body[data-theme="light"] .weekly-editor-count,body[data-theme="light"] .weekly-editor-edit summary{color:#206d80}
+body[data-theme="light"] .weekly-editor-item[data-level="important"] .weekly-level{color:#a52b37;background:#f9e5e7}
+body[data-theme="light"] .weekly-editor-item[data-level="warning"] .weekly-level{color:#93560a;background:#ffeed9}
+body[data-theme="light"] .weekly-editor-item[data-level="info"] .weekly-level{color:#23648d;background:#e4f2fc}
+body[data-theme="light"] .weekly-editor-edit input,body[data-theme="light"] .weekly-editor-edit textarea{background:#fff;color:#252b32;border-color:#bac4ce}
+body[data-heart-mode="on"] .weekly-editor{background:#fff0f7!important;border-color:#eab6ce!important}
+body[data-heart-mode="on"] .weekly-editor-list,body[data-heart-mode="on"] .weekly-editor-item{border-color:#efc5d8!important}
+body[data-heart-mode="on"] .weekly-editor-date,body[data-heart-mode="on"] .weekly-editor-count,body[data-heart-mode="on"] .weekly-editor-edit summary{color:#9c426e!important}
+body[data-heart-mode="on"] .weekly-editor-edit input,body[data-heart-mode="on"] .weekly-editor-edit textarea{background:#fff9fc!important;color:#753957!important;border-color:#e9b8ce!important}
+@media(max-width:720px){.weekly-editor{padding:10px}.weekly-editor-list{max-height:250px}}
