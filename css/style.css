@@ -127,3 +127,13 @@ body[data-heart-mode="on"] .ended-event-track{background:#e2b7cd!important;borde
 body[data-heart-mode="on"] .ended-event-switch input:checked + .ended-event-track{background:#cc5d93!important;border-color:#af3973!important}
 @media(max-width:480px){.ended-event-setting{gap:10px}}
 @media(prefers-reduced-motion:reduce){.ended-event-track,.ended-event-knob{transition:none}}
+
+/* Notice -> calendar event details (link styling only; no change to calendar layout). */
+.notice-entry-linked{cursor:pointer;border-radius:9px;transition:background .15s ease}
+.notice-entry-linked:hover{background:#ffffff09}
+.notice-entry-linked:focus-visible{outline:2px solid #8fcbd5;outline-offset:2px;background:#ffffff09}
+.notice-detail-hint{display:inline-block;margin-top:7px;font-size:12px;font-weight:700;color:#9bd5e4;text-decoration:underline;text-underline-offset:3px}
+body[data-theme="light"] .notice-entry-linked:hover,body[data-theme="light"] .notice-entry-linked:focus-visible{background:#e7f0f366}
+body[data-theme="light"] .notice-detail-hint{color:#176c80}
+body[data-heart-mode="on"] .notice-entry-linked:hover,body[data-heart-mode="on"] .notice-entry-linked:focus-visible{background:#ffcde544!important}
+body[data-heart-mode="on"] .notice-detail-hint{color:#af3972!important}
