@@ -14,6 +14,11 @@ const colorByCat=Object.fromEntries(CATS.map(c=>[c.name,c.color]));
 const dayMS=86400000;const dateUTC=s=>new Date(s+'T00:00:00Z').getTime();const iso=t=>new Date(t).toISOString().slice(0,10);const fmt=t=>new Intl.DateTimeFormat('ja-JP',{year:'numeric',month:'numeric',day:'numeric',timeZone:'UTC'}).format(new Date(t));const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));const fmtMd=t=>{let d=new Date(t);return `${d.getUTCMonth()+1}/${d.getUTCDate()}`};
 let view='week',anchor=null,categoryFilter=new Set(),sortMode='date';
 let weekSortMode='date',monthSortMode='custom';
+// The switch is OFF by default; user preference is kept independently from sorting.
+const SHOW_ENDED_EVENTS_KEY='dls-show-ended-events-v1';
+let showEndedEvents=false;
+try{showEndedEvents=localStorage.getItem(SHOW_ENDED_EVENTS_KEY)==='true'}catch(e){}
+
 let manual=[]; // GitHub events.json の specialEvents から取得
 function offset(){return 0}function localDay(t){return Math.floor((t+offset())/dayMS)*dayMS-offset()}
 function startWeek(t){let d=new Date(t+offset());let n=(d.getUTCDay()+6)%7;return localDay(t)-n*dayMS}function startMonth(t){let d=new Date(t+offset());return Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),1)-offset()}
@@ -95,8 +100,15 @@ async function loadSharedEvents(){
 function enumerate(a,b){let output=[];for(let p of PRESET){let base=dateUTC(p.anchor),stride=p.everyDays*dayMS;let startN=Math.floor((a-base-p.duration*dayMS)/stride)-1;let endN=Math.ceil((b-base)/stride)+1;for(let n=startN;n<=endN;n++){let start=base+n*stride,end=start+p.duration*dayMS;if(end<=a||start>=b)continue;let title=p.name;let notes=p.notes||'';;output.push({...p,title,start,end,manual:false,id:p.name+'_'+iso(start),notes})}}for(let x of manual){let start=dateUTC(x.anchor),end=start+x.duration*dayMS;if(start<b&&end>a)output.push({...x,title:x.name,start,end,manual:true,id:x.id})}return output.filter(x=>categoryFilter.size===0||categoryFilter.has(x.category)).sort(compareEvents)}
 function dayLabel(t){let d=new Date(t+offset()),days=['日','月','火','水','木','金','土'];return `<span>${days[d.getUTCDay()]}曜日</span><strong>${d.getUTCDate()}</strong>`}
 function render(){const a=view==='week'?startWeek(anchor):startMonth(anchor);if(view==='week')anchor=a;else anchor=a;
-let end,displayStart,events;if(view==='week'){end=a+7*dayMS;events=enumerate(a,end);displayStart=fmtMd(a+offset())+' 〜 '+fmtMd(end-dayMS+offset());document.getElementById('period').textContent=`${new Date(a+offset()).getUTCFullYear()}年 ${displayStart}　UTC`;renderWeek(a,events)}else{let d=new Date(a+offset());end=Date.UTC(d.getUTCFullYear(),d.getUTCMonth()+1,1)-offset();events=enumerate(a,end);document.getElementById('period').textContent=`${d.getUTCFullYear()}年 ${d.getUTCMonth()+1}月　UTC`;renderMonth(a,end)}
-document.getElementById('sortMode').value=sortMode;document.getElementById('displaySettingsCurrent').textContent='現在：'+(sortMode==='custom'?'指定したイベント順':'開始日が早い順');document.getElementById('counter').textContent=events.length+' 件';document.getElementById('periodMode').textContent=view==='week'?'週間表示':'月間表示';['weekly','monthly'].forEach((id,i)=>document.getElementById(id).classList.toggle('active',(i===0)===(view==='week')));renderLegend()}
+let end,displayStart,events;if(view==='week'){end=a+7*dayMS;events=enumerate(a,end);
+// Only the current UTC week hides events whose end is at/before UTC today 00:00.
+// Past/future weeks and monthly display are never filtered.
+if(a===startWeek(Date.now())&&!showEndedEvents){
+ const todayStart=localToday();
+ events=events.filter(ev=>ev.end>todayStart);
+}
+displayStart=fmtMd(a+offset())+' 〜 '+fmtMd(end-dayMS+offset());document.getElementById('period').textContent=`${new Date(a+offset()).getUTCFullYear()}年 ${displayStart}　UTC`;renderWeek(a,events)}else{let d=new Date(a+offset());end=Date.UTC(d.getUTCFullYear(),d.getUTCMonth()+1,1)-offset();events=enumerate(a,end);document.getElementById('period').textContent=`${d.getUTCFullYear()}年 ${d.getUTCMonth()+1}月　UTC`;renderMonth(a,end)}
+document.getElementById('sortMode').value=sortMode;document.getElementById('showEndedEvents').checked=showEndedEvents;document.getElementById('displaySettingsCurrent').textContent='現在：'+(sortMode==='custom'?'指定したイベント順':'開始日が早い順');document.getElementById('counter').textContent=events.length+' 件';document.getElementById('periodMode').textContent=view==='week'?'週間表示':'月間表示';['weekly','monthly'].forEach((id,i)=>document.getElementById(id).classList.toggle('active',(i===0)===(view==='week')));renderLegend()}
 function renderLegend(){
  const all=categoryFilter.size===0;
  document.getElementById('legend').innerHTML=`<button type="button" data-cat="all" class="${all?'active':''}" aria-pressed="${all}">すべて</button>`+CATS.map(c=>`<button type="button" data-cat="${esc(c.name)}" class="${categoryFilter.has(c.name)?'active':''}" aria-pressed="${categoryFilter.has(c.name)}"><i class="dot" style="background:${c.color}"></i>${esc(CATEGORY_SHORT_LABELS[c.name]||c.name)}</button>`).join('');
@@ -117,6 +129,11 @@ function linkDetails(events){document.querySelectorAll('[data-id]').forEach(el=>
 function formatDateTime(t){return fmt(t+offset())+' '+String(new Date(t+offset()).getUTCHours()).padStart(2,'0')+':00'}
 function showDetail(ev){if(!ev)return;document.getElementById('detailName').textContent=ev.title;document.getElementById('detailBody').innerHTML=`<span class="status">${ev.manual?'GitHub登録の臨時イベント':'周期から計算した予想日程'}</span><div class="detailrow"><span>カテゴリー</span><strong><i class="dot" style="background:${colorByCat[ev.category]}"></i> ${esc(ev.category)}</strong></div><div class="detailrow"><span>開始（UTC）</span><strong>${formatDateTime(ev.start)}</strong></div><div class="detailrow"><span>終了（UTC）</span><strong>${formatDateTime(ev.end)}</strong></div><div class="detailrow"><span>開催日数</span><strong>${ev.duration} 日</strong></div><div class="detailrow"><span>開催周期</span><strong>${ev.manual?'単発':esc(ev.frequency)}</strong></div>${ev.notes?`<div class="detailrow"><span>備考・段階</span><strong>${esc(ev.notes)}</strong></div>`:''}<div class="fine">※終了は最終日の翌日00:00（UTC）です。</div>`;document.getElementById('detailDlg').classList.add('show')}
 function close(id){document.getElementById(id).classList.remove('show')}
+document.getElementById('showEndedEvents').addEventListener('change',e=>{
+ showEndedEvents=e.target.checked;
+ try{localStorage.setItem(SHOW_ENDED_EVENTS_KEY,String(showEndedEvents))}catch(error){}
+ render();
+});
 document.getElementById('sortMode').onchange=e=>{sortMode=e.target.value;if(view==='week')weekSortMode=sortMode;else monthSortMode=sortMode;render()};document.getElementById('editOrder').onclick=()=>{renderOrderList();document.getElementById('orderDlg').classList.add('show')};document.getElementById('closeOrder').onclick=()=>close('orderDlg');document.getElementById('doneOrder').onclick=()=>close('orderDlg');document.getElementById('resetOrder').onclick=()=>{customOrder=[...DEFAULT_ORDER];saveOrder();renderOrderList();render()};document.getElementById('prev').onclick=()=>move(-1);document.getElementById('next').onclick=()=>move(1);document.getElementById('today').onclick=()=>{reset();render()};document.getElementById('weekly').onclick=()=>{view='week';sortMode=weekSortMode;reset();render()};document.getElementById('monthly').onclick=()=>{view='month';sortMode=monthSortMode;reset();render()};document.getElementById('closeDetail').onclick=()=>close('detailDlg');document.getElementById('doneDetail').onclick=()=>close('detailDlg');['detailDlg','orderDlg'].forEach(id=>document.getElementById(id).addEventListener('click',e=>{if(e.target.id===id)close(id)}));reset();render();loadSharedEvents();
 
 // Phase 1 notices: dates in UTC, end exclusive, optional https links.
