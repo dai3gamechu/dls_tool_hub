@@ -128,6 +128,32 @@ function renderMonth(a,end){let firstWeek=startWeek(a),last=end;let weeks=Math.c
 function linkDetails(events){document.querySelectorAll('[data-id]').forEach(el=>el.onclick=()=>showDetail(events.find(e=>e.id===el.dataset.id)))}
 function formatDateTime(t){return fmt(t+offset())+' '+String(new Date(t+offset()).getUTCHours()).padStart(2,'0')+':00'}
 function showDetail(ev){if(!ev)return;document.getElementById('detailName').textContent=ev.title;document.getElementById('detailBody').innerHTML=`<span class="status">${ev.manual?'GitHub登録の臨時イベント':'周期から計算した予想日程'}</span><div class="detailrow"><span>カテゴリー</span><strong><i class="dot" style="background:${colorByCat[ev.category]}"></i> ${esc(ev.category)}</strong></div><div class="detailrow"><span>開始（UTC）</span><strong>${formatDateTime(ev.start)}</strong></div><div class="detailrow"><span>終了（UTC）</span><strong>${formatDateTime(ev.end)}</strong></div><div class="detailrow"><span>開催日数</span><strong>${ev.duration} 日</strong></div><div class="detailrow"><span>開催周期</span><strong>${ev.manual?'単発':esc(ev.frequency)}</strong></div>${ev.notes?`<div class="detailrow"><span>備考・段階</span><strong>${esc(ev.notes)}</strong></div>`:''}<div class="fine">※終了は最終日の翌日00:00（UTC）です。</div>`;document.getElementById('detailDlg').classList.add('show')}
+// お知らせ連携: 画面のカレンダーや表示設定を動かさず、既存の詳細ダイアログを開く。
+// 定期イベントは通知に紐づく開催回を優先し、手動通知は開催中または次回の開催回を使う。
+function openNoticeEventDetail(eventName, eventStart, referenceTime=Date.now()){
+ if(typeof eventName!=='string'||!eventName.trim())return false;
+ const name=eventName.trim();
+ const special=manual.find(e=>e.name===name);
+ if(special){
+  const start=dateUTC(special.anchor);
+  showDetail({...special,title:special.name,start,end:start+special.duration*dayMS,manual:true});
+  return true;
+ }
+ const periodic=PRESET.find(e=>e.name===name);
+ if(!periodic)return false;
+ const base=dateUTC(periodic.anchor),step=periodic.everyDays*dayMS;
+ if(!Number.isFinite(base)||!Number.isFinite(step)||step<=0)return false;
+ let start;
+ if(Number.isFinite(eventStart)){
+  start=eventStart;
+ }else{
+  const cycle=Math.floor((referenceTime-base)/step);
+  const activeStart=base+cycle*step;
+  start=referenceTime<activeStart+periodic.duration*dayMS?activeStart:activeStart+step;
+ }
+ showDetail({...periodic,title:periodic.name,start,end:start+periodic.duration*dayMS,manual:false,notes:periodic.notes||''});
+ return true;
+}
 function close(id){document.getElementById(id).classList.remove('show')}
 document.getElementById('showEndedEvents').addEventListener('change',e=>{
  showEndedEvents=e.target.checked;
@@ -438,6 +464,24 @@ document.getElementById('sortMode').onchange=e=>{sortMode=e.target.value;if(view
    if(typeof n.url==='string'&&/^https:\/\/[^\s]+$/i.test(n.url)){
     try{const u=new URL(n.url);if(u.protocol==='https:'){const link=document.createElement('a');link.className='notice-entry-link';link.href=u.href;link.target='_blank';link.rel='noopener noreferrer';link.textContent='関連ページを開く ↗';content.append(link)}}catch(e){}
    }
+   // 自動通知は定期イベント名、手動通知は任意の event フィールドで関連付ける。
+   const linkedName=n.source==='auto'?n.event:(typeof n.event==='string'?n.event.trim():'');
+   const isLinked=Boolean(linkedName&&(PRESET.some(e=>e.name===linkedName)||manual.some(e=>e.name===linkedName)));
+   if(isLinked){
+    row.classList.add('notice-entry-linked');
+    row.tabIndex=0;
+    row.setAttribute('role','button');
+    row.setAttribute('aria-label',n.title+'：イベント詳細を表示');
+    const hint=document.createElement('span');
+    hint.className='notice-detail-hint';hint.textContent='イベント詳細を見る ›';
+    content.append(hint);
+    const activate=()=>openNoticeEventDetail(linkedName,n.source==='auto'?n.eventStart:null);
+    row.addEventListener('click',e=>{if(e.target.closest('a,button'))return;activate()});
+    row.addEventListener('keydown',e=>{
+     if(e.target!==row)return;
+     if(e.key==='Enter'||e.key===' '){e.preventDefault();activate()}
+    });
+   }
    row.append(mark,content);list.append(row);
   });
   toggle.hidden=visible.length<=3;
@@ -489,7 +533,7 @@ document.getElementById('sortMode').onchange=e=>{sortMode=e.target.value;if(view
     }
     if(chosen){
      const end=today+dayMS;
-     result.push({id:'auto-'+ev.name+'-'+iso(start)+'-'+iso(today),source:'auto',event:ev.name,level:chosen.level,title:chosen.title,message:chosen.message||'',start:new Date(today).toISOString().replace('.000Z','Z'),end:new Date(end).toISOString().replace('.000Z','Z'),url:''});
+     result.push({id:'auto-'+ev.name+'-'+iso(start)+'-'+iso(today),source:'auto',event:ev.name,eventStart:start,level:chosen.level,title:chosen.title,message:chosen.message||'',start:new Date(today).toISOString().replace('.000Z','Z'),end:new Date(end).toISOString().replace('.000Z','Z'),url:''});
      break; // 1イベント・UTC 1日につき最大1件
     }
    }
