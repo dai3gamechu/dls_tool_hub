@@ -464,6 +464,22 @@
           "message": ""
         }
       ]
+    },
+    "ミステリー・トレジャー": {
+      "notifications": [
+        {
+          "day": 0,
+          "level": "info",
+          "title": "本日からミステリー・トレジャーが始まります！",
+          "message": ""
+        },
+        {
+          "day": "last",
+          "level": "warning",
+          "title": "本日はミステリー・トレジャーの最終日・報酬受取期限日です！",
+          "message": ""
+        }
+      ]
     }
   }
 }
