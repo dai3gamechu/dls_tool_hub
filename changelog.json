@@ -1,7 +1,15 @@
 {
   "schemaVersion": 1,
-  "currentVersion": "1.1",
+  "currentVersion": "1.1.1",
   "releases": [
+    {
+      "version": "1.1.1",
+      "date": "2026-11-09",
+      "title": "イベント情報の追加",
+      "changes": [
+        "イベント情報の修正と追加をしました。現在26イベントに対応しています。",
+      ]
+    },
     {
       "version": "1.1",
       "date": "2026-11-09",
