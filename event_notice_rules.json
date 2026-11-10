@@ -432,6 +432,38 @@
           "message": ""
         }
       ]
+    },
+    "港の引き揚げ": {
+      "notifications": [
+        {
+          "day": 0,
+          "level": "info",
+          "title": "本日から港の引き揚げが始まります！",
+          "message": ""
+        },
+        {
+          "day": "last",
+          "level": "warning",
+          "title": "本日は港の引き揚げの最終日です！",
+          "message": ""
+        }
+      ]
+    },
+    "3人の集い": {
+      "notifications": [
+        {
+          "day": 0,
+          "level": "info",
+          "title": "本日から3人の集いが始まります！",
+          "message": ""
+        },
+        {
+          "day": "last",
+          "level": "warning",
+          "title": "本日は3人の集いの最終日・報酬受取期限日です！",
+          "message": ""
+        }
+      ]
     }
   }
 }
