@@ -480,6 +480,22 @@
           "message": ""
         }
       ]
+    },
+    "闇市場": {
+      "notifications": [
+        {
+          "day": 0,
+          "level": "info",
+          "title": "本日から闇市場が始まります！",
+          "message": ""
+        },
+        {
+          "day": "last",
+          "level": "warning",
+          "title": "本日は闇市場の最終日・報酬受取期限日です！",
+          "message": ""
+        }
+      ]
     }
   }
 }
