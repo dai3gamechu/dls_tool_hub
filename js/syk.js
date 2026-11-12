@@ -84,17 +84,8 @@
    }
   });
   button.addEventListener('keyup',cancel);
-  const menu=document.getElementById('dls-menu-toggle');
-  if(menu)menu.addEventListener('click',()=>{
-   if(document.body.dataset.sykMode==='on')play('menu');
-  });
-  // On desktop, dropdown summaries are the non-navigating header menu controls.
-  // Direct navigation links retain their original immediate navigation behavior.
-  document.querySelectorAll('#dls-global-header .dls-gh-nav .dls-gh-group > summary').forEach(summary=>{
-   summary.addEventListener('click',()=>{
-    if(document.body.dataset.sykMode==='on')play('menu');
-   });
-  });
+  // Menu-open controls only reveal choices: no voice is played here.
+  // Voice is reserved for the final navigation link selected by the visitor.
   // Navigation links can leave this document before sound playback finishes.
   // Only plain, same-tab user clicks are delayed; modified clicks and links that
   // explicitly open another tab keep the browser's default behavior.
