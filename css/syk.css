@@ -1,0 +1,355 @@
+/* SYKオリジナル - refined to match the sparkly mockup more closely. */
+body[data-syk-mode="on"]{
+  color-scheme:light;
+  color:#7f244f!important;
+  background:
+    radial-gradient(circle at 18% 12%, #ffeef7 0 10%, transparent 28%),
+    radial-gradient(circle at 82% 18%, #ffd8ea 0 12%, transparent 32%),
+    radial-gradient(circle at 50% 72%, #ffc2df 0 11%, transparent 34%),
+    linear-gradient(135deg,#f8c9dd 0%,#ffdcec 24%,#fff1f8 52%,#ffd0e5 78%,#efafd0 100%) fixed!important;
+}
+body[data-syk-mode="on"] .app{position:relative;z-index:1;}
+body[data-syk-mode="on"]::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.98;
+  background-image:
+    url('../assets/syk-pattern.svg'),
+    radial-gradient(circle at 10% 15%, #ffffff 0 1.5px, transparent 3.5px),
+    radial-gradient(circle at 14% 58%, #fff9d5 0 2px, transparent 5px),
+    radial-gradient(circle at 26% 31%, #ffffff 0 2px, transparent 5px),
+    radial-gradient(circle at 38% 17%, #fffef7 0 2px, transparent 5px),
+    radial-gradient(circle at 48% 42%, #fffad8 0 2.4px, transparent 6px),
+    radial-gradient(circle at 59% 12%, #ffffff 0 2px, transparent 5px),
+    radial-gradient(circle at 69% 63%, #fffad8 0 2px, transparent 5px),
+    radial-gradient(circle at 79% 29%, #ffffff 0 2.2px, transparent 5px),
+    radial-gradient(circle at 88% 14%, #fffef7 0 1.8px, transparent 4.5px),
+    radial-gradient(circle at 92% 74%, #fff8d2 0 2px, transparent 5px);
+  background-size:1400px 1000px,100% 100%,100% 100%,100% 100%,100% 100%,100% 100%,100% 100%,100% 100%,100% 100%,100% 100%,100% 100%;
+  background-repeat:repeat,no-repeat,no-repeat,no-repeat,no-repeat,no-repeat,no-repeat,no-repeat,no-repeat,no-repeat,no-repeat;
+}
+body[data-syk-mode="on"]::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.32;
+  background-image:
+    url('../assets/syk-emblem.png'),url('../assets/syk-emblem.png'),url('../assets/syk-emblem.png'),url('../assets/syk-emblem.png'),
+    url('../assets/syk-emblem.png'),url('../assets/syk-emblem.png'),url('../assets/syk-emblem.png');
+  background-size:160px auto,116px auto,100px auto,136px auto,90px auto,118px auto,82px auto;
+  background-position:2% 210px,93% 140px,82% 72px,86% 92%,12% 88%,49% 88%,42% 82px;
+  background-repeat:no-repeat;
+}
+body[data-syk-mode="on"] #dls-global-header{
+  position:relative;z-index:3;
+  color:#9f285b!important;
+  border-bottom:1px solid rgba(232,182,95,.85)!important;
+  background:linear-gradient(180deg,#f8b8d7 0%,#f6c8df 48%,#f8d5e8 100%)!important;
+  box-shadow:0 8px 30px rgba(188,68,127,.18), inset 0 -2px 0 rgba(233,182,95,.7);
+}
+body[data-syk-mode="on"] #dls-global-header::after{
+  content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;
+  background:linear-gradient(90deg,transparent 0,#efc56a 10%,#f9ecd0 40%,#efc56a 70%,transparent 100%);
+}
+body[data-syk-mode="on"] #dls-global-header .dls-gh-brand{position:relative;padding-left:132px;min-height:72px;justify-content:center;}
+body[data-syk-mode="on"] #dls-global-header .dls-gh-brand::before{
+  content:"";position:absolute;left:0;top:50%;transform:translateY(-52%);width:129px;height:72px;
+  background:url('../assets/syk-emblem.png') center/contain no-repeat;filter:drop-shadow(0 2px 2px rgba(255,255,255,.8)) drop-shadow(0 4px 8px rgba(180,78,118,.35));
+}
+body[data-syk-mode="on"] #dls-global-header .dls-gh-brand-title{
+  font-family:Georgia,'Yu Mincho',serif;font-size:clamp(19px,2.2vw,30px);font-weight:900;color:#a62c61;letter-spacing:.05em;
+  text-shadow:0 1px 0 #fffaf2, 0 2px 0 rgba(255,232,185,.8), 0 6px 18px rgba(255,255,255,.45);
+}
+body[data-syk-mode="on"] #dls-global-header .dls-gh-brand-sub{color:#b15c7e!important;text-shadow:0 1px 0 rgba(255,255,255,.4);}
+body[data-syk-mode="on"] #dls-global-header .dls-gh-nav,
+body[data-syk-mode="on"] #dls-global-header .dls-gh-mobile-nav.is-open{border-color:#f1ce8f!important;}
+body[data-syk-mode="on"] #dls-global-header .dls-gh-link,
+body[data-syk-mode="on"] #dls-global-header .dls-gh-nav summary,
+body[data-syk-mode="on"] #dls-global-header .dls-gh-iconbtn,
+body[data-syk-mode="on"] #dls-global-header .dls-gh-mobile-nav summary{
+  color:#99315f!important;background:linear-gradient(180deg,#fffefe,#ffeaf3 100%)!important;border:1px solid #efbfd2!important;border-radius:999px;
+  box-shadow:0 2px 6px rgba(172,82,103,.15), inset 0 1px 0 rgba(255,255,255,.75);
+}
+body[data-syk-mode="on"] #dls-global-header .dls-gh-link[aria-current="page"]{color:#fff!important;background:linear-gradient(180deg,#ed76ae,#ba2f77)!important;border-color:#ddb365!important;box-shadow:0 3px 10px rgba(177,44,106,.25);}
+body[data-syk-mode="on"] #dls-global-header .dls-gh-drop{background:#fff7fb!important;border:1px solid #e6b0c7!important;box-shadow:0 10px 30px rgba(178,79,120,.18)!important;}
+body[data-syk-mode="on"] #dls-global-header .dls-gh-drop a:hover{background:#fee7f0!important;}
+body[data-syk-mode="on"] #dls-theme-toggle{width:auto;min-width:38px;padding:8px 15px!important;font-size:12px!important;font-weight:800!important;background:linear-gradient(180deg,#ef76af,#bf347b)!important;color:#fff!important;border:1px solid #e7b75d!important;box-shadow:0 4px 14px rgba(193,52,123,.22), inset 0 1px 0 rgba(255,255,255,.25)!important;}
+
+body[data-syk-mode="on"] .top{
+  position:relative;overflow:hidden;border-radius:24px;
+  background:linear-gradient(180deg,rgba(255,245,250,.55),rgba(255,233,243,.36));
+}
+body[data-syk-mode="on"] .top::before{
+  content:"";position:absolute;left:16px;bottom:10px;width:160px;height:94px;opacity:.19;
+  background:url('../assets/syk-emblem.png') center/contain no-repeat;pointer-events:none;
+}
+body[data-syk-mode="on"] .top::after{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.9;
+  background:
+    radial-gradient(circle at 16% 31%, rgba(255,255,255,.95) 0 2px, transparent 4px),
+    radial-gradient(circle at 30% 36%, rgba(255,250,215,.9) 0 2px, transparent 4px),
+    radial-gradient(circle at 46% 28%, rgba(255,255,255,.95) 0 2px, transparent 4px),
+    radial-gradient(circle at 68% 34%, rgba(255,255,255,.9) 0 2px, transparent 4px),
+    radial-gradient(circle at 82% 25%, rgba(255,250,215,.9) 0 2px, transparent 4px),
+    radial-gradient(circle at 88% 44%, rgba(255,255,255,.95) 0 2px, transparent 4px);
+}
+body[data-syk-mode="on"] .card,body[data-syk-mode="on"] .modal{
+  color:#742446!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.88),rgba(255,246,250,.9))!important;
+  border:2px solid #e5b24d!important;
+  box-shadow:0 8px 0 rgba(220,146,180,.18),0 18px 34px rgba(193,74,135,.22), inset 0 1px 0 rgba(255,255,255,.95)!important;
+  border-radius:22px!important;
+}
+body[data-syk-mode="on"] h1,body[data-syk-mode="on"] h2,body[data-syk-mode="on"] .period,body[data-syk-mode="on"] .sorting label{color:#a52f60!important;}
+body[data-syk-mode="on"] h1{font-size:clamp(34px,4vw,54px);text-shadow:0 1px 0 rgba(255,255,255,.6);} 
+body[data-syk-mode="on"] .eyebrow{color:#c05d87!important;letter-spacing:.18em;}
+body[data-syk-mode="on"] .muted,body[data-syk-mode="on"] .fine,body[data-syk-mode="on"] .foot,body[data-syk-mode="on"] .utc-now,body[data-syk-mode="on"] .right ul,body[data-syk-mode="on"] .right p{color:#925b77!important;}
+body[data-syk-mode="on"] .btn{background:linear-gradient(180deg,#fffdfd,#fee8f1)!important;color:#92345e!important;border-color:#ecb6cb!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.8);} 
+body[data-syk-mode="on"] .btn:hover{background:linear-gradient(180deg,#fff6fa,#f8d1e2)!important;}
+body[data-syk-mode="on"] .btn.primary,body[data-syk-mode="on"] .btn.selected{background:linear-gradient(180deg,#e86fa9,#bb377a)!important;color:#fff!important;border-color:#e0b060!important;box-shadow:0 6px 16px rgba(194,68,130,.22);} 
+body[data-syk-mode="on"] .control{border-color:#e6b8ca!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.7);} 
+body[data-syk-mode="on"] .control button{background:#ffeaf2!important;color:#924968!important;}
+body[data-syk-mode="on"] .control button.active{background:#db6ca2!important;color:#fff!important;}
+body[data-syk-mode="on"] .legend button{background:linear-gradient(180deg,#fffafb,#fff1f6)!important;color:#883658!important;border-color:#e8b0c9!important;}
+body[data-syk-mode="on"] .legend button.active{background:linear-gradient(180deg,#f9dceb,#fff2f7)!important;color:#7b3254!important;border-color:#bb5b89!important;box-shadow:0 3px 10px rgba(184,91,137,.13);} 
+body[data-syk-mode="on"] .week,body[data-syk-mode="on"] .display-settings{border-color:#ebc1d1!important;background:rgba(255,251,253,.78)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.9);} 
+body[data-syk-mode="on"] .weekheader,body[data-syk-mode="on"] .mhead{background:linear-gradient(180deg,#f8d9e7,#f4d0e1)!important;}
+body[data-syk-mode="on"] .weekheader .labelcell,body[data-syk-mode="on"] .dayhead span,body[data-syk-mode="on"] .dayhead strong,body[data-syk-mode="on"] .evname{color:#823657!important;}
+body[data-syk-mode="on"] .dayhead,body[data-syk-mode="on"] .daycell{border-left-color:#f0cada!important;}
+body[data-syk-mode="on"] .evrow{border-top-color:#efcfdb!important;background:rgba(255,252,253,.72)!important;}
+body[data-syk-mode="on"] .evrow:nth-child(odd){background:rgba(255,242,248,.62)!important;}
+body[data-syk-mode="on"] .evname small{color:#94657d!important;}
+body[data-syk-mode="on"] .dayhead.today,body[data-syk-mode="on"] .daycell.today,body[data-syk-mode="on"] .mday.today{background:#ffe7f1!important;box-shadow:inset 0 0 0 1px rgba(232,180,201,.45);} 
+body[data-syk-mode="on"] .mday{background:rgba(255,250,252,.82)!important;border-color:#edcad9!important;}
+body[data-syk-mode="on"] .mnum{color:#813455!important;}
+body[data-syk-mode="on"] .pill,body[data-syk-mode="on"] .chip{color:#8c4e70!important;border-color:#e6b7cb!important;background:rgba(255,247,250,.9)!important;}
+body[data-syk-mode="on"] .note{background:linear-gradient(180deg,#fff3f8,#ffedf4)!important;color:#844363!important;border-left-color:#d8a459!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.8);} 
+body[data-syk-mode="on"] .modal label,body[data-syk-mode="on"] .detailrow span{color:#8e5873!important;}
+body[data-syk-mode="on"] .modal input,body[data-syk-mode="on"] .modal select,body[data-syk-mode="on"] .modal textarea,body[data-syk-mode="on"] .sorting select{background:#fffafd!important;color:#743556!important;border-color:#dfb2c4!important;}
+body[data-syk-mode="on"] .display-settings-current,body[data-syk-mode="on"] .notice-entry-message{color:#955e77!important;}
+body[data-syk-mode="on"] .notice-entry,body[data-syk-mode="on"] .orderitem{border-color:#ebc6d7!important;}
+body[data-syk-mode="on"] .notice-entry-link{color:#a72a67!important;}
+body[data-syk-mode="on"] #dls-global-footer{color:#9d617c!important;}
+body[data-syk-mode="on"] .dls-heart-sky{opacity:0!important;visibility:hidden!important;}
+/* Modal used before activation; works in either base theme. */
+.syk-unlock-overlay{position:fixed;inset:0;background:#120b17b8;z-index:1000;display:flex;align-items:center;justify-content:center;padding:18px;}
+.syk-unlock-overlay[hidden]{display:none!important;}
+.syk-unlock-dialog{width:min(100%,420px);background:linear-gradient(180deg,#fff9fc,#fff0f7);color:#783356;border:2px solid #dfb06f;border-radius:22px;box-shadow:0 20px 70px #0008;padding:24px;}
+.syk-unlock-dialog h2{color:#9d2d61;font-size:20px;margin:0 0 12px;}
+.syk-unlock-dialog p{line-height:1.65;margin:8px 0 14px;font-size:13px;}
+.syk-unlock-dialog label{display:block;font-weight:700;font-size:12px;margin-bottom:6px;}
+.syk-unlock-dialog input{width:100%;padding:11px;border:1px solid #d7a5bf;border-radius:12px;background:white;color:#632d4b;font-size:16px;}
+.syk-unlock-dialog .syk-actions{display:flex;gap:9px;justify-content:flex-end;margin-top:16px;}
+.syk-unlock-dialog button{border-radius:12px;padding:9px 15px;border:1px solid #d6aac1;background:#fbe4ed;color:#81375e;font-weight:700;cursor:pointer;}
+.syk-unlock-dialog .syk-submit{background:#be3d80;color:#fff;border-color:#a83171;}
+.syk-unlock-dialog .syk-error{color:#ae1749;font-size:12px;min-height:20px;margin-top:8px;}
+@media(max-width:720px){
+  body[data-syk-mode="on"] #dls-global-header .dls-gh-brand{padding-left:94px;min-height:58px;}
+  body[data-syk-mode="on"] #dls-global-header .dls-gh-brand::before{width:93px;height:48px;}
+  body[data-syk-mode="on"] #dls-global-header .dls-gh-brand-title{font-size:18px;}
+  body[data-syk-mode="on"] #dls-theme-toggle{padding:7px 10px!important;font-size:11px!important;}
+  body[data-syk-mode="on"] .card{border-width:1px!important;border-radius:18px!important;}
+  body[data-syk-mode="on"]::after{background-size:112px auto,84px auto,76px auto,98px auto,70px auto,85px auto,68px auto;background-position:-5% 170px,96% 150px,84% 68px,92% 91%,5% 87%,58% 88%,46% 92px;opacity:.25;}
+  body[data-syk-mode="on"] .top::before{width:116px;height:68px;left:8px;bottom:6px;opacity:.16;}
+}
+@media(prefers-reduced-motion:reduce){body[data-syk-mode="on"] *{scroll-behavior:auto!important;}}
+#dls-theme-toggle{-webkit-touch-callout:none;touch-action:manipulation;user-select:none;}
+
+
+/* Ver1.1.2 polish: closer to the sparkly mockup requested on 2026-11-12. */
+body[data-syk-mode="on"] #dls-global-header .dls-gh-brand-title{
+  font-family:"Palatino Linotype","Book Antiqua","Hiragino Maru Gothic ProN","Yu Gothic",Meiryo,serif;
+  font-size:clamp(20px,2.35vw,32px);
+  font-weight:900;
+  letter-spacing:.06em;
+  color:#af3d6b!important;
+  text-shadow:0 1px 0 rgba(255,255,255,.95),0 3px 0 rgba(255,226,178,.65),0 10px 22px rgba(255,255,255,.52);
+}
+body[data-syk-mode="on"] #dls-global-header .dls-gh-brand-sub{
+  font-family:"Hiragino Maru Gothic ProN","Yu Gothic",Meiryo,sans-serif;
+  letter-spacing:.02em;
+}
+
+/* Theme解除 button: rounded glossy capsule closer to the reference. */
+body[data-syk-mode="on"] #dls-theme-toggle{
+  display:inline-flex!important;align-items:center;justify-content:center;gap:8px;
+  min-height:42px;padding:9px 20px 9px 18px!important;border-radius:999px!important;
+  background:linear-gradient(180deg,#f8a4c9 0%,#ed6ea8 48%,#c43881 100%)!important;
+  color:#fff8ff!important;border:2px solid #e9bf63!important;
+  box-shadow:0 8px 18px rgba(198,70,131,.28), inset 0 2px 0 rgba(255,255,255,.42), inset 0 -2px 0 rgba(138,20,82,.32)!important;
+  position:relative;overflow:hidden;font-weight:900!important;letter-spacing:.02em;
+  text-shadow:0 1px 1px rgba(125,24,76,.5);
+}
+body[data-syk-mode="on"] #dls-theme-toggle::before{
+  content:"";width:20px;height:20px;flex:0 0 20px;border-radius:999px;
+  background:url('../assets/syk-emblem.png') center/contain no-repeat;
+  filter:drop-shadow(0 1px 1px rgba(255,255,255,.35));
+}
+body[data-syk-mode="on"] #dls-theme-toggle::after{
+  content:"";position:absolute;left:10px;right:10px;top:4px;height:46%;border-radius:999px;
+  background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,0));pointer-events:none;
+}
+body[data-syk-mode="on"] #dls-theme-toggle:hover{
+  transform:translateY(-1px);filter:saturate(1.05) brightness(1.02);
+}
+body[data-syk-mode="on"] #dls-theme-toggle:active{transform:translateY(1px)}
+
+/* Calendar tones: stronger contrast like the requested heart-mode sample. */
+body[data-syk-mode="on"] .week,body[data-syk-mode="on"] .display-settings{
+  border-color:#d98fb1!important;
+  background:linear-gradient(180deg,rgba(255,250,252,.95),rgba(255,243,248,.92))!important;
+}
+body[data-syk-mode="on"] .weekheader{
+  background:linear-gradient(180deg,#b3387c 0%,#b2387d 55%,#ab3678 100%)!important;
+}
+body[data-syk-mode="on"] .weekheader .labelcell,
+body[data-syk-mode="on"] .dayhead span,
+body[data-syk-mode="on"] .dayhead strong{
+  color:#fff8fd!important;
+  text-shadow:0 1px 0 rgba(102,18,64,.35);
+}
+body[data-syk-mode="on"] .dayhead{border-left-color:rgba(255,255,255,.2)!important}
+body[data-syk-mode="on"] .dayhead.today{
+  background:linear-gradient(180deg,#de6fab 0%,#d764a4 100%)!important;
+  box-shadow:inset 0 3px 0 #ffe5a0!important;
+}
+body[data-syk-mode="on"] .dayhead.today:after{color:#fff0a8!important}
+body[data-syk-mode="on"] .daycell{background:rgba(255,247,251,.9)!important;border-left-color:#e9bed2!important}
+body[data-syk-mode="on"] .daycell.today{
+  background:linear-gradient(180deg,rgba(240,186,215,.62),rgba(246,205,228,.5))!important;
+}
+body[data-syk-mode="on"] .evrow{
+  border-top-color:#efc6d7!important;background:rgba(255,250,252,.82)!important;
+}
+body[data-syk-mode="on"] .evrow:nth-child(odd){background:rgba(253,241,247,.9)!important}
+body[data-syk-mode="on"] .evname{color:#8f3660!important}
+body[data-syk-mode="on"] .evname small{color:#a06a86!important}
+body[data-syk-mode="on"] .mhead{
+  background:linear-gradient(180deg,#b3387c 0%,#ad3779 100%)!important;
+  color:#fff8fd!important;
+}
+body[data-syk-mode="on"] .mday{
+  background:linear-gradient(180deg,rgba(255,252,253,.98),rgba(255,243,248,.94))!important;
+  border-color:#ebbdd0!important;
+}
+body[data-syk-mode="on"] .mday.today{
+  background:linear-gradient(180deg,#f9d6e7,#f6c9df)!important;
+  box-shadow:inset 0 0 0 2px #d96aa6!important;
+}
+body[data-syk-mode="on"] .mnum{color:#983861!important}
+body[data-syk-mode="on"] .more{color:#9b6681!important}
+
+/* Update panel card follows the SYK world. */
+body[data-syk-mode="on"] .update-teaser{
+  position:relative;overflow:hidden;
+  background:linear-gradient(145deg,rgba(255,253,254,.98) 0%,rgba(255,241,248,.96) 58%,rgba(255,232,242,.98) 100%)!important;
+  color:#8c2c59!important;border:2px solid #e3ba63!important;border-radius:26px!important;
+  box-shadow:0 8px 0 rgba(226,163,191,.18),0 16px 34px rgba(190,76,128,.18),inset 0 1px 0 rgba(255,255,255,.95)!important;
+}
+body[data-syk-mode="on"] .update-teaser::before{
+  content:"";position:absolute;right:-8px;top:-14px;width:112px;height:112px;opacity:.22;pointer-events:none;
+  background:url('../assets/syk-emblem.png') center/contain no-repeat;
+}
+body[data-syk-mode="on"] .update-teaser::after{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.8;
+  background:
+    radial-gradient(circle at 14% 22%, rgba(255,255,255,.95) 0 2px, transparent 4px),
+    radial-gradient(circle at 20% 50%, rgba(255,249,217,.9) 0 2px, transparent 4px),
+    radial-gradient(circle at 68% 26%, rgba(255,255,255,.92) 0 2px, transparent 4px),
+    radial-gradient(circle at 80% 62%, rgba(255,248,210,.9) 0 2px, transparent 4px);
+}
+body[data-syk-mode="on"] .update-teaser-icon{
+  color:transparent!important;background:url('../assets/syk-emblem.png') center/contain no-repeat!important;
+  border:none!important;box-shadow:none!important;width:32px;height:32px;flex-basis:32px;
+}
+body[data-syk-mode="on"] .update-teaser-version{color:#8b325b!important;font-weight:900!important}
+body[data-syk-mode="on"] .update-teaser-date{color:#9d6580!important}
+body[data-syk-mode="on"] .update-teaser-action{color:#993763!important}
+body[data-syk-mode="on"] .update-teaser-new{background:linear-gradient(180deg,#8ce1b5,#65c48e)!important;color:#fff!important;box-shadow:0 2px 6px rgba(71,161,108,.25)}
+
+/* Version modal entries also align with the theme. */
+body[data-syk-mode="on"] .version-modal{
+  background:linear-gradient(180deg,#fffdfd,#fff1f7)!important;
+}
+body[data-syk-mode="on"] .version-modal .headrow h2{color:#a53061!important}
+body[data-syk-mode="on"] .version-modal .fine{color:#955d7b!important}
+body[data-syk-mode="on"] .version-history{
+  padding-right:2px;
+}
+body[data-syk-mode="on"] .version-release{
+  position:relative;overflow:hidden;
+  background:linear-gradient(145deg,#ffffff 0%,#fff5fa 68%,#ffedf5 100%)!important;
+  border:1px solid #e8c27b!important;border-radius:18px!important;
+  box-shadow:0 8px 20px rgba(195,88,138,.12), inset 0 1px 0 rgba(255,255,255,.95)!important;
+}
+body[data-syk-mode="on"] .version-release::after{
+  content:"";position:absolute;right:-10px;top:-14px;width:76px;height:76px;opacity:.14;pointer-events:none;
+  background:url('../assets/syk-emblem.png') center/contain no-repeat;
+}
+body[data-syk-mode="on"] .version-release-title strong{color:#a23464!important}
+body[data-syk-mode="on"] .version-release-title time,body[data-syk-mode="on"] .version-empty{color:#9a637d!important}
+body[data-syk-mode="on"] .version-release h3{color:#8d2e59!important}
+body[data-syk-mode="on"] .version-release li{color:#7c415d!important}
+
+@media(max-width:720px){
+  body[data-syk-mode="on"] #dls-theme-toggle{padding:8px 13px 8px 12px!important;min-height:38px;font-size:11px!important}
+  body[data-syk-mode="on"] #dls-theme-toggle::before{width:18px;height:18px;flex-basis:18px}
+  body[data-syk-mode="on"] .update-teaser{border-radius:22px!important}
+}
+
+
+/* SYK visual polish (2026-11-13): title flourishes, recognizable crown & wing icons. */
+body[data-syk-mode="on"] #dls-global-header .dls-gh-brand{min-height:86px;}
+body[data-syk-mode="on"] #dls-global-header .dls-gh-brand-title{
+  position:relative;display:inline-block;align-self:flex-start;max-width:100%;
+  padding:15px 0 14px;
+  font-family:Georgia,"Palatino Linotype","Book Antiqua",serif!important;
+  font-style:italic;font-weight:800!important;
+  font-size:clamp(20px,2.45vw,32px)!important;letter-spacing:.018em!important;
+  color:#fff2c4!important;
+  -webkit-text-stroke:.55px #a34c65;
+  text-shadow:1px 1px 0 #8f365c,-1px -1px 0 #a24d68,0 3px 0 #b15f7a,0 5px 13px rgba(128,42,89,.45)!important;
+  white-space:nowrap;
+}
+body[data-syk-mode="on"] #dls-global-header .dls-gh-brand-title::before,
+body[data-syk-mode="on"] #dls-global-header .dls-gh-brand-title::after{
+  content:"";position:absolute;left:0;width:100%;height:12px;pointer-events:none;
+  background:url('../assets/syk-title-flourish.svg') center/100% 100% no-repeat;
+  filter:drop-shadow(0 1px 2px rgba(142,54,89,.28));
+}
+body[data-syk-mode="on"] #dls-global-header .dls-gh-brand-title::before{top:0;}
+body[data-syk-mode="on"] #dls-global-header .dls-gh-brand-title::after{bottom:0;transform:scaleY(-1);}
+body[data-syk-mode="on"] #dls-global-header .dls-gh-brand-sub{font-style:normal;}
+/* Crown is deliberately a single visible symbol, not a scaled full emblem. */
+body[data-syk-mode="on"] #dls-theme-toggle::before{
+  content:"👑"!important;
+  display:inline-flex!important;align-items:center;justify-content:center;
+  width:auto!important;height:auto!important;flex:0 0 auto!important;
+  font-size:22px;line-height:1!important;
+  border-radius:0!important;background:none!important;filter:none!important;
+  text-shadow:0 1px 2px rgba(119,49,40,.3);
+}
+/* The update card uses a single feather/wing, big enough to recognize. */
+body[data-syk-mode="on"] .update-teaser-icon{
+  display:inline-block!important;
+  width:51px!important;height:38px!important;flex:0 0 51px!important;
+  background:url('../assets/syk-wing.png') center/contain no-repeat!important;
+  color:transparent!important;border:0!important;box-shadow:none!important;
+}
+body[data-syk-mode="on"] .update-teaser-date,
+body[data-syk-mode="on"] .update-teaser-action{padding-left:0!important;}
+@media(max-width:720px){
+  body[data-syk-mode="on"] #dls-global-header .dls-gh-brand{min-height:64px;}
+  body[data-syk-mode="on"] #dls-global-header .dls-gh-brand-title{
+    font-size:clamp(17px,4.8vw,23px)!important;padding:13px 0 12px;
+  }
+  body[data-syk-mode="on"] #dls-global-header .dls-gh-brand-title::before,
+  body[data-syk-mode="on"] #dls-global-header .dls-gh-brand-title::after{height:10px;}
+  body[data-syk-mode="on"] #dls-theme-toggle::before{font-size:19px;}
+}
+
+/* Override the late-loaded changelog stylesheet as well. */
+body[data-syk-mode="on"] .update-teaser .update-teaser-icon{
+  background:url('../assets/syk-wing.png') center/contain no-repeat!important;
+  display:inline-block!important;width:54px!important;height:38px!important;flex:0 0 54px!important;
+  color:transparent!important;border:none!important;box-shadow:none!important;
+}
+body[data-syk-mode="on"] .update-teaser::before{
+  background:url('../assets/syk-emblem.png') center/contain no-repeat!important;
+  width:115px;height:80px;right:-10px;top:-4px;opacity:.12;
+}

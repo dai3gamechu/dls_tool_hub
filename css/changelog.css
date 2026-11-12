@@ -109,3 +109,14 @@ body[data-theme="light"] #noticeCopyCount[data-state="over"]{color:#b53140}
 body[data-theme="light"] .notice-copy-meter{background:#e2e7ec}
 body[data-heart-mode="on"] #noticeCopyCount[data-state="over"]{color:#c1325e!important}
 body[data-heart-mode="on"] .notice-copy-meter{background:#f4cfdf!important}
+
+
+/* SYK polish override (Ver1.1.2): update card and release cards use the pink/gold world. */
+body[data-syk-mode="on"] .update-teaser{background:linear-gradient(145deg,rgba(255,253,254,.98),rgba(255,240,247,.98))!important;border:2px solid #e3ba63!important;border-radius:26px!important;color:#8c2c59!important;box-shadow:0 8px 0 rgba(226,163,191,.18),0 16px 34px rgba(190,76,128,.18),inset 0 1px 0 rgba(255,255,255,.95)!important}
+body[data-syk-mode="on"] .update-teaser-icon{color:transparent!important;background:url('../assets/syk-emblem.png') center/contain no-repeat!important;border:none!important;box-shadow:none!important}
+body[data-syk-mode="on"] .update-teaser-version{color:#8b325b!important}
+body[data-syk-mode="on"] .update-teaser-date{color:#9d6580!important}
+body[data-syk-mode="on"] .update-teaser-action{color:#993763!important}
+body[data-syk-mode="on"] .version-release{background:linear-gradient(145deg,#ffffff,#fff4fa 70%,#ffedf5 100%)!important;border-color:#e8c27b!important;border-radius:18px!important;box-shadow:0 8px 20px rgba(195,88,138,.12), inset 0 1px 0 rgba(255,255,255,.95)!important}
+body[data-syk-mode="on"] .version-release-title strong{color:#a23464!important}
+body[data-syk-mode="on"] .version-release-title time,body[data-syk-mode="on"] .version-empty{color:#9a637d!important}

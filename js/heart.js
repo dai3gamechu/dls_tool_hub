@@ -43,6 +43,7 @@
   window.setTimeout(()=>fx.remove(),1100);
  }
  function onLogoClick(event){
+  if(document.body.dataset.sykMode==='on')return;
   // The brand links to this same TOP page; prevent navigation so the sequence can be detected.
   event.preventDefault();
   const now=performance.now();
