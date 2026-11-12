@@ -1,20 +1,22 @@
-/* SYKオリジナル: 3-second press, local persistence, voice hooks. */
+/* SYKオリジナル: 3-second press, local persistence, six equally weighted voice clips. */
 (function(){
  'use strict';
  const KEY='dls-syk-original-v1';
  const holdMillis=3000,cooldownMillis=3000;
- const sounds={activate:'./audio/syk-on.mp3',menuA:'./audio/syk-menu-a.mp3',menuB:'./audio/syk-menu-b.mp3'};
+ const sounds=['a','b','c','d','e','f'].map(letter=>'./audio/syk-menu-'+letter+'.mp3');
  let timer=null,held=false,heldUntil=0,startingPoint=null,lastPlayed=-Infinity,activeAudio=null,dialog=null;
  const saved=()=>{try{return localStorage.getItem(KEY)==='on'}catch{return false}};
  function store(on){try{if(on)localStorage.setItem(KEY,'on');else localStorage.removeItem(KEY)}catch{}}
  function play(kind){
-  // Audio is optional until the user supplies their voice data. Never interrupt controls on load failure.
+  // Choose uniformly from all six files for both activation and menu interactions.
+  // The activation sound always attempts playback; menu sounds respect the cooldown.
   const now=performance.now();if(kind!=='activate'&&now-lastPlayed<cooldownMillis)return;
   lastPlayed=now; // Activation also starts the cooldown, so menu sounds never cut it off.
   try{if(activeAudio){activeAudio.pause();activeAudio.currentTime=0;}
-   activeAudio=new Audio(sounds[kind]);activeAudio.volume=.65;
+   const sound=sounds[Math.floor(Math.random()*sounds.length)];
+   activeAudio=new Audio(sound);activeAudio.volume=.65;
    const result=activeAudio.play();if(result&&result.catch)result.catch(()=>{});
-  }catch(_){/* missing or blocked audio must never affect UI */}
+  }catch(_){/* blocked audio must never affect UI */}
  }
  function setSyk(on,announce){
   if(on){document.body.dataset.sykMode='on';delete document.body.dataset.heartMode;}
@@ -25,7 +27,7 @@
  function renderButton(){
   const button=document.getElementById('dls-theme-toggle');if(!button)return;
   if(document.body.dataset.sykMode==='on'){
-    button.textContent='モード解除';button.title='SYKオリジナルを解除';
+    button.textContent='SYKオリジナル解除';button.title='SYKオリジナルを解除';
     button.setAttribute('aria-label','SYKオリジナルを解除');
   } else {
     // Base-theme appearance belongs to shared/header.js. This script only restores the existing label.
@@ -46,7 +48,7 @@
    dialog.addEventListener('click',e=>{if(e.target===dialog)closeDialog()});
    dialog.querySelector('form').addEventListener('submit',e=>{
     e.preventDefault();const value=dialog.querySelector('input').value.trim().toLowerCase();
-    if(value!=='saikyou'){dialog.querySelector('.syk-error').textContent='パスワードが違います。';return}
+    if(value!=='syk'){dialog.querySelector('.syk-error').textContent='パスワードが違います。';return}
     closeDialog();held=false;heldUntil=0;setSyk(true,true);
    });
    document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!dialog.hidden)closeDialog()});
@@ -84,13 +86,13 @@
   button.addEventListener('keyup',cancel);
   const menu=document.getElementById('dls-menu-toggle');
   if(menu)menu.addEventListener('click',()=>{
-   if(document.body.dataset.sykMode==='on')play(Math.random()<.85?'menuA':'menuB');
+   if(document.body.dataset.sykMode==='on')play('menu');
   });
   // On desktop, dropdown summaries are the non-navigating header menu controls.
   // Direct navigation links retain their original immediate navigation behavior.
   document.querySelectorAll('#dls-global-header .dls-gh-nav .dls-gh-group > summary').forEach(summary=>{
    summary.addEventListener('click',()=>{
-    if(document.body.dataset.sykMode==='on')play(Math.random()<.85?'menuA':'menuB');
+    if(document.body.dataset.sykMode==='on')play('menu');
    });
   });
   // Apply saved state without audio; no unlock dialog on page load.
