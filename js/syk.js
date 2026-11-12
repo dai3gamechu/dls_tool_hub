@@ -8,15 +8,15 @@
  const saved=()=>{try{return localStorage.getItem(KEY)==='on'}catch{return false}};
  function store(on){try{if(on)localStorage.setItem(KEY,'on');else localStorage.removeItem(KEY)}catch{}}
  function play(kind){
-  // Choose uniformly from all six files for both activation and menu interactions.
-  // The activation sound always attempts playback; menu sounds respect the cooldown.
+  // Activation and menu select uniformly from the same six sound files.
+  // Activation always attempts playback; menu respects the cooldown.
   const now=performance.now();if(kind!=='activate'&&now-lastPlayed<cooldownMillis)return;
   lastPlayed=now; // Activation also starts the cooldown, so menu sounds never cut it off.
   try{if(activeAudio){activeAudio.pause();activeAudio.currentTime=0;}
    const sound=sounds[Math.floor(Math.random()*sounds.length)];
    activeAudio=new Audio(sound);activeAudio.volume=.65;
    const result=activeAudio.play();if(result&&result.catch)result.catch(()=>{});
-  }catch(_){/* blocked audio must never affect UI */}
+  }catch(_){/* missing or blocked audio must never affect UI */}
  }
  function setSyk(on,announce){
   if(on){document.body.dataset.sykMode='on';delete document.body.dataset.heartMode;}
@@ -27,7 +27,7 @@
  function renderButton(){
   const button=document.getElementById('dls-theme-toggle');if(!button)return;
   if(document.body.dataset.sykMode==='on'){
-    button.textContent='SYKオリジナル解除';button.title='SYKオリジナルを解除';
+    button.textContent='モード解除';button.title='SYKオリジナルを解除';
     button.setAttribute('aria-label','SYKオリジナルを解除');
   } else {
     // Base-theme appearance belongs to shared/header.js. This script only restores the existing label.
@@ -48,7 +48,7 @@
    dialog.addEventListener('click',e=>{if(e.target===dialog)closeDialog()});
    dialog.querySelector('form').addEventListener('submit',e=>{
     e.preventDefault();const value=dialog.querySelector('input').value.trim().toLowerCase();
-    if(value!=='syk'){dialog.querySelector('.syk-error').textContent='パスワードが違います。';return}
+    if(value!=='saikyou'){dialog.querySelector('.syk-error').textContent='パスワードが違います。';return}
     closeDialog();held=false;heldUntil=0;setSyk(true,true);
    });
    document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!dialog.hidden)closeDialog()});
@@ -93,6 +93,50 @@
   document.querySelectorAll('#dls-global-header .dls-gh-nav .dls-gh-group > summary').forEach(summary=>{
    summary.addEventListener('click',()=>{
     if(document.body.dataset.sykMode==='on')play('menu');
+   });
+  });
+  // Navigation links can leave this document before sound playback finishes.
+  // Only plain, same-tab user clicks are delayed; modified clicks and links that
+  // explicitly open another tab keep the browser's default behavior.
+  let navigating=false;
+  const navigateWithVoice=(anchor)=>{
+   if(navigating)return;
+   const now=performance.now();
+   if(now-lastPlayed<cooldownMillis){window.location.assign(anchor.href);return;}
+   navigating=true;
+   lastPlayed=now;
+   let finished=false;
+   let timeoutId=null;
+   let sound=null;
+   const finish=()=>{
+    if(finished)return;
+    finished=true;
+    if(timeoutId!==null)clearTimeout(timeoutId);
+    if(sound){sound.removeEventListener('ended',finish);sound.removeEventListener('error',finish);}
+    window.location.assign(anchor.href);
+   };
+   // Never trap a visitor when a sound fails to load/play or is stalled.
+   timeoutId=setTimeout(finish,4000);
+   try{
+    if(activeAudio){activeAudio.pause();activeAudio.currentTime=0;}
+    sound=new Audio(sounds[Math.floor(Math.random()*sounds.length)]);
+    activeAudio=sound;
+    sound.volume=.65;
+    sound.addEventListener('ended',finish,{once:true});
+    sound.addEventListener('error',finish,{once:true});
+    const result=sound.play();
+    if(result&&result.catch)result.catch(finish);
+   }catch(_){finish();}
+  };
+  document.querySelectorAll('#dls-global-header a.dls-gh-link, #dls-global-header .dls-gh-drop a, #dls-global-header a.dls-gh-brand').forEach(anchor=>{
+   anchor.addEventListener('click',e=>{
+    if(document.body.dataset.sykMode!=='on')return;
+    if(e.defaultPrevented||e.button!==0||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey)return;
+    if(anchor.hasAttribute('download')||(anchor.target&&anchor.target!=='_self'))return;
+    if(!/^https?:$/.test(anchor.protocol))return;
+    e.preventDefault();
+    if(navigating)return;
+    navigateWithVoice(anchor);
    });
   });
   // Apply saved state without audio; no unlock dialog on page load.
