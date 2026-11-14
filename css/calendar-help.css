@@ -1,0 +1,30 @@
+/* First-time help and full-width calendar: display only, no calendar calculations changed. */
+.shell{grid-template-columns:minmax(0,1fr)!important;}
+.shell>main{min-width:0;}
+.calendar-utility{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:0 0 8px;}
+.calendar-event-count{display:inline-flex;align-items:baseline;gap:7px;font-size:12px;color:#a1a5af;}
+.calendar-event-count strong{font-size:17px;font-weight:800;color:#edf0f3;font-variant-numeric:tabular-nums;}
+.calendar-help-trigger{font-size:12px;padding:7px 12px;white-space:nowrap;}
+.help-modal{max-width:630px;}
+.help-sections{display:grid;gap:12px;margin-top:15px;}
+.help-sections section{padding:12px 14px;border-radius:12px;background:#25272c;border:1px solid #41454d;}
+.help-sections h3{font-size:14px;margin:0 0 6px;color:#b4d9e3;}
+.help-sections p{margin:0;font-size:12px;line-height:1.85;color:#d3d6dc;}
+#helpDlg .help-modal{max-height:90vh;overflow-y:auto;}
+body[data-theme="light"] .calendar-event-count{color:#68717f;}
+body[data-theme="light"] .calendar-event-count strong{color:#242c35;}
+body[data-theme="light"] .help-sections section{background:#f5f7fa;border-color:#d9dde3;}
+body[data-theme="light"] .help-sections h3{color:#226d80;}
+body[data-theme="light"] .help-sections p{color:#515b69;}
+body[data-heart-mode="on"] .calendar-event-count{color:#915e77!important;}
+body[data-heart-mode="on"] .calendar-event-count strong{color:#9b3d6a!important;}
+body[data-heart-mode="on"] .help-sections section{background:#fff5fa!important;border-color:#ecc6d8!important;}
+body[data-heart-mode="on"] .help-sections h3{color:#a63f72!important;}
+body[data-heart-mode="on"] .help-sections p{color:#854f6c!important;}
+body[data-syk-mode="on"] .calendar-event-count{color:#985777!important;}
+body[data-syk-mode="on"] .calendar-event-count strong{color:#a23366!important;}
+body[data-syk-mode="on"] .calendar-help-trigger{border:1px solid #ddb56b!important;background:linear-gradient(180deg,#fffefa,#ffeaf4)!important;color:#a33364!important;box-shadow:0 3px 10px rgba(184,88,138,.14);}
+body[data-syk-mode="on"] .help-sections section{background:linear-gradient(150deg,#fffafd,#fff0f7)!important;border-color:#e6c080!important;}
+body[data-syk-mode="on"] .help-sections h3{color:#ac336d!important;}
+body[data-syk-mode="on"] .help-sections p{color:#864568!important;}
+@media(max-width:720px){.calendar-utility{gap:8px}.calendar-event-count strong{font-size:16px}.help-modal{padding:16px}.help-sections section{padding:10px 11px}}
