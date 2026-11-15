@@ -215,7 +215,13 @@
       "stages": {
         "0": "登録日"
       },
-      "frequency": "4週間ごと"
+      "frequency": "4週間ごと",
+      "videos": [
+        {
+          "title": "攻略・解説動画",
+          "url": "https://www.youtube.com/watch?v=1hJ56xeHiM8"
+        }
+      ]
     },
     {
       "name": "物資リコール・お宝交換",
