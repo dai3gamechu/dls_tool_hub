@@ -1,7 +1,15 @@
 {
   "schemaVersion": 1,
-  "currentVersion": "1.3.1",
+  "currentVersion": "1.4.0",
   "releases": [
+    {
+      "version": "1.4.0",
+      "date": "2026-11-16",
+      "title": "イベント情報に攻略動画・プレイ動画の紐づけ",
+      "changes": [
+        "一部イベントに、攻略動画・プレイ動画が紐づくようになりました。必要に応じてご参照ください。"
+      ]
+    },
     {
       "version": "1.3.1",
       "date": "2026-11-14",
