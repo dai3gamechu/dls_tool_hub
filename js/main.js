@@ -138,7 +138,75 @@ function renderWeek(a,events){let h=`<div class="week"><div class="weekheader"><
 function renderMonth(a,end){let firstWeek=startWeek(a),last=end;let weeks=Math.ceil((end-firstWeek)/dayMS/7),dayEnd=firstWeek+weeks*7*dayMS,events=enumerate(firstWeek,dayEnd);let h='<div class="month">';for(let x of ['月','火','水','木','金','土','日'])h+=`<div class="mhead">${x}</div>`;for(let t=firstWeek;t<dayEnd;t+=dayMS){let dayEvents=events.filter(e=>e.start<t+dayMS&&e.end>t),isOther=t<a||t>=end;h+=`<div class="mday ${isOther?'other':''} ${localToday()===t?'today':''}"><div class="mnum">${new Date(t+offset()).getUTCDate()}</div>`;for(let ev of dayEvents.slice(0,3)){h+=`<button class="mevent" data-id="${esc(ev.id)}" title="${esc(ev.title)}" style="background:${colorByCat[ev.category]}55;border-left-color:${colorByCat[ev.category]}">${esc(ev.title)}</button>`}if(dayEvents.length>3)h+=`<div class="more">ほか ${dayEvents.length-3} 件</div>`;h+='</div>'}h+='</div>';document.getElementById('calendar').innerHTML=h;linkDetails(events)}
 function linkDetails(events){document.querySelectorAll('[data-id]').forEach(el=>el.onclick=()=>showDetail(events.find(e=>e.id===el.dataset.id)))}
 function formatDateTime(t){return fmt(t+offset())+' '+String(new Date(t+offset()).getUTCHours()).padStart(2,'0')+':00'}
-function showDetail(ev){if(!ev)return;document.getElementById('detailName').textContent=ev.title;document.getElementById('detailBody').innerHTML=`<span class="status">${ev.manual?'GitHub登録の臨時イベント':'周期から計算した予想日程'}</span><div class="detailrow"><span>カテゴリー</span><strong><i class="dot" style="background:${colorByCat[ev.category]}"></i> ${esc(ev.category)}</strong></div><div class="detailrow"><span>開始（UTC）</span><strong>${formatDateTime(ev.start)}</strong></div><div class="detailrow"><span>終了（UTC）</span><strong>${formatDateTime(ev.end)}</strong></div><div class="detailrow"><span>開催日数</span><strong>${ev.duration} 日</strong></div><div class="detailrow"><span>開催周期</span><strong>${ev.manual?'単発':esc(ev.frequency)}</strong></div>${ev.notes?`<div class="detailrow"><span>備考・段階</span><strong>${esc(ev.notes)}</strong></div>`:''}<div class="fine">※終了は最終日の翌日00:00（UTC）です。</div>`;document.getElementById('detailDlg').classList.add('show')}
+/* YouTube関連動画: events.json / specialEvents の任意項目 videos に対応。
+   動画IDのみを検証してサムネイルを生成し、リンクは安全なYouTube HTTPS URLに限定する。 */
+function parseYoutubeVideoUrl(raw){
+ if(typeof raw!=='string')return null;
+ try{
+  const url=new URL(raw.trim());
+  if(url.protocol!=='https:'||url.username||url.password)return null;
+  const host=url.hostname.toLowerCase();
+  let id='';
+  if(host==='youtu.be'){
+   id=url.pathname.split('/').filter(Boolean)[0]||'';
+  }else if(['youtube.com','www.youtube.com','m.youtube.com','music.youtube.com'].includes(host)){
+   const pieces=url.pathname.split('/').filter(Boolean);
+   if(pieces[0]==='watch')id=url.searchParams.get('v')||'';
+   else if(['shorts','live','embed'].includes(pieces[0]))id=pieces[1]||'';
+  }else return null;
+  if(!/^[A-Za-z0-9_-]{11}$/.test(id))return null;
+  return {id,url:url.href};
+ }catch(_){return null}
+}
+function appendEventVideos(target,videos){
+ if(!Array.isArray(videos)||!videos.length)return;
+ const entries=videos.map(entry=>{
+  if(!entry||typeof entry!=='object')return null;
+  const video=parseYoutubeVideoUrl(entry.url);
+  if(!video)return null;
+  return {...video,title:typeof entry.title==='string'&&entry.title.trim()?entry.title.trim():'YouTube動画'};
+ }).filter(Boolean);
+ if(!entries.length)return;
+ const section=document.createElement('section');
+ section.className='event-videos';
+ section.setAttribute('aria-label','関連動画');
+ const heading=document.createElement('h3');
+ heading.className='event-videos-heading';
+ heading.textContent='▶ 関連動画';
+ section.appendChild(heading);
+ const list=document.createElement('div');
+ list.className='event-video-list';
+ for(const entry of entries){
+  const link=document.createElement('a');
+  link.className='event-video-link';
+  link.href=entry.url;
+  link.target='_blank';
+  link.rel='noopener noreferrer';
+  link.setAttribute('aria-label',entry.title+'（YouTubeを新しいタブで開く）');
+  const cover=document.createElement('span');
+  cover.className='event-video-cover';
+  const image=document.createElement('img');
+  image.src='https://i.ytimg.com/vi/'+entry.id+'/hqdefault.jpg';
+  image.alt='';image.loading='lazy';image.decoding='async';
+  image.addEventListener('error',()=>{cover.classList.add('event-video-image-error');image.remove()},{once:true});
+  cover.appendChild(image);
+  const play=document.createElement('span');
+  play.className='event-video-play';play.textContent='▶';play.setAttribute('aria-hidden','true');
+  cover.appendChild(play);
+  const info=document.createElement('span');
+  info.className='event-video-info';
+  const title=document.createElement('span');
+  title.className='event-video-title';title.textContent=entry.title;
+  const hint=document.createElement('span');
+  hint.className='event-video-hint';hint.textContent='YouTubeで見る ↗';
+  info.append(title,hint);
+  link.append(cover,info);
+  list.appendChild(link);
+ }
+ section.appendChild(list);
+ target.appendChild(section);
+}
+function showDetail(ev){if(!ev)return;document.getElementById('detailName').textContent=ev.title;document.getElementById('detailBody').innerHTML=`<span class="status">${ev.manual?'GitHub登録の臨時イベント':'周期から計算した予想日程'}</span><div class="detailrow"><span>カテゴリー</span><strong><i class="dot" style="background:${colorByCat[ev.category]}"></i> ${esc(ev.category)}</strong></div><div class="detailrow"><span>開始（UTC）</span><strong>${formatDateTime(ev.start)}</strong></div><div class="detailrow"><span>終了（UTC）</span><strong>${formatDateTime(ev.end)}</strong></div><div class="detailrow"><span>開催日数</span><strong>${ev.duration} 日</strong></div><div class="detailrow"><span>開催周期</span><strong>${ev.manual?'単発':esc(ev.frequency)}</strong></div>${ev.notes?`<div class="detailrow"><span>備考・段階</span><strong>${esc(ev.notes)}</strong></div>`:''}<div class="fine">※終了は最終日の翌日00:00（UTC）です。</div>`;appendEventVideos(document.getElementById('detailBody'),ev.videos);document.getElementById('detailDlg').classList.add('show')}
 // お知らせ連携: 画面のカレンダーや表示設定を動かさず、既存の詳細ダイアログを開く。
 // 定期イベントは通知に紐づく開催回を優先し、手動通知は開催中または次回の開催回を使う。
 function openNoticeEventDetail(eventName, eventStart, referenceTime=Date.now()){
