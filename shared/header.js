@@ -5,8 +5,8 @@
   const links = {
     event: ROOT+'dls_tool_hub/', daily: ROOT+'daily_mission_tool/',
     tower: ROOT+'watchtower_route_calculator/', tc: ROOT+'tc_calculator/',
-    cement: ROOT+'ir_watchtower_calculator/', store: ROOT+'sim_ir_store/',
-    mission: ROOT+'mission_guide/'
+    cement: ROOT+'ir_watchtower_calculator/', ir_store: ROOT+'sim_ir_store/',
+    mission: ROOT+'mission_guide/', ar_store: ROOT+'sim_ar_store/'
   };
   const host = document.getElementById('dls-global-header');
   if (!host) return;
@@ -16,11 +16,14 @@
   const group = (title, entries) => `<details class="dls-gh-group"><summary>${title} ▾</summary><div class="dls-gh-drop">${entries.map(([key,label])=>dropItem(key,label)).join('')}</div></details>`;
   const navContents = () => item('event','イベント') + item('daily','日課') +
     group('トップ司令官', [['tc','TC計算ツール']]) +
-    group('群島', [['tower','見張り台ルート計算']]) +
+    group('群島',[
+      ['tower','見張り台ルート計算'],
+      ['ar_store','ジャーニーストア交換シミュレーター']
+    ]) +
     group('孤島・同盟リーグ', [
       ['tower','見張り台ルート計算'],
       ['cement','IR見張り台計算'],
-      ['store','IRストア交換シミュレーター'],
+      ['ir_store','孤島ストア交換シミュレーター'],
       ['mission','ミッション一覧']
     ]);
   host.innerHTML = `<div class="dls-gh-inner">
