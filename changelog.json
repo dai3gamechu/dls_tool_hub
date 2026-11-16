@@ -1,7 +1,15 @@
 {
   "schemaVersion": 1,
-  "currentVersion": "1.4.0",
+  "currentVersion": "1.4.1",
   "releases": [
+    {
+      "version": "1.4.1",
+      "date": "2026-11-16",
+      "title": "ジャーニーストアシミュレーターを追加",
+      "changes": [
+        "バナーの【群島】から、ジャーニーストアシミュレーターを確認いただけるようになりました。"
+      ]
+    },
     {
       "version": "1.4.0",
       "date": "2026-11-16",
