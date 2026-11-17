@@ -63,6 +63,34 @@
         }
       ]
     },
+    "荒野の覇者": {
+      "notifications": [
+        {
+          "day": 0,
+          "level": "info",
+          "title": "本日は荒野の覇者の登録日です",
+          "message": ""
+        },
+        {
+          "day": 2,
+          "level": "info",
+          "title": "本日から荒野の覇者の戦闘が始まります！",
+          "message": ""
+        },
+        {
+          "day": "last",
+          "level": "warning",
+          "title": "本日は荒野の覇者の最終日です！",
+          "message": ""
+        },
+        {
+          "day": "after",
+          "level": "important",
+          "title": "荒野の覇者の報酬交換は本日まで！",
+          "message": "交換忘れがないか確認してください。"
+        }
+      ]
+    },
     "同盟リーグ": {
       "notifications": [
         {
@@ -570,8 +598,34 @@
         {
           "day": 0,
           "level": "important",
-          "title": "本日はモーティバス、ハイパーカーボン20体狩りましょう。",
+          "title": "本日はモーティバス、20体狩りましょう。",
           "message": "月曜日10体狩り、火曜日のリセット直前にモーティバスを出現させれば火曜日にも10体狩れます。"
+        }
+      ]
+    },
+    "荒野のレーサー": {
+      "notifications": [
+        {
+          "day": 0,
+          "level": "warning",
+          "title": "本日は荒野のレーサー、1日限定イベントなのでお忘れなく！",
+          "message": ""
+        }
+      ]
+    },
+    "秘密の武器庫": {
+      "notifications": [
+        {
+          "day": 0,
+          "level": "info",
+          "title": "本日から密の武器庫が始まります！",
+          "message": ""
+        },
+        {
+          "day": "last",
+          "level": "warning",
+          "title": "本日は密の武器庫の最終日・報酬受取期限日です！",
+          "message": ""
         }
       ]
     }
