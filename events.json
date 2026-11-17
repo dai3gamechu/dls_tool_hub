@@ -104,15 +104,6 @@
       "frequency": "4週間ごと"
     },
     {
-      "name": "名誉エンブレム",
-      "category": "個人対抗イベント",
-      "anchor": "2026-11-08",
-      "everyDays": 14,
-      "duration": 1,
-      "notes": "1位になれば、ハイカーボン100個！スタミナがあふれやすいので要注意",
-      "frequency": "隔週"
-    },
-    {
       "name": "釣りイベント",
       "category": "個人対抗イベント",
       "anchor": "2026-11-13",
@@ -185,6 +176,15 @@
       "everyDays": 14,
       "duration": 7,
       "notes": "なるべく早く、探索スロットを12個埋めましょ！",
+      "frequency": "隔週"
+    },
+    {
+      "name": "名誉エンブレム",
+      "category": "個人対抗イベント",
+      "anchor": "2026-11-08",
+      "everyDays": 14,
+      "duration": 1,
+      "notes": "ス●カゲームだ。DLS2個作れたらうれしい。シークレット生存者が手に入る！",
       "frequency": "隔週"
     },
     {
