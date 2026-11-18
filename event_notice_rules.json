@@ -622,14 +622,58 @@
         {
           "day": 0,
           "level": "info",
-          "title": "本日から密の武器庫が始まります！",
+          "title": "本日から秘密の武器庫が始まります！",
           "message": ""
         },
         {
           "day": "last",
           "level": "warning",
-          "title": "本日は密の武器庫の最終日・報酬受取期限日です！",
+          "title": "本日は秘密の武器庫の最終日・報酬受取期限日です！",
           "message": ""
+        }
+      ]
+    },
+    "エクスペディション": {
+      "notifications": [
+        {
+          "day": 0,
+          "level": "info",
+          "title": "本日からエクスペディションの内容が更新されます！",
+          "message": ""
+        },
+        {
+          "day": "last",
+          "level": "warning",
+          "title": "本日はエクスペディションのウィークリー期限・報酬受取期限日です！",
+          "message": ""
+        }
+      ]
+    },
+    "スパイス戦争": {
+      "notifications": [
+        {
+          "day": 0,
+          "level": "warning",
+          "title": "スパイス戦争が始まってます、高値で売ることをお忘れなく！",
+          "message": ""
+        },
+        {
+          "day": 1,
+          "level": "warning",
+          "title": "スパイス戦争は今日も実施中、高値で売ることをお忘れなく！",
+          "message": ""
+        },
+        {
+          "day": "last",
+          "level": "warning",
+          "title": "スパイス戦争は金曜日が最終日です！",
+          "message": ""
+        },
+        {
+          "day": "after",
+          "level": "warning",
+          "title": "本日はスパイス戦争の報酬受取期限日です！",
+          "message": "ポイントは毎週リセットされるので使い切りましょう！"
         }
       ]
     }

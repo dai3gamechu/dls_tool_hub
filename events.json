@@ -343,6 +343,36 @@
       "duration": 3,
       "notes": "一定数アイテムがたまるまでは、のんびりやり過ごす。",
       "frequency": "4週間ごと"
+    },
+    {
+      "name": "エクスペディション",
+      "category": "期間限定・コラボ",
+      "anchor": "2026-11-18",
+      "everyDays": 7,
+      "duration": 5,
+      "notes": "1週間おきに、アイテム獲得のチャンスがあります。忘れないで！",
+      "frequency": "毎週",
+      "videos": [
+        {
+          "title": "攻略・解説動画",
+          "url": "https://youtu.be/iQCgTP5yEZc&t=474"
+        }
+      ]
+    },
+    {
+      "name": "スパイス戦争",
+      "category": "期間限定・コラボ",
+      "anchor": "2026-11-18",
+      "everyDays": 7,
+      "duration": 3,
+      "notes": "毎日、スパイスを集めて、高値で売ろう！",
+      "frequency": "毎週",
+      "videos": [
+        {
+          "title": "攻略・解説動画",
+          "url": "https://youtu.be/iQCgTP5yEZc&t=1398"
+        }
+      ]
     }
   ],
   "specialEvents": [
@@ -416,6 +446,8 @@
     "荒野の覇者",
     "極限対決",
     "地区対決（スゴロク）",
+    "エクスペディション",
+    "スパイス戦争",
     "黙示録の金庫",
     "ミステリー・トレジャー",
     "生化獣探索",

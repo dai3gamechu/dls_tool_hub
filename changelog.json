@@ -1,7 +1,15 @@
 {
   "schemaVersion": 1,
-  "currentVersion": "1.4.2",
+  "currentVersion": "1.4.3",
   "releases": [
+    {
+      "version": "1.4.3",
+      "date": "2026-11-18",
+      "title": "コラボイベント情報をカレンダーに反映しました",
+      "changes": [
+        "コラボイベントから、デイリー・ウィークリーのものを抜粋しカレンダーに反映しました。"
+      ]
+    },
     {
       "version": "1.4.2",
       "date": "2026-11-17",
