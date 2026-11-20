@@ -1,7 +1,15 @@
 {
   "schemaVersion": 1,
-  "currentVersion": "1.4.3",
+  "currentVersion": "1.5.0",
   "releases": [
+    {
+      "version": "1.5.0",
+      "date": "2026-11-20",
+      "title": "潮流ストアのシミュレーターを追加しました",
+      "changes": [
+        "画面上部に「荒野の覇者」のタブが追加され、潮流ストアのシミュレーターが追加されました。"
+      ]
+    },
     {
       "version": "1.4.3",
       "date": "2026-11-18",
