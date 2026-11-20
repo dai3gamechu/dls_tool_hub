@@ -6,7 +6,7 @@
     event: ROOT+'dls_tool_hub/', daily: ROOT+'daily_mission_tool/',
     tower: ROOT+'watchtower_route_calculator/', tc: ROOT+'tc_calculator/',
     cement: ROOT+'ir_watchtower_calculator/', ir_store: ROOT+'sim_ir_store/',
-    mission: ROOT+'mission_guide/', ar_store: ROOT+'sim_ar_store/'
+    mission: ROOT+'mission_guide/', ar_store: ROOT+'sim_ar_store/', tide_store: ROOT+'sim_tide_store/'
   };
   const host = document.getElementById('dls-global-header');
   if (!host) return;
@@ -25,6 +25,9 @@
       ['cement','IR見張り台計算'],
       ['ir_store','孤島ストア交換シミュレーター'],
       ['mission','ミッション一覧']
+    ]) +
+    group('荒野の覇者', [
+      ['tide_store','潮流ストア交換シミュレーター']
     ]);
   host.innerHTML = `<div class="dls-gh-inner">
     <div class="dls-gh-top">
