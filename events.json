@@ -125,10 +125,10 @@
       "name": "運命の勝者",
       "category": "個人対抗イベント",
       "anchor": "2026-11-07",
-      "everyDays": 28,
+      "everyDays": 14,
       "duration": 2,
       "notes": "期間中の課金額に応じて、抽選回数増加。当たったことはない…",
-      "frequency": "4週間ごと"
+      "frequency": "隔週"
     },
     {
       "name": "荒野の探索",
