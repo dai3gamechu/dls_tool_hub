@@ -378,6 +378,15 @@
         "anchor": "2026-11-18",
         "duration": 3
       }
+    },
+    {
+      "name": "路地裏の医者の依頼",
+      "category": "協力イベント",
+      "anchor": "2026-11-23",
+      "everyDays": 28,
+      "duration": 4,
+      "notes": "SランクLv35の敵を同盟メンバー35人クリアしていれば追加ゾンビを全部出せる",
+      "frequency": "4週間ごと"
     }
   ],
   "specialEvents": [
