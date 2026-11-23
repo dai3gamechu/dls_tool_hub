@@ -347,9 +347,9 @@
     {
       "name": "エクスペディション",
       "category": "期間限定・コラボ",
-      "anchor": "2026-11-18",
+      "anchor": "2026-11-23",
       "everyDays": 7,
-      "duration": 5,
+      "duration": 3,
       "notes": "1週間おきに、アイテム獲得のチャンスがあります。忘れないで！",
       "frequency": "毎週",
       "videos": [
@@ -357,7 +357,12 @@
           "title": "攻略・解説動画",
           "url": "https://youtu.be/iQCgTP5yEZc?t=168"
         }
-      ]
+      ],
+      "repeatFrom": "2026-11-23",
+      "firstOccurrence": {
+        "anchor": "2026-11-18",
+        "duration": 3
+      }
     },
     {
       "name": "スパイス戦争",
