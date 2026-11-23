@@ -80,6 +80,19 @@ async function loadSharedEvents(){
    const base=data.events.filter(x=>x&&typeof x.name==='string'&&validCategory.has(x.category)&&validDate(x.anchor)&&Number.isInteger(x.everyDays)&&x.everyDays>0&&Number.isInteger(x.duration)&&x.duration>0);
    const specials=data.specialEvents.filter(x=>x&&typeof x.name==='string'&&validCategory.has(x.category)&&validDate(x.anchor)&&Number.isInteger(x.duration)&&x.duration>0);
    if(base.length!==data.events.length||specials.length!==data.specialEvents.length)throw new Error('データに不正なイベントがあります');
+   // 初回のみ例外開催: repeatFrom / firstOccurrence を指定したイベントだけ検証する。
+   for(const event of base){
+    const hasRepeat=Object.hasOwn(event,'repeatFrom');
+    const hasFirst=Object.hasOwn(event,'firstOccurrence');
+    if(!hasRepeat&&!hasFirst)continue;
+    if(!hasRepeat||!hasFirst||!validDate(event.repeatFrom)||event.anchor!==event.repeatFrom||
+       !event.firstOccurrence||typeof event.firstOccurrence!=='object'||
+       !validDate(event.firstOccurrence.anchor)||
+       !Number.isInteger(event.firstOccurrence.duration)||event.firstOccurrence.duration<=0||
+       dateUTC(event.firstOccurrence.anchor)+event.firstOccurrence.duration*dayMS>dateUTC(event.repeatFrom)){
+     throw new Error(event.name+' の初回例外開催設定が不正です');
+    }
+   }
    PRESET=base;
    manual=specials.map((x,i)=>({...x,id:'shared_'+i+'_'+x.anchor,notes:x.notes||''}));
    if(Array.isArray(data.defaultOrder)){
@@ -97,7 +110,42 @@ async function loadSharedEvents(){
  }
 }
 
-function enumerate(a,b){let output=[];for(let p of PRESET){let base=dateUTC(p.anchor),stride=p.everyDays*dayMS;let startN=Math.floor((a-base-p.duration*dayMS)/stride)-1;let endN=Math.ceil((b-base)/stride)+1;for(let n=startN;n<=endN;n++){let start=base+n*stride,end=start+p.duration*dayMS;if(end<=a||start>=b)continue;let title=p.name;let notes=p.notes||'';;output.push({...p,title,start,end,manual:false,id:p.name+'_'+iso(start),notes})}}for(let x of manual){let start=dateUTC(x.anchor),end=start+x.duration*dayMS;if(start<b&&end>a)output.push({...x,title:x.name,start,end,manual:true,id:x.id})}return output.filter(x=>categoryFilter.size===0||categoryFilter.has(x.category)).sort(compareEvents)}
+// 定期イベントの開催回を共通生成。追加フィールドがないイベントは従来と同じ無期限周期計算。
+// firstOccurrence は初回だけの開催日、repeatFrom は通常周期の開始日（それ以前の通常開催は生成しない）。
+function eventOccurrences(event,a,b){
+ const output=[];
+ const base=dateUTC(event.anchor),stride=event.everyDays*dayMS;
+ if(!Number.isFinite(base)||!Number.isFinite(stride)||stride<=0)return output;
+ const repeatFrom=typeof event.repeatFrom==='string'?dateUTC(event.repeatFrom):null;
+ const hasRepeat=Number.isFinite(repeatFrom);
+ const startN=Math.floor((a-base-event.duration*dayMS)/stride)-1;
+ const endN=Math.ceil((b-base)/stride)+1;
+ for(let n=startN;n<=endN;n++){
+  const start=base+n*stride,end=start+event.duration*dayMS;
+  if(hasRepeat&&start<repeatFrom)continue;
+  if(end>a&&start<b)output.push({start,end,duration:event.duration});
+ }
+ const first=event.firstOccurrence;
+ if(hasRepeat&&first&&typeof first.anchor==='string'&&Number.isInteger(first.duration)&&first.duration>0){
+  const start=dateUTC(first.anchor),end=start+first.duration*dayMS;
+  if(end>a&&start<b)output.push({start,end,duration:first.duration});
+ }
+ return output.sort((x,y)=>x.start-y.start);
+}
+function enumerate(a,b){
+ let output=[];
+ for(const p of PRESET){
+  for(const occurrence of eventOccurrences(p,a,b)){
+   const {start,end,duration}=occurrence;
+   output.push({...p,title:p.name,start,end,duration,manual:false,id:p.name+'_'+iso(start),notes:p.notes||''});
+  }
+ }
+ for(const x of manual){
+  const start=dateUTC(x.anchor),end=start+x.duration*dayMS;
+  if(start<b&&end>a)output.push({...x,title:x.name,start,end,manual:true,id:x.id});
+ }
+ return output.filter(x=>categoryFilter.size===0||categoryFilter.has(x.category)).sort(compareEvents);
+}
 function dayLabel(t){let d=new Date(t+offset()),days=['日','月','火','水','木','金','土'];return `<span>${days[d.getUTCDay()]}曜日</span><strong>${d.getUTCDate()}</strong>`}
 function render(){const a=view==='week'?startWeek(anchor):startMonth(anchor);if(view==='week')anchor=a;else anchor=a;
 let end,displayStart,events;if(view==='week'){end=a+7*dayMS;events=enumerate(a,end);
@@ -220,17 +268,18 @@ function openNoticeEventDetail(eventName, eventStart, referenceTime=Date.now()){
  }
  const periodic=PRESET.find(e=>e.name===name);
  if(!periodic)return false;
- const base=dateUTC(periodic.anchor),step=periodic.everyDays*dayMS;
- if(!Number.isFinite(base)||!Number.isFinite(step)||step<=0)return false;
- let start;
+ const step=periodic.everyDays*dayMS;
+ if(!Number.isFinite(step)||step<=0)return false;
+ let occurrence;
  if(Number.isFinite(eventStart)){
-  start=eventStart;
+  occurrence=eventOccurrences(periodic,eventStart,eventStart+dayMS).find(x=>x.start===eventStart);
  }else{
-  const cycle=Math.floor((referenceTime-base)/step);
-  const activeStart=base+cycle*step;
-  start=referenceTime<activeStart+periodic.duration*dayMS?activeStart:activeStart+step;
+  // 現在開催中を優先し、未開催なら次回を選ぶ。初回例外開催の期間も考慮。
+  const candidates=eventOccurrences(periodic,referenceTime-(periodic.duration+step/dayMS)*dayMS,referenceTime+step*2);
+  occurrence=candidates.find(x=>x.start<=referenceTime&&referenceTime<x.end)||candidates.find(x=>x.start>referenceTime);
  }
- showDetail({...periodic,title:periodic.name,start,end:start+periodic.duration*dayMS,manual:false,notes:periodic.notes||''});
+ if(!occurrence)return false;
+ showDetail({...periodic,title:periodic.name,...occurrence,manual:false,notes:periodic.notes||''});
  return true;
 }
 function close(id){document.getElementById(id).classList.remove('show')}
@@ -583,13 +632,7 @@ document.getElementById('sortMode').onchange=e=>{sortMode=e.target.value;if(view
  let autoRules=null;
  const fullUtcDay=t=>Math.floor(t/dayMS)*dayMS;
  function activeEventOnDate(event,utcDay){
-  const base=dateUTC(event.anchor),step=event.everyDays*dayMS;
-  const cycle=Math.floor((utcDay-base)/step);
-  for(const index of [cycle-1,cycle,cycle+1]){
-   const start=base+index*step;
-   if(start<=utcDay&&utcDay<start+event.duration*dayMS)return true;
-  }
-  return false;
+  return eventOccurrences(event,utcDay,utcDay+dayMS).some(x=>x.start<=utcDay&&utcDay<x.end);
  }
  function buildAutoNotices(today=fullUtcDay(Date.now())){
   if(!autoRules)return [];
@@ -597,16 +640,20 @@ document.getElementById('sortMode').onchange=e=>{sortMode=e.target.value;if(view
   for(const ev of PRESET){
    const rule=autoRules[ev.name];
    if(!rule||!Number.isInteger(ev.everyDays)||ev.everyDays<1)continue;
-   const base=dateUTC(ev.anchor),step=ev.everyDays*dayMS;
-   const cycle=Math.floor((today-base)/step);
-   for(const k of [cycle-1,cycle,cycle+1]){
-    const start=base+k*step,dayIndex=(today-start)/dayMS;
+   const notifications=Array.isArray(rule.notifications)?rule.notifications:[];
+   // day:負数（開催前）や終了後の数字指定、last/afterにも対応する検索窓。
+   const numericDays=notifications.filter(n=>Number.isInteger(n.day)).map(n=>n.day);
+   const maxOffset=Math.max(ev.duration,...numericDays);
+   const minOffset=Math.min(0,...numericDays);
+   const candidates=eventOccurrences(ev,today-(maxOffset+1)*dayMS,today-(minOffset-1)*dayMS);
+   for(const occurrence of candidates){
+    const {start,duration}=occurrence,dayIndex=(today-start)/dayMS;
     let chosen=null;
-    for(const n of (rule.notifications||[])){
-     const offset=n.day==='last'?ev.duration-1:n.day==='after'?ev.duration:n.day;
-     if(offset===dayIndex) {chosen=n;break;}
+    for(const n of notifications){
+     const offset=n.day==='last'?duration-1:n.day==='after'?duration:n.day;
+     if(offset===dayIndex){chosen=n;break;}
     }
-    if(!chosen&&rule.activeEveryDay&&dayIndex>=0&&dayIndex<ev.duration){
+    if(!chosen&&rule.activeEveryDay&&dayIndex>=0&&dayIndex<duration){
      const c=rule.activeEveryDay,partner=PRESET.find(x=>x.name===c.requiresOverlap);
      if(partner&&activeEventOnDate(partner,today))chosen=c;
     }
