@@ -258,10 +258,10 @@
       "name": "港の引き揚げ",
       "category": "個人イベント（対抗無し）",
       "anchor": "2026-11-09",
-      "everyDays": 28,
+      "everyDays": 14,
       "duration": 3,
       "notes": "ナノ触媒を獲得できるイベント（要課金）",
-      "frequency": "4週間ごと"
+      "frequency": "隔週"
     },
     {
       "name": "3人の集い",
@@ -362,7 +362,7 @@
     {
       "name": "スパイス戦争",
       "category": "期間限定・コラボ",
-      "anchor": "2026-11-18",
+      "anchor": "2026-11-23",
       "everyDays": 7,
       "duration": 3,
       "notes": "毎日、スパイスを集めて、高値で売ろう！",
@@ -372,7 +372,12 @@
           "title": "攻略・解説動画",
           "url": "https://youtu.be/iQCgTP5yEZc?t=474"
         }
-      ]
+      ],
+      "repeatFrom": "2026-11-23",
+      "firstOccurrence": {
+        "anchor": "2026-11-18",
+        "duration": 3
+      }
     }
   ],
   "specialEvents": [
@@ -394,6 +399,13 @@
       "name": "緊急セール（11/16）",
       "category": "期間限定・コラボ",
       "anchor": "2026-11-16",
+      "duration": 1,
+      "notes": "ジェムでスピードアップを買うのです。Goldを使うほどお得じゃない…。"
+    },
+    {
+      "name": "緊急セール（11/23）",
+      "category": "期間限定・コラボ",
+      "anchor": "2026-11-23",
       "duration": 1,
       "notes": "ジェムでスピードアップを買うのです。Goldを使うほどお得じゃない…。"
     },
