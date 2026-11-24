@@ -483,22 +483,6 @@
         }
       ]
     },
-    "3人の集い": {
-      "notifications": [
-        {
-          "day": 0,
-          "level": "info",
-          "title": "本日から3人の集いが始まります！",
-          "message": ""
-        },
-        {
-          "day": "last",
-          "level": "warning",
-          "title": "本日は3人の集いの最終日・報酬受取期限日です！",
-          "message": ""
-        }
-      ]
-    },
     "ミステリー・トレジャー": {
       "notifications": [
         {
